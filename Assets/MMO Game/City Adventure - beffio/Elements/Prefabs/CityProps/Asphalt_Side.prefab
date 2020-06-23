@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3324538}
   - component: {fileID: 2362624}
   - component: {fileID: 6552392}
-  - component: {fileID: 6460830}
   m_Layer: 0
   m_Name: Asphalt_Side
   m_TagString: Untagged
@@ -67,6 +66,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -92,17 +92,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 9.999996, y: 0.02058506, z: 10.000001}
   m_Center: {x: 1.2469341e-16, y: -0.017549038, z: 7.6709283e-10}
---- !u!64 &6460830
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 198260}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300000, guid: 1c4019a77eb156b4097b86d17b81e6d3, type: 3}

@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/MMO Game/Authentication/AuthenticationScene.unity
+    guid: 3cbdcc9184411452ca5285e142408931
+  - enabled: 0
+    path: Assets/MMO Game/Authentication/SampleRoomScene.unity
+    guid: eb93cfc42d99a4f2cb86779e3997960a
   m_configObjects: {}
