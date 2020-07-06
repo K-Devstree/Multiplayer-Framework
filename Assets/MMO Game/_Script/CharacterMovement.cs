@@ -14,23 +14,23 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
+        //characterController = GetComponent<CharacterController>();
     }
 
     void Update()
     {
-        if (characterController.isGrounded)
-        {
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-            moveDirection *= speed;
+        //if (characterController.isGrounded)
+        //{
+        //    moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+        //    moveDirection *= speed;
 
-            if (Input.GetButton("Jump"))
-            {
-                moveDirection.y = jumpSpeed;
-            }
-        }
-        moveDirection.y -= gravity * Time.deltaTime;
-        characterController.Move(moveDirection * Time.deltaTime);
+        //    if (Input.GetButton("Jump"))
+        //    {
+        //        moveDirection.y = jumpSpeed;
+        //    }
+        //}
+        //moveDirection.y -= gravity * Time.deltaTime;
+        //characterController.Move(moveDirection * Time.deltaTime);
 
         if (Input.GetKeyUp(KeyCode.Z))
         {
