@@ -1,5 +1,4 @@
-﻿>>location based join
->>Spawn position
-
+﻿1. Hide item screen when any slider value get changed
+3. Head offset in head and hair,hat,accessory
 info@wyrr.me
 Wyrr1234

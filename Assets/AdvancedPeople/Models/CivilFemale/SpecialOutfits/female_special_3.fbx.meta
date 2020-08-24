@@ -1,0 +1,214 @@
+fileFormatVersion: 2
+guid: 792d5cff8056a1048a51493c3dbed227
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Chest
+    100002: Clavicle.L
+    100004: Clavicle.R
+    100006: female_doctor_pants_1_lod0
+    100008: female_doctor_shirt_1_lod0
+    100010: female_doctor_shoes_1_lod0
+    100012: //RootNode
+    100014: Foot.L
+    100016: Foot.R
+    100018: Forearm.L
+    100020: Forearm.R
+    100022: Hand.L
+    100024: Hand.R
+    100026: Head
+    100028: hips
+    100030: Index.1.L
+    100032: Index.1.R
+    100034: Index.2.L
+    100036: Index.2.R
+    100038: Index.3.L
+    100040: Index.3.R
+    100042: Little.1.L
+    100044: Little.1.R
+    100046: Little.2.R
+    100048: Little.3.L
+    100050: Little.3.R
+    100052: little_l_2
+    100054: Middle.1.L
+    100056: Middle.1.R
+    100058: Middle.2.L
+    100060: Middle.2.R
+    100062: Middle.3.L
+    100064: Middle.3.R
+    100066: Neck
+    100068: Ring.1.L
+    100070: Ring.1.R
+    100072: Ring.2.L
+    100074: Ring.2.R
+    100076: Ring.3.L
+    100078: Ring.3.R
+    100080: Root
+    100082: Shin.L
+    100084: Shin.R
+    100086: Shoulder.L
+    100088: Shoulder.R
+    100090: Spine1
+    100092: Spine2
+    100094: Thigh.L
+    100096: Thigh.R
+    100098: Thumb.1.L
+    100100: Thumb.1.R
+    100102: Thumb.2.L
+    100104: Thumb.2.R
+    100106: Thumb.3.L
+    100108: Thumb.3.R
+    100110: Toe.L
+    100112: Toe.R
+    400000: Chest
+    400002: Clavicle.L
+    400004: Clavicle.R
+    400006: female_doctor_pants_1_lod0
+    400008: female_doctor_shirt_1_lod0
+    400010: female_doctor_shoes_1_lod0
+    400012: //RootNode
+    400014: Foot.L
+    400016: Foot.R
+    400018: Forearm.L
+    400020: Forearm.R
+    400022: Hand.L
+    400024: Hand.R
+    400026: Head
+    400028: hips
+    400030: Index.1.L
+    400032: Index.1.R
+    400034: Index.2.L
+    400036: Index.2.R
+    400038: Index.3.L
+    400040: Index.3.R
+    400042: Little.1.L
+    400044: Little.1.R
+    400046: Little.2.R
+    400048: Little.3.L
+    400050: Little.3.R
+    400052: little_l_2
+    400054: Middle.1.L
+    400056: Middle.1.R
+    400058: Middle.2.L
+    400060: Middle.2.R
+    400062: Middle.3.L
+    400064: Middle.3.R
+    400066: Neck
+    400068: Ring.1.L
+    400070: Ring.1.R
+    400072: Ring.2.L
+    400074: Ring.2.R
+    400076: Ring.3.L
+    400078: Ring.3.R
+    400080: Root
+    400082: Shin.L
+    400084: Shin.R
+    400086: Shoulder.L
+    400088: Shoulder.R
+    400090: Spine1
+    400092: Spine2
+    400094: Thigh.L
+    400096: Thigh.R
+    400098: Thumb.1.L
+    400100: Thumb.1.R
+    400102: Thumb.2.L
+    400104: Thumb.2.R
+    400106: Thumb.3.L
+    400108: Thumb.3.R
+    400110: Toe.L
+    400112: Toe.R
+    2100000: Palette.001
+    2100002: Palette
+    4300000: female_doctor_pants_1_lod0
+    4300002: female_doctor_shirt_1_lod0
+    4300004: female_doctor_shoes_1_lod0
+    9500000: //RootNode
+    13700000: female_doctor_pants_1_lod0
+    13700002: female_doctor_shirt_1_lod0
+    13700004: female_doctor_shoes_1_lod0
+  externalObjects: {}
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
