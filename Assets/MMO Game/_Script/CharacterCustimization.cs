@@ -159,9 +159,7 @@ public class CharacterCustimization : MonoBehaviour
             CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[4].sharedMesh =
                     CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].PantMesh[PantIndex];
             SynchOutfitWithBodyShape(4);
-        }
-
-        
+        }        
     }
 
     public void ApplySelectedShoes(int PantIndex)
@@ -297,6 +295,19 @@ public class CharacterCustimization : MonoBehaviour
         }
     }
 
+   
+    public void SetFaceShape(int FaceShapeIndex)
+    {
+        float FaceTypeSliderValue=
+            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].FaceDataInstance[FaceShapeIndex].FaceShapeSliders.value;
+
+        int Blendshape_index =
+            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].FaceDataInstance[FaceShapeIndex].FaceBlendShapeIndex;
+
+        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[10].SetBlendShapeWeight(
+            Blendshape_index, FaceTypeSliderValue);
+    }
+
 
     private void Update()
     {
@@ -357,31 +368,30 @@ public class CharacterMain
     public GameObject MainOptionScreen;
     public GameObject[] SubOptionScreen;
     
-    public Mesh[] HairMesh;
-    
-    public Mesh[] HatMesh;
-    
-    public Mesh[] AccessoryMesh;
-    
+    public Mesh[] HairMesh;    
+    public Mesh[] HatMesh;    
+    public Mesh[] AccessoryMesh;    
     public Mesh[] ShirtMesh;
-    
     public Mesh[] PantMesh;
-    
     public Mesh[] ShoesMesh;
     public Material BodyMaterial;
 
-    // Head Size
+    
     public Transform HeadHip;
     public Slider HeadSizeSlider;   //hips in rig structure
-
-    
-    
     public Slider HeadOffsetSlider;
-
-    // Height
     public Transform BodyHip;
     public Slider HeightSlider;    
     public Slider FatSlider;
     public Slider MusclesSlider;
     public Slider ThinSlider;
+    public FaceData[] FaceDataInstance;
+}
+
+[Serializable]
+public class FaceData
+{
+    public string FaceShapeName;
+    public int FaceBlendShapeIndex;
+    public Slider FaceShapeSliders;
 }
