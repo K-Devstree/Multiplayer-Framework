@@ -29,6 +29,12 @@ public class CharacterCustimization : MonoBehaviour
         ApplySelectedShoes(-1);
     }
 
+    public string BodyPartColor;
+
+    public void SetBodyForColor(string BodyTypeColor)
+    {
+        BodyPartColor = BodyTypeColor;
+    }
 
     public void ShowSelectedModel(int ModelIndex)
     {
@@ -36,7 +42,14 @@ public class CharacterCustimization : MonoBehaviour
         for (int i = 0; i < 2;i++)
         {
             CharacterBaseClassInstance.CharacterMainInstance[i].Characters.SetActive(false);
+            CharacterBaseClassInstance.CharacterMainInstance[i].MainOptionScreen.SetActive(false);
+
+            for (int j = 0; j < CharacterBaseClassInstance.CharacterMainInstance[i].SubOptionScreen.Length; j++)
+            {
+                CharacterBaseClassInstance.CharacterMainInstance[i].SubOptionScreen[j].SetActive(false);
+            }
         }
+        CanZoom = false;
         CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].Characters.SetActive(true);
         CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].MainOptionScreen.SetActive(true);
     }
@@ -276,6 +289,18 @@ public class CharacterCustimization : MonoBehaviour
             CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].HeadOffsetValue =
                  CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].HeadOffsetSlider.value;
             TypeSliderValue = CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].HeadOffsetSlider.value;
+        }
+        else if (TypeName == "BreastSize")
+        {
+            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].MusclesValue =
+                 CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].MusclesSlider.value;
+            TypeSliderValue = CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].MusclesSlider.value;
+        }
+        else if (TypeName == "Slimness")
+        {
+            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].ThinValue =
+                 CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].ThinSlider.value;
+            TypeSliderValue = CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].ThinSlider.value;
         }
 
 

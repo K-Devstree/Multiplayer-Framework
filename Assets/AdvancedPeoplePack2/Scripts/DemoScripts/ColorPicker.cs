@@ -56,8 +56,30 @@ public class ColorPicker : MonoBehaviour
         _findColor = mainImage.sprite.texture.GetPixel( (int)-offset.x, 256 -(int)offset.y);
 
         if(_findColor.a == 1)
+        {
             colorPreview.color = _findColor;
+            if (CharacterCustimizationInstance)
+            {
+                if(CharacterCustimizationInstance.BodyPartColor=="skin")
+                {
+                    CursorPickSkin();
+                }
+                else if (CharacterCustimizationInstance.BodyPartColor == "Eye")
+                {
+                    CursorPickEye();
+                }
+                else if (CharacterCustimizationInstance.BodyPartColor == "hair")
+                {
+                    CursorPickHair();
+                }
+                else if (CharacterCustimizationInstance.BodyPartColor == "underwear")
+                {
+                    CursorPickUnderpants();
+                }
+            }
+        }  
     }
+
     public void CursorPickSkin()
     {
         if(_findColor.a == 1)
