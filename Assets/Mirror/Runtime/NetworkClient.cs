@@ -63,6 +63,7 @@ namespace Mirror
         public static void Connect(string address)
         {
             if (logger.LogEnabled()) logger.Log("Client Connect: " + address);
+            logger.Assert(Transport.activeTransport != null, "There was no active transport when calling NetworkClient.Connect, If you are calling Connect manually then make sure to set 'Transport.activeTransport' first");
 
             RegisterSystemHandlers(false);
             Transport.activeTransport.enabled = true;
@@ -83,6 +84,7 @@ namespace Mirror
         public static void Connect(Uri uri)
         {
             if (logger.LogEnabled()) logger.Log("Client Connect: " + uri);
+            logger.Assert(Transport.activeTransport != null, "There was no active transport when calling NetworkClient.Connect, If you are calling Connect manually then make sure to set 'Transport.activeTransport' first");
 
             RegisterSystemHandlers(false);
             Transport.activeTransport.enabled = true;
@@ -96,7 +98,7 @@ namespace Mirror
             connection.SetHandlers(handlers);
         }
 
-        internal static void ConnectHost()
+        public static void ConnectHost()
         {
             logger.Log("Client Connect Host to Server");
 
@@ -120,7 +122,7 @@ namespace Mirror
         /// <summary>
         /// connect host mode
         /// </summary>
-        internal static void ConnectLocalServer()
+        public static void ConnectLocalServer()
         {
             NetworkServer.OnConnected(NetworkServer.localConnection);
             NetworkServer.localConnection.Send(new ConnectMessage());
@@ -130,7 +132,7 @@ namespace Mirror
         /// disconnect host mode. this is needed to call DisconnectMessage for
         /// the host client too.
         /// </summary>
-        internal static void DisconnectLocalServer()
+        public static void DisconnectLocalServer()
         {
             // only if host connection is running
             if (NetworkServer.localConnection != null)
@@ -253,7 +255,7 @@ namespace Mirror
             return false;
         }
 
-        internal static void Update()
+        public static void Update()
         {
             // local connection?
             if (connection is ULocalConnectionToServer localConnection)
@@ -314,7 +316,7 @@ namespace Mirror
             int msgType = MessagePacker.GetId<T>();
             if (handlers.ContainsKey(msgType))
             {
-                logger.LogWarning($"NetworkClient.RegisterHandler replacing hanlder for {typeof(T).FullName}, id={msgType}. If replacement is intentional, use ReplaceHandler instead to avoid this warning.");
+                logger.LogWarning($"NetworkClient.RegisterHandler replacing handler for {typeof(T).FullName}, id={msgType}. If replacement is intentional, use ReplaceHandler instead to avoid this warning.");
             }
             handlers[msgType] = MessagePacker.MessageHandler(handler, requireAuthentication);
         }
@@ -333,7 +335,7 @@ namespace Mirror
 
         /// <summary>
         /// Replaces a handler for a particular message type.
-        /// <see cref="RegisterHandler{T}(Action{NetworkConnection, T}, bool)"/>
+        /// <para>See also <see cref="RegisterHandler{T}(Action{NetworkConnection, T}, bool)">RegisterHandler(T)(Action(NetworkConnection, T), bool)</see></para>
         /// </summary>
         /// <typeparam name="T">Message type</typeparam>
         /// <param name="handler">Function handler which will be invoked when this message type is received.</param>
@@ -346,7 +348,7 @@ namespace Mirror
 
         /// <summary>
         /// Replaces a handler for a particular message type.
-        /// <see cref="RegisterHandler{T}(Action{NetworkConnection, T}, bool)"/>
+        /// <para>See also <see cref="RegisterHandler{T}(Action{NetworkConnection, T}, bool)">RegisterHandler(T)(Action(NetworkConnection, T), bool)</see></para>
         /// </summary>
         /// <typeparam name="T">Message type</typeparam>
         /// <param name="handler">Function handler which will be invoked when this message type is received.</param>
