@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public enum CameraPerspective
 {
@@ -9,16 +10,21 @@ public enum CameraPerspective
 public class PlayerCameraController : MonoBehaviour
 {
     [Header("Common Camera Settings")]
-    public bool lockCursor = true;
     public CameraPerspective cameraPerspective;
-    public float mouseSensitivity = 25f;
+    public float mouseSensitivity = 100f;
+    public VariableJoystick variableJoystick;
+    public string horizontalAxis = "Mouse X";
+    public string verticalAxis = "Mouse Y";
+    public bool useJoystick = true;
+    public bool lockCursor = true;
+    public TMP_Text cameraModeText;
 
     [Header("Character")]
     public Transform CharacterControllerTransform;
     public Animator CharacterAnimator;
 
     [Header("Camera Settings")]
-    public Vector3 FPS_CameraOffset = new Vector3(0f, 0.1f, 0.25f);
+    public Vector3 FPP_CameraOffset = new Vector3(0f, 0.1f, 0.25f);
     public Vector3 TPP_CameraOffset = new Vector3(0f, 1f, -1.25f);
     public float TPP_CameraHeightOffset = 0.5f;
     public Vector2 pitchMinMax = new Vector2(-40, 85);
@@ -26,7 +32,7 @@ public class PlayerCameraController : MonoBehaviour
     private Vector3 currentRotation;
     private float yaw;
     private float pitch;
-    private Transform _fpsCameraHelper;
+    private Transform _fppCameraHelper;
     private Transform _tppCameraHelper;
 
     [Header("Speeds")]
@@ -48,7 +54,7 @@ public class PlayerCameraController : MonoBehaviour
 
     private void Start()
     {
-        if (lockCursor)
+        if (lockCursor && !useJoystick)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -56,16 +62,18 @@ public class PlayerCameraController : MonoBehaviour
 
         if (CharacterAnimator)
         {
-            Add_FPSCamPositionHelper();
+            Add_FPPCamPositionHelper();
             Add_TPPCamPositionHelper();
         }
+
+        cameraModeText.text = "FPP";
     }
-    private void Add_FPSCamPositionHelper()
+    private void Add_FPPCamPositionHelper()
     {
-        _fpsCameraHelper = new GameObject().transform;
-        _fpsCameraHelper.name = "_fpsCameraHelper";
-        _fpsCameraHelper.SetParent(CharacterAnimator.GetBoneTransform(HumanBodyBones.Head));
-        _fpsCameraHelper.localPosition = Vector3.zero;
+        _fppCameraHelper = new GameObject().transform;
+        _fppCameraHelper.name = "_fppCameraHelper";
+        _fppCameraHelper.SetParent(CharacterAnimator.GetBoneTransform(HumanBodyBones.Head));
+        _fppCameraHelper.localPosition = Vector3.zero;
     }
     private void Add_TPPCamPositionHelper()
     {
@@ -88,19 +96,21 @@ public class PlayerCameraController : MonoBehaviour
         {
             cameraPerspective = CameraPerspective.ThirdPerson;
             SetCameraHelperPosition_TPP();
+            cameraModeText.text = "FPP";
         }
         else
         {
             cameraPerspective = CameraPerspective.FirstPerson;
-            SetCameraHelperPosition_FPS();
+            SetCameraHelperPosition_FPP();
+            cameraModeText.text = "TPP";
         }
     }
-    private void SetCameraHelperPosition_FPS()
+    private void SetCameraHelperPosition_FPP()
     {
         if (CharacterAnimator)
         {
-            _fpsCameraHelper.localPosition = FPS_CameraOffset;
-            transform.position = _fpsCameraHelper.position;
+            _fppCameraHelper.localPosition = FPP_CameraOffset;
+            transform.position = _fppCameraHelper.position;
         }
     }
     private void SetCameraHelperPosition_TPP()
@@ -127,20 +137,40 @@ public class PlayerCameraController : MonoBehaviour
         else
         {
             pitchLock = false;
+            transform.position = _fppCameraHelper.position;
         }
 
         if (!pitchLock)
         {
-            yaw += Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-            pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-            pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
-            currentRotation = Vector3.Lerp(currentRotation, new Vector3(pitch, yaw), rotationSmoothTime * Time.deltaTime);
+            if (useJoystick)
+            {
+                yaw += variableJoystick.Horizontal * mouseSensitivity * Time.deltaTime;
+                pitch -= variableJoystick.Vertical * mouseSensitivity * Time.deltaTime * 1.5f;
+                pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
+                currentRotation = Vector3.Lerp(currentRotation, new Vector3(pitch, yaw), rotationSmoothTime * Time.deltaTime);
+            }
+            else
+            {
+                yaw += Input.GetAxis(horizontalAxis) * mouseSensitivity * Time.deltaTime;
+                pitch -= Input.GetAxis(verticalAxis) * mouseSensitivity * Time.deltaTime * 1.5f;
+                pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
+                currentRotation = Vector3.Lerp(currentRotation, new Vector3(pitch, yaw), rotationSmoothTime * Time.deltaTime);
+            }
         }
         else
         {
-            yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
-            pitch = pitchMinMax.y;
-            currentRotation = Vector3.Lerp(currentRotation, new Vector3(pitch, yaw), rotationSmoothTime * Time.deltaTime);
+            if (useJoystick)
+            {
+                yaw += variableJoystick.Horizontal * mouseSensitivity;
+                pitch = pitchMinMax.y;
+                currentRotation = Vector3.Lerp(currentRotation, new Vector3(pitch, yaw), rotationSmoothTime * Time.deltaTime);
+            }
+            else
+            {
+                yaw += Input.GetAxis(horizontalAxis) * mouseSensitivity;
+                pitch = pitchMinMax.y;
+                currentRotation = Vector3.Lerp(currentRotation, new Vector3(pitch, yaw), rotationSmoothTime * Time.deltaTime);
+            }
         }
 
         transform.eulerAngles = currentRotation;

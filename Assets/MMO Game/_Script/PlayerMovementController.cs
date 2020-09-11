@@ -12,17 +12,24 @@ public enum PlayerStates
 
 public class PlayerMovementController : MonoBehaviour
 {
+    [Header("Player")]
+    public string horizontalAxis = "Horizontal";
+    public string verticalAxis = "Vertical";
+    public string jumpButton = "Jump";
     public PlayerStates playerStates;
+    public bool useJoystick = true;
     private CharacterController characterController;
     private AudioSource _audioSource;
 
-    [Header("Player Motor")]
+    [Header("Player Movement")]
     [Range(1f, 15f)]
     public float walkSpeed = 2.5f;
     [Range(1f, 15f)]
     public float runSpeed = 6f;
     [Range(1f, 15f)]
-    public float JumpForce = 6f;
+    public float JumpForce = 4f;
+    private float hInput;
+    private float vInput;
 
     [Header("Animator and Parameters")]
     public Animator CharacterAnimator;
@@ -56,12 +63,35 @@ public class PlayerMovementController : MonoBehaviour
 
         //sync footsteps with controller
         PlayFootstepSounds();
+
+        if (useJoystick)
+        {
+            if (SimpleInput.GetButtonDown(jumpButton) && characterController.isGrounded)
+            {
+                Jump();
+            }
+        }
+        else
+        {
+            if (Input.GetButtonDown(jumpButton) && characterController.isGrounded)
+            {
+                Jump();
+            }
+        }
     }
 
     void HandlePlayerControls()
     {
-        float hInput = Input.GetAxisRaw("Horizontal");
-        float vInput = Input.GetAxisRaw("Vertical");
+        if (useJoystick)
+        {
+            hInput = SimpleInput.GetAxisRaw(horizontalAxis);
+            vInput = SimpleInput.GetAxisRaw(verticalAxis);
+        }
+        else
+        {
+            hInput = Input.GetAxisRaw(horizontalAxis);
+            vInput = Input.GetAxisRaw(verticalAxis);
+        }
 
         Vector3 fwdMovement = characterController.isGrounded == true ? transform.forward * vInput : Vector3.zero;
         Vector3 rightMovement = characterController.isGrounded == true ? transform.right * hInput : Vector3.zero;
@@ -69,17 +99,11 @@ public class PlayerMovementController : MonoBehaviour
         float _speed = vInput > 0.8f ? runSpeed : walkSpeed;
         characterController.SimpleMove(Vector3.ClampMagnitude(fwdMovement + rightMovement, 1f) * _speed);
 
-        if (characterController.isGrounded)
-        {
-            Jump();
-        }
-
         //Managing Player States
         if (characterController.isGrounded)
         {
             if (hInput == 0 && vInput == 0)
             {
-                Debug.Log("Idle Player");
                 playerStates = PlayerStates.Idle;
             }
             else
@@ -100,11 +124,8 @@ public class PlayerMovementController : MonoBehaviour
 
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(PerformJumpRoutine());
-            JumpAnimation = true;
-        }
+        StartCoroutine(PerformJumpRoutine());
+        JumpAnimation = true;
     }
 
     IEnumerator PerformJumpRoutine()
@@ -114,6 +135,12 @@ public class PlayerMovementController : MonoBehaviour
             _audioSource.PlayOneShot(JumpSounds[Random.Range(0, JumpSounds.Count)]);
 
         float _jump = JumpForce;
+
+        if (JumpAnimation)
+        {
+            CharacterAnimator.SetTrigger("Jump");
+            JumpAnimation = false;
+        }
 
         do
         {
@@ -143,22 +170,38 @@ public class PlayerMovementController : MonoBehaviour
                 break;
 
             case PlayerStates.Walking:
-                HorzAnimation = Mathf.Lerp(HorzAnimation, 1 * Input.GetAxis("Horizontal"), 5 * Time.deltaTime);
-                VertAnimation = Mathf.Lerp(VertAnimation, 1 * Input.GetAxis("Vertical"), 5 * Time.deltaTime);
+                if (useJoystick)
+                {
+                    HorzAnimation = SimpleInput.GetAxis(horizontalAxis);
+                    VertAnimation = SimpleInput.GetAxis(verticalAxis);
+                }
+                else
+                {
+                    HorzAnimation = Mathf.Lerp(HorzAnimation, 1 * Input.GetAxis(horizontalAxis), 5 * Time.deltaTime);
+                    VertAnimation = Mathf.Lerp(VertAnimation, 1 * Input.GetAxis(verticalAxis), 5 * Time.deltaTime);
+                }
                 break;
 
             case PlayerStates.Running:
-                HorzAnimation = Mathf.Lerp(HorzAnimation, 2 * Input.GetAxis("Horizontal"), 5 * Time.deltaTime);
-                VertAnimation = Mathf.Lerp(VertAnimation, 2 * Input.GetAxis("Vertical"), 5 * Time.deltaTime);
+                if (useJoystick)
+                {
+                    HorzAnimation = 2 * SimpleInput.GetAxis(horizontalAxis);
+                    VertAnimation = 2 * SimpleInput.GetAxis(verticalAxis);
+                }
+                else
+                {
+                    HorzAnimation = Mathf.Lerp(HorzAnimation, 2 * Input.GetAxis(horizontalAxis), 5 * Time.deltaTime);
+                    VertAnimation = Mathf.Lerp(VertAnimation, 2 * Input.GetAxis(verticalAxis), 5 * Time.deltaTime);
+                }                
                 break;
 
-            case PlayerStates.Jumping:
-                if (JumpAnimation)
-                {
-                    CharacterAnimator.SetTrigger("Jump");
-                    JumpAnimation = false;
-                }
-                break;
+            //case PlayerStates.Jumping:
+            //    if (JumpAnimation)
+            //    {
+            //        CharacterAnimator.SetTrigger("Jump");
+            //        JumpAnimation = false;
+            //    }
+            //    break;
         }
 
         LandAnimation = characterController.isGrounded;
