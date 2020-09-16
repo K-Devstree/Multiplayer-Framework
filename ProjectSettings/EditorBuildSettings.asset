@@ -11,10 +11,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/MMO Game/_Scene/CharacterCustomsation.unity
     guid: 0aeb5109b63b6411fbf17c53efb48bdf
-  - enabled: 1
+  - enabled: 0
     path: Assets/MMO Game/_Scene/Battle Royale.unity
     guid: 5514c48647c11fa4f8333890a2e31f5b
   - enabled: 0
     path: Assets/MMO Game/_Scene/Player Controller Demo.unity
     guid: 252d539f8c07a714bbe8db2fb5d265a3
+  - enabled: 1
+    path: Assets/MMO Game/_Scene/Battle Royale New.unity
+    guid: 4c5b5aab91aa98d4c9e3fff4412dfc1d
   m_configObjects: {}
