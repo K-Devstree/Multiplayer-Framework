@@ -35,26 +35,33 @@ namespace RPGCharacterAnims
         /// </summary>
         private void Inputs()
         {
-            inputJump = Input.GetButtonDown("Jump");
-            inputLightHit = Input.GetButtonDown("LightHit");
-            inputDeath = Input.GetButtonDown("Death");
-            inputAttackL = Input.GetButtonDown("AttackL");
-            inputAttackR = Input.GetButtonDown("AttackR");
-            inputCastL = Input.GetButtonDown("CastL");
-            inputCastR = Input.GetButtonDown("CastR");
-            inputSwitchUpDown = Input.GetAxisRaw("SwitchUpDown");
-            inputSwitchLeftRight = Input.GetAxisRaw("SwitchLeftRight");
-            inputBlock = Input.GetAxisRaw("Block");
-			inputTarget = Input.GetButton("Target");
-			inputAimVertical = Input.GetAxisRaw("AimVertical");
-            inputAimHorizontal = Input.GetAxisRaw("AimHorizontal");
-            inputHorizontal = Input.GetAxisRaw("Horizontal");
-            inputVertical = Input.GetAxisRaw("Vertical");
-            inputAiming = Input.GetButton("Aiming");
-            inputRoll = Input.GetButtonDown("L3");
-            inputShield = Input.GetButtonDown("Shield");
-            inputRelax = Input.GetButtonDown("Relax");
-        }
+			try
+			{
+				inputJump = Input.GetButtonDown("Jump");
+				inputLightHit = Input.GetButtonDown("LightHit");
+				inputDeath = Input.GetButtonDown("Death");
+				inputAttackL = Input.GetButtonDown("AttackL");
+				inputAttackR = Input.GetButtonDown("AttackR");
+				inputCastL = Input.GetButtonDown("CastL");
+				inputCastR = Input.GetButtonDown("CastR");
+				inputSwitchUpDown = Input.GetAxisRaw("SwitchUpDown");
+				inputSwitchLeftRight = Input.GetAxisRaw("SwitchLeftRight");
+				inputBlock = Input.GetAxisRaw("Block");
+				inputTarget = Input.GetButton("Target");
+				inputAimVertical = Input.GetAxisRaw("AimVertical");
+				inputAimHorizontal = Input.GetAxisRaw("AimHorizontal");
+				inputHorizontal = Input.GetAxisRaw("Horizontal");
+				inputVertical = Input.GetAxisRaw("Vertical");
+				inputAiming = Input.GetButton("Aiming");
+				inputRoll = Input.GetButtonDown("L3");
+				inputShield = Input.GetButtonDown("Shield");
+				inputRelax = Input.GetButtonDown("Relax");
+			}
+			catch(System.Exception)
+			{
+				Debug.LogWarning("INPUTS NOT FOUND! PLEASE SEE THE INCLUDED README FILE!");
+			}
+		}
 
         private void Awake()
         {
@@ -64,9 +71,9 @@ namespace RPGCharacterAnims
         private void Update()
         {
             Inputs();
+			HasJoystickConnected();
             moveInput = CameraRelativeInput(inputHorizontal, inputVertical);
             aimInput = new Vector2(inputAimHorizontal, inputAimVertical);
-			HasJoystickConnected();
         }
 
         /// <summary>

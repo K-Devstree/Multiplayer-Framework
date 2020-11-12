@@ -6,7 +6,7 @@ namespace RPGCharacterAnims
     //Placeholder functions for Animation events.
     public class RPGCharacterAnimatorEvents:MonoBehaviour
     {
-		public RPGCharacterController rpgCharacterController;
+		[HideInInspector] public RPGCharacterController rpgCharacterController;
 
 		public void Hit()
         {
@@ -30,10 +30,13 @@ namespace RPGCharacterAnims
 
 		public void WeaponSwitch()
 		{
-			if(rpgCharacterController.rpgCharacterWeaponController != null)
-			{
-				rpgCharacterController.rpgCharacterWeaponController.WeaponSwitch();
-			}
+            if (rpgCharacterController != null)
+            {
+                if (rpgCharacterController.rpgCharacterWeaponController != null)
+                {
+                    rpgCharacterController.rpgCharacterWeaponController.WeaponSwitch();
+                }
+            }
 		}
 	}
 }

@@ -9,10 +9,10 @@ public class EditorHelpMenu : EditorWindow
     GUIStyle label2Style;
     GUIStyle linkStyle;
     GUIStyle defaultText;
-    [MenuItem("APPack 2.0/Help")]
+    [MenuItem("APPack 2.1/Help")]
     public static void ShowWindow()
     {
-        var window = GetWindow<EditorHelpMenu>(true, "Advanced People Pack 2.0", true);
+        var window = GetWindow<EditorHelpMenu>(true, "Advanced People Pack 2.1", true);
         window.minSize = new Vector2(450, 225);
         window.maxSize = new Vector2(450, 225);
         
@@ -67,7 +67,7 @@ public class EditorHelpMenu : EditorWindow
         EditorGUILayout.Space();
         EditorGUILayout.BeginHorizontal();
         GUILayout.Space(20);
-        EditorGUILayout.LabelField("Actual Version: <b>2.0</b>", label2Style);
+        EditorGUILayout.LabelField("Actual Version: <b>2.1</b>", label2Style);
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.EndVertical();
 

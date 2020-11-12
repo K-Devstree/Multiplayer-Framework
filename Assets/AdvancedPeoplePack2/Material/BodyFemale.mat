@@ -71,6 +71,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _Saturation: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -82,6 +83,8 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EyeColor: {r: 0.16300283, g: 0.28647494, b: 0.3490566, a: 1}
     - _HairColor: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
+    - _OralCavityColor: {r: 0.6886792, g: 0.28911528, b: 0.30249715, a: 0}
     - _SkinColor: {r: 0.8679245, g: 0.5573327, b: 0.45443216, a: 1}
+    - _TeethColor: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 0}
     - _Underpants: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
     - _UnderpantsColor: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}

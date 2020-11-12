@@ -1,752 +1,256 @@
 fileFormatVersion: 2
-guid: 7eba57799106a47c38f531c2808aeaaa
+guid: 2337b445cedc4cb42b90dd7c662a1c33
 ModelImporter:
-  serializedVersion: 26
-  internalIDToNameTable:
-  - first:
-      1: 100000
-    second: Chest
-  - first:
-      1: 100002
-    second: Clavicle.L
-  - first:
-      1: 100004
-    second: Clavicle.R
-  - first:
-      1: 100006
-    second: //RootNode
-  - first:
-      1: 100008
-    second: Foot.L
-  - first:
-      1: 100010
-    second: Foot.R
-  - first:
-      1: 100012
-    second: Forearm.L
-  - first:
-      1: 100014
-    second: Forearm.R
-  - first:
-      1: 100016
-    second: Hand.L
-  - first:
-      1: 100018
-    second: Hand.R
-  - first:
-      1: 100020
-    second: Head
-  - first:
-      1: 100022
-    second: hips
-  - first:
-      1: 100024
-    second: Index.1.L
-  - first:
-      1: 100026
-    second: Index.1.R
-  - first:
-      1: 100028
-    second: Index.2.L
-  - first:
-      1: 100030
-    second: Index.2.R
-  - first:
-      1: 100032
-    second: Index.3.L
-  - first:
-      1: 100034
-    second: Index.3.R
-  - first:
-      1: 100036
-    second: Little.1.L
-  - first:
-      1: 100038
-    second: Little.1.R
-  - first:
-      1: 100040
-    second: Little.2.R
-  - first:
-      1: 100042
-    second: Little.3.L
-  - first:
-      1: 100044
-    second: Little.3.R
-  - first:
-      1: 100046
-    second: little_l_2
-  - first:
-      1: 100048
-    second: male_police_hat_1_lod1
-  - first:
-      1: 100050
-    second: male_police_pants_1_lod1
-  - first:
-      1: 100052
-    second: male_police_shirt_1_lod1
-  - first:
-      1: 100054
-    second: male_police_shoes_1_lod1
-  - first:
-      1: 100056
-    second: Middle.1.L
-  - first:
-      1: 100058
-    second: Middle.1.R
-  - first:
-      1: 100060
-    second: Middle.2.L
-  - first:
-      1: 100062
-    second: Middle.2.R
-  - first:
-      1: 100064
-    second: Middle.3.L
-  - first:
-      1: 100066
-    second: Middle.3.R
-  - first:
-      1: 100068
-    second: Neck
-  - first:
-      1: 100070
-    second: Ring.1.L
-  - first:
-      1: 100072
-    second: Ring.1.R
-  - first:
-      1: 100074
-    second: Ring.2.L
-  - first:
-      1: 100076
-    second: Ring.2.R
-  - first:
-      1: 100078
-    second: Ring.3.L
-  - first:
-      1: 100080
-    second: Ring.3.R
-  - first:
-      1: 100082
-    second: Root
-  - first:
-      1: 100084
-    second: Shin.L
-  - first:
-      1: 100086
-    second: Shin.R
-  - first:
-      1: 100088
-    second: Shoulder.L
-  - first:
-      1: 100090
-    second: Shoulder.R
-  - first:
-      1: 100092
-    second: Spine1
-  - first:
-      1: 100094
-    second: Spine2
-  - first:
-      1: 100096
-    second: Thigh.L
-  - first:
-      1: 100098
-    second: Thigh.R
-  - first:
-      1: 100100
-    second: Thumb.1.L
-  - first:
-      1: 100102
-    second: Thumb.1.R
-  - first:
-      1: 100104
-    second: Thumb.2.L
-  - first:
-      1: 100106
-    second: Thumb.2.R
-  - first:
-      1: 100108
-    second: Thumb.3.L
-  - first:
-      1: 100110
-    second: Thumb.3.R
-  - first:
-      1: 100112
-    second: Toe.L
-  - first:
-      1: 100114
-    second: Toe.R
-  - first:
-      1: 100116
-    second: female_police_hat_1_lod1
-  - first:
-      1: 100118
-    second: female_police_pants_1_lod1
-  - first:
-      1: 100120
-    second: female_police_shirt_1_lod1
-  - first:
-      1: 100122
-    second: female_police_shoes_1_lod1
-  - first:
-      1: 100124
-    second: Chest 1
-  - first:
-      1: 100126
-    second: Clavicle.L 1
-  - first:
-      1: 100128
-    second: Clavicle.R 1
-  - first:
-      1: 100130
-    second: Foot.L 1
-  - first:
-      1: 100132
-    second: Foot.R 1
-  - first:
-      1: 100134
-    second: Forearm.L 1
-  - first:
-      1: 100136
-    second: Forearm.R 1
-  - first:
-      1: 100138
-    second: Hand.L 1
-  - first:
-      1: 100140
-    second: Hand.R 1
-  - first:
-      1: 100142
-    second: Head 1
-  - first:
-      1: 100144
-    second: hips.001
-  - first:
-      1: 100146
-    second: Index.1.L 1
-  - first:
-      1: 100148
-    second: Index.1.R 1
-  - first:
-      1: 100150
-    second: Index.2.L 1
-  - first:
-      1: 100152
-    second: Index.2.R 1
-  - first:
-      1: 100154
-    second: Index.3.L 1
-  - first:
-      1: 100156
-    second: Index.3.R 1
-  - first:
-      1: 100158
-    second: Little.1.L 1
-  - first:
-      1: 100160
-    second: Little.1.R 1
-  - first:
-      1: 100162
-    second: Little.2.R 1
-  - first:
-      1: 100164
-    second: Little.3.L 1
-  - first:
-      1: 100166
-    second: Little.3.R 1
-  - first:
-      1: 100168
-    second: little_l_2 1
-  - first:
-      1: 100170
-    second: Middle.1.L 1
-  - first:
-      1: 100172
-    second: Middle.1.R 1
-  - first:
-      1: 100174
-    second: Middle.2.L 1
-  - first:
-      1: 100176
-    second: Middle.2.R 1
-  - first:
-      1: 100178
-    second: Middle.3.L 1
-  - first:
-      1: 100180
-    second: Middle.3.R 1
-  - first:
-      1: 100182
-    second: Neck 1
-  - first:
-      1: 100184
-    second: Ring.1.L 1
-  - first:
-      1: 100186
-    second: Ring.1.R 1
-  - first:
-      1: 100188
-    second: Ring.2.L 1
-  - first:
-      1: 100190
-    second: Ring.2.R 1
-  - first:
-      1: 100192
-    second: Ring.3.L 1
-  - first:
-      1: 100194
-    second: Ring.3.R 1
-  - first:
-      1: 100196
-    second: Root 1
-  - first:
-      1: 100198
-    second: Shin.L 1
-  - first:
-      1: 100200
-    second: Shin.R 1
-  - first:
-      1: 100202
-    second: Shoulder.L 1
-  - first:
-      1: 100204
-    second: Shoulder.R 1
-  - first:
-      1: 100206
-    second: Spine1 1
-  - first:
-      1: 100208
-    second: Spine2 1
-  - first:
-      1: 100210
-    second: Thigh.L 1
-  - first:
-      1: 100212
-    second: Thigh.R 1
-  - first:
-      1: 100214
-    second: Thumb.1.L 1
-  - first:
-      1: 100216
-    second: Thumb.1.R 1
-  - first:
-      1: 100218
-    second: Thumb.2.L 1
-  - first:
-      1: 100220
-    second: Thumb.2.R 1
-  - first:
-      1: 100222
-    second: Thumb.3.L 1
-  - first:
-      1: 100224
-    second: Thumb.3.R 1
-  - first:
-      1: 100226
-    second: Toe.L 1
-  - first:
-      1: 100228
-    second: Toe.R 1
-  - first:
-      4: 400000
-    second: Chest
-  - first:
-      4: 400002
-    second: Clavicle.L
-  - first:
-      4: 400004
-    second: Clavicle.R
-  - first:
-      4: 400006
-    second: //RootNode
-  - first:
-      4: 400008
-    second: Foot.L
-  - first:
-      4: 400010
-    second: Foot.R
-  - first:
-      4: 400012
-    second: Forearm.L
-  - first:
-      4: 400014
-    second: Forearm.R
-  - first:
-      4: 400016
-    second: Hand.L
-  - first:
-      4: 400018
-    second: Hand.R
-  - first:
-      4: 400020
-    second: Head
-  - first:
-      4: 400022
-    second: hips
-  - first:
-      4: 400024
-    second: Index.1.L
-  - first:
-      4: 400026
-    second: Index.1.R
-  - first:
-      4: 400028
-    second: Index.2.L
-  - first:
-      4: 400030
-    second: Index.2.R
-  - first:
-      4: 400032
-    second: Index.3.L
-  - first:
-      4: 400034
-    second: Index.3.R
-  - first:
-      4: 400036
-    second: Little.1.L
-  - first:
-      4: 400038
-    second: Little.1.R
-  - first:
-      4: 400040
-    second: Little.2.R
-  - first:
-      4: 400042
-    second: Little.3.L
-  - first:
-      4: 400044
-    second: Little.3.R
-  - first:
-      4: 400046
-    second: little_l_2
-  - first:
-      4: 400048
-    second: male_police_hat_1_lod1
-  - first:
-      4: 400050
-    second: male_police_pants_1_lod1
-  - first:
-      4: 400052
-    second: male_police_shirt_1_lod1
-  - first:
-      4: 400054
-    second: male_police_shoes_1_lod1
-  - first:
-      4: 400056
-    second: Middle.1.L
-  - first:
-      4: 400058
-    second: Middle.1.R
-  - first:
-      4: 400060
-    second: Middle.2.L
-  - first:
-      4: 400062
-    second: Middle.2.R
-  - first:
-      4: 400064
-    second: Middle.3.L
-  - first:
-      4: 400066
-    second: Middle.3.R
-  - first:
-      4: 400068
-    second: Neck
-  - first:
-      4: 400070
-    second: Ring.1.L
-  - first:
-      4: 400072
-    second: Ring.1.R
-  - first:
-      4: 400074
-    second: Ring.2.L
-  - first:
-      4: 400076
-    second: Ring.2.R
-  - first:
-      4: 400078
-    second: Ring.3.L
-  - first:
-      4: 400080
-    second: Ring.3.R
-  - first:
-      4: 400082
-    second: Root
-  - first:
-      4: 400084
-    second: Shin.L
-  - first:
-      4: 400086
-    second: Shin.R
-  - first:
-      4: 400088
-    second: Shoulder.L
-  - first:
-      4: 400090
-    second: Shoulder.R
-  - first:
-      4: 400092
-    second: Spine1
-  - first:
-      4: 400094
-    second: Spine2
-  - first:
-      4: 400096
-    second: Thigh.L
-  - first:
-      4: 400098
-    second: Thigh.R
-  - first:
-      4: 400100
-    second: Thumb.1.L
-  - first:
-      4: 400102
-    second: Thumb.1.R
-  - first:
-      4: 400104
-    second: Thumb.2.L
-  - first:
-      4: 400106
-    second: Thumb.2.R
-  - first:
-      4: 400108
-    second: Thumb.3.L
-  - first:
-      4: 400110
-    second: Thumb.3.R
-  - first:
-      4: 400112
-    second: Toe.L
-  - first:
-      4: 400114
-    second: Toe.R
-  - first:
-      4: 400116
-    second: female_police_hat_1_lod1
-  - first:
-      4: 400118
-    second: female_police_pants_1_lod1
-  - first:
-      4: 400120
-    second: female_police_shirt_1_lod1
-  - first:
-      4: 400122
-    second: female_police_shoes_1_lod1
-  - first:
-      4: 400124
-    second: Chest 1
-  - first:
-      4: 400126
-    second: Clavicle.L 1
-  - first:
-      4: 400128
-    second: Clavicle.R 1
-  - first:
-      4: 400130
-    second: Foot.L 1
-  - first:
-      4: 400132
-    second: Foot.R 1
-  - first:
-      4: 400134
-    second: Forearm.L 1
-  - first:
-      4: 400136
-    second: Forearm.R 1
-  - first:
-      4: 400138
-    second: Hand.L 1
-  - first:
-      4: 400140
-    second: Hand.R 1
-  - first:
-      4: 400142
-    second: Head 1
-  - first:
-      4: 400144
-    second: hips.001
-  - first:
-      4: 400146
-    second: Index.1.L 1
-  - first:
-      4: 400148
-    second: Index.1.R 1
-  - first:
-      4: 400150
-    second: Index.2.L 1
-  - first:
-      4: 400152
-    second: Index.2.R 1
-  - first:
-      4: 400154
-    second: Index.3.L 1
-  - first:
-      4: 400156
-    second: Index.3.R 1
-  - first:
-      4: 400158
-    second: Little.1.L 1
-  - first:
-      4: 400160
-    second: Little.1.R 1
-  - first:
-      4: 400162
-    second: Little.2.R 1
-  - first:
-      4: 400164
-    second: Little.3.L 1
-  - first:
-      4: 400166
-    second: Little.3.R 1
-  - first:
-      4: 400168
-    second: little_l_2 1
-  - first:
-      4: 400170
-    second: Middle.1.L 1
-  - first:
-      4: 400172
-    second: Middle.1.R 1
-  - first:
-      4: 400174
-    second: Middle.2.L 1
-  - first:
-      4: 400176
-    second: Middle.2.R 1
-  - first:
-      4: 400178
-    second: Middle.3.L 1
-  - first:
-      4: 400180
-    second: Middle.3.R 1
-  - first:
-      4: 400182
-    second: Neck 1
-  - first:
-      4: 400184
-    second: Ring.1.L 1
-  - first:
-      4: 400186
-    second: Ring.1.R 1
-  - first:
-      4: 400188
-    second: Ring.2.L 1
-  - first:
-      4: 400190
-    second: Ring.2.R 1
-  - first:
-      4: 400192
-    second: Ring.3.L 1
-  - first:
-      4: 400194
-    second: Ring.3.R 1
-  - first:
-      4: 400196
-    second: Root 1
-  - first:
-      4: 400198
-    second: Shin.L 1
-  - first:
-      4: 400200
-    second: Shin.R 1
-  - first:
-      4: 400202
-    second: Shoulder.L 1
-  - first:
-      4: 400204
-    second: Shoulder.R 1
-  - first:
-      4: 400206
-    second: Spine1 1
-  - first:
-      4: 400208
-    second: Spine2 1
-  - first:
-      4: 400210
-    second: Thigh.L 1
-  - first:
-      4: 400212
-    second: Thigh.R 1
-  - first:
-      4: 400214
-    second: Thumb.1.L 1
-  - first:
-      4: 400216
-    second: Thumb.1.R 1
-  - first:
-      4: 400218
-    second: Thumb.2.L 1
-  - first:
-      4: 400220
-    second: Thumb.2.R 1
-  - first:
-      4: 400222
-    second: Thumb.3.L 1
-  - first:
-      4: 400224
-    second: Thumb.3.R 1
-  - first:
-      4: 400226
-    second: Toe.L 1
-  - first:
-      4: 400228
-    second: Toe.R 1
-  - first:
-      21: 2100000
-    second: Palette.001
-  - first:
-      43: 4300000
-    second: male_police_hat_1_lod1
-  - first:
-      43: 4300002
-    second: male_police_pants_1_lod1
-  - first:
-      43: 4300004
-    second: male_police_shirt_1_lod1
-  - first:
-      43: 4300006
-    second: male_police_shoes_1_lod1
-  - first:
-      43: 4300008
-    second: female_police_hat_1_lod1
-  - first:
-      43: 4300010
-    second: female_police_pants_1_lod1
-  - first:
-      43: 4300012
-    second: female_police_shirt_1_lod1
-  - first:
-      43: 4300014
-    second: female_police_shoes_1_lod1
-  - first:
-      95: 9500000
-    second: //RootNode
-  - first:
-      137: 13700000
-    second: male_police_hat_1_lod1
-  - first:
-      137: 13700002
-    second: male_police_pants_1_lod1
-  - first:
-      137: 13700004
-    second: male_police_shirt_1_lod1
-  - first:
-      137: 13700006
-    second: male_police_shoes_1_lod1
-  - first:
-      137: 13700008
-    second: female_police_hat_1_lod1
-  - first:
-      137: 13700010
-    second: female_police_pants_1_lod1
-  - first:
-      137: 13700012
-    second: female_police_shirt_1_lod1
-  - first:
-      137: 13700014
-    second: female_police_shoes_1_lod1
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Chest
+    100002: Clavicle.L
+    100004: Clavicle.R
+    100006: //RootNode
+    100008: Foot.L
+    100010: Foot.R
+    100012: Forearm.L
+    100014: Forearm.R
+    100016: Hand.L
+    100018: Hand.R
+    100020: Head
+    100022: hips
+    100024: Index.1.L
+    100026: Index.1.R
+    100028: Index.2.L
+    100030: Index.2.R
+    100032: Index.3.L
+    100034: Index.3.R
+    100036: Little.1.L
+    100038: Little.1.R
+    100040: Little.2.R
+    100042: Little.3.L
+    100044: Little.3.R
+    100046: little_l_2
+    100048: male_police_hat_1_lod1
+    100050: male_police_pants_1_lod1
+    100052: male_police_shirt_1_lod1
+    100054: male_police_shoes_1_lod1
+    100056: Middle.1.L
+    100058: Middle.1.R
+    100060: Middle.2.L
+    100062: Middle.2.R
+    100064: Middle.3.L
+    100066: Middle.3.R
+    100068: Neck
+    100070: Ring.1.L
+    100072: Ring.1.R
+    100074: Ring.2.L
+    100076: Ring.2.R
+    100078: Ring.3.L
+    100080: Ring.3.R
+    100082: Root
+    100084: Shin.L
+    100086: Shin.R
+    100088: Shoulder.L
+    100090: Shoulder.R
+    100092: Spine1
+    100094: Spine2
+    100096: Thigh.L
+    100098: Thigh.R
+    100100: Thumb.1.L
+    100102: Thumb.1.R
+    100104: Thumb.2.L
+    100106: Thumb.2.R
+    100108: Thumb.3.L
+    100110: Thumb.3.R
+    100112: Toe.L
+    100114: Toe.R
+    100116: female_police_hat_1_lod1
+    100118: female_police_pants_1_lod1
+    100120: female_police_shirt_1_lod1
+    100122: female_police_shoes_1_lod1
+    100124: Chest 1
+    100126: Clavicle.L 1
+    100128: Clavicle.R 1
+    100130: Foot.L 1
+    100132: Foot.R 1
+    100134: Forearm.L 1
+    100136: Forearm.R 1
+    100138: Hand.L 1
+    100140: Hand.R 1
+    100142: Head 1
+    100144: hips.001
+    100146: Index.1.L 1
+    100148: Index.1.R 1
+    100150: Index.2.L 1
+    100152: Index.2.R 1
+    100154: Index.3.L 1
+    100156: Index.3.R 1
+    100158: Little.1.L 1
+    100160: Little.1.R 1
+    100162: Little.2.R 1
+    100164: Little.3.L 1
+    100166: Little.3.R 1
+    100168: little_l_2 1
+    100170: Middle.1.L 1
+    100172: Middle.1.R 1
+    100174: Middle.2.L 1
+    100176: Middle.2.R 1
+    100178: Middle.3.L 1
+    100180: Middle.3.R 1
+    100182: Neck 1
+    100184: Ring.1.L 1
+    100186: Ring.1.R 1
+    100188: Ring.2.L 1
+    100190: Ring.2.R 1
+    100192: Ring.3.L 1
+    100194: Ring.3.R 1
+    100196: Root 1
+    100198: Shin.L 1
+    100200: Shin.R 1
+    100202: Shoulder.L 1
+    100204: Shoulder.R 1
+    100206: Spine1 1
+    100208: Spine2 1
+    100210: Thigh.L 1
+    100212: Thigh.R 1
+    100214: Thumb.1.L 1
+    100216: Thumb.1.R 1
+    100218: Thumb.2.L 1
+    100220: Thumb.2.R 1
+    100222: Thumb.3.L 1
+    100224: Thumb.3.R 1
+    100226: Toe.L 1
+    100228: Toe.R 1
+    400000: Chest
+    400002: Clavicle.L
+    400004: Clavicle.R
+    400006: //RootNode
+    400008: Foot.L
+    400010: Foot.R
+    400012: Forearm.L
+    400014: Forearm.R
+    400016: Hand.L
+    400018: Hand.R
+    400020: Head
+    400022: hips
+    400024: Index.1.L
+    400026: Index.1.R
+    400028: Index.2.L
+    400030: Index.2.R
+    400032: Index.3.L
+    400034: Index.3.R
+    400036: Little.1.L
+    400038: Little.1.R
+    400040: Little.2.R
+    400042: Little.3.L
+    400044: Little.3.R
+    400046: little_l_2
+    400048: male_police_hat_1_lod1
+    400050: male_police_pants_1_lod1
+    400052: male_police_shirt_1_lod1
+    400054: male_police_shoes_1_lod1
+    400056: Middle.1.L
+    400058: Middle.1.R
+    400060: Middle.2.L
+    400062: Middle.2.R
+    400064: Middle.3.L
+    400066: Middle.3.R
+    400068: Neck
+    400070: Ring.1.L
+    400072: Ring.1.R
+    400074: Ring.2.L
+    400076: Ring.2.R
+    400078: Ring.3.L
+    400080: Ring.3.R
+    400082: Root
+    400084: Shin.L
+    400086: Shin.R
+    400088: Shoulder.L
+    400090: Shoulder.R
+    400092: Spine1
+    400094: Spine2
+    400096: Thigh.L
+    400098: Thigh.R
+    400100: Thumb.1.L
+    400102: Thumb.1.R
+    400104: Thumb.2.L
+    400106: Thumb.2.R
+    400108: Thumb.3.L
+    400110: Thumb.3.R
+    400112: Toe.L
+    400114: Toe.R
+    400116: female_police_hat_1_lod1
+    400118: female_police_pants_1_lod1
+    400120: female_police_shirt_1_lod1
+    400122: female_police_shoes_1_lod1
+    400124: Chest 1
+    400126: Clavicle.L 1
+    400128: Clavicle.R 1
+    400130: Foot.L 1
+    400132: Foot.R 1
+    400134: Forearm.L 1
+    400136: Forearm.R 1
+    400138: Hand.L 1
+    400140: Hand.R 1
+    400142: Head 1
+    400144: hips.001
+    400146: Index.1.L 1
+    400148: Index.1.R 1
+    400150: Index.2.L 1
+    400152: Index.2.R 1
+    400154: Index.3.L 1
+    400156: Index.3.R 1
+    400158: Little.1.L 1
+    400160: Little.1.R 1
+    400162: Little.2.R 1
+    400164: Little.3.L 1
+    400166: Little.3.R 1
+    400168: little_l_2 1
+    400170: Middle.1.L 1
+    400172: Middle.1.R 1
+    400174: Middle.2.L 1
+    400176: Middle.2.R 1
+    400178: Middle.3.L 1
+    400180: Middle.3.R 1
+    400182: Neck 1
+    400184: Ring.1.L 1
+    400186: Ring.1.R 1
+    400188: Ring.2.L 1
+    400190: Ring.2.R 1
+    400192: Ring.3.L 1
+    400194: Ring.3.R 1
+    400196: Root 1
+    400198: Shin.L 1
+    400200: Shin.R 1
+    400202: Shoulder.L 1
+    400204: Shoulder.R 1
+    400206: Spine1 1
+    400208: Spine2 1
+    400210: Thigh.L 1
+    400212: Thigh.R 1
+    400214: Thumb.1.L 1
+    400216: Thumb.1.R 1
+    400218: Thumb.2.L 1
+    400220: Thumb.2.R 1
+    400222: Thumb.3.L 1
+    400224: Thumb.3.R 1
+    400226: Toe.L 1
+    400228: Toe.R 1
+    2100000: Palette.001
+    4300000: male_police_hat_1_lod1
+    4300002: male_police_pants_1_lod1
+    4300004: male_police_shirt_1_lod1
+    4300006: male_police_shoes_1_lod1
+    4300008: female_police_hat_1_lod1
+    4300010: female_police_pants_1_lod1
+    4300012: female_police_shirt_1_lod1
+    4300014: female_police_shoes_1_lod1
+    9500000: //RootNode
+    13700000: male_police_hat_1_lod1
+    13700002: male_police_pants_1_lod1
+    13700004: male_police_shirt_1_lod1
+    13700006: male_police_shoes_1_lod1
+    13700008: female_police_hat_1_lod1
+    13700010: female_police_pants_1_lod1
+    13700012: female_police_shirt_1_lod1
+    13700014: female_police_shoes_1_lod1
   externalObjects: {}
   materials:
     importMaterials: 0
@@ -782,7 +286,6 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
-    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -790,19 +293,18 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
+    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
-    skinWeightsMode: 0
-    maxBonesPerVertex: 4
-    minBoneWeight: 0.001
-    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -811,11 +313,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
-  referencedClips: []
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
-    serializedVersion: 3
+    serializedVersion: 2
     human: []
     skeleton: []
     armTwist: 0.5
@@ -825,7 +326,6 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

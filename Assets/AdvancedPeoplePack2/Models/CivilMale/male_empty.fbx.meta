@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: 1a34beaa688644d77a49be143e50ad7a
+guid: 0836940a0c3c807458e04c755397b1c9
 ModelImporter:
-  serializedVersion: 26
+  serializedVersion: 19300
   internalIDToNameTable:
   - first:
       1: 100000
@@ -347,7 +347,7 @@ ModelImporter:
     second: bake_mesh
   externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -410,10 +410,9 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips:
-  - 81e08dfeeab89440e932fd20432f6a9b
-  - 6f8793b53154e4e53841dbc43a59917c
+  - 7a1a4f4a8d8034d478139b1de62cf682
+  - 4006a92d0eb6fee4db124db38541b7fa
   importAnimation: 1
-  copyAvatar: 1
   humanDescription:
     serializedVersion: 3
     human:
@@ -1198,8 +1197,10 @@ ModelImporter:
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 1b8f3f34252d9ee44823ab05504b31a8,
     type: 3}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
+  avatarSetup: 2
   additionalBone: 0
   userData: 
   assetBundleName: 

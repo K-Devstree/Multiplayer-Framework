@@ -2,14 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlayerStates
-{
-    Idle,
-    Walking,
-    Running,
-    Jumping
-}
-
 public class PlayerMovementController : MonoBehaviour
 {
     [Header("Player")]

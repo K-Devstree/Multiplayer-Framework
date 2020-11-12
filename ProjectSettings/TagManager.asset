@@ -33,11 +33,11 @@ TagManager:
   - 
   - 
   - 
-  - Enemy
-  - MovingPlatform
-  - VisualEffect
-  - Overlay
-  - SubCharacter
+  - 
+  - 
+  - 
+  - 
+  - 
   - Player
   m_SortingLayers:
   - name: Default

@@ -11,7 +11,7 @@ using UnityEngine;
 public class CharacterCustomization : MonoBehaviour
 {
     [Header("All character parts")]
-    [Header("API Version 2.0")]
+    [Header("API Version 2.1")]
     /// <summary>
     /// All character mesh parts
     /// </summary>
@@ -36,7 +36,7 @@ public class CharacterCustomization : MonoBehaviour
     public List<Animator> animators = new List<Animator>();
     [Header("Transforms for change character offset by Y coordinate")]
     //Transforms for apply Y offset;
-    public Transform[] transforms;
+    public List<Transform> transforms;
 
     [SerializeField]
     private Dictionary<BodyColorPart, Color> bodyColors = new Dictionary<BodyColorPart, Color>()
@@ -45,13 +45,17 @@ public class CharacterCustomization : MonoBehaviour
         { BodyColorPart.Eye, new Color() },
         { BodyColorPart.Hair, new Color() },
         { BodyColorPart.Underpants, new Color() },
+        { BodyColorPart.OralCavity, new Color() },
+        { BodyColorPart.Teeth, new Color() },
     };
 
     //Presets for character customization      
     [Header("All character presets")]
     [Space(15)]
-    public List<HeadPreset> headsPresets = new List<HeadPreset>();
+    public List<EmotionPreset> emotionPresets = new List<EmotionPreset>();
+    [Space(15)]
     public List<HairPreset> hairPresets = new List<HairPreset>();
+    public List<BeardPreset> beardPresets = new List<BeardPreset>();
     public List<ClothPreset> hatsPresets = new List<ClothPreset>();
     public List<ClothPreset> accessoryPresets = new List<ClothPreset>();
     public List<ClothPreset> shirtsPresets = new List<ClothPreset>();
@@ -60,6 +64,7 @@ public class CharacterCustomization : MonoBehaviour
 
     public int headActiveIndex { get; private set; } = 0;
     public int hairActiveIndex { get; private set; } = 0;
+    public int beardActiveIndex { get; private set; } = 0;
     public float heightValue { get; private set; } = 0;
     public float headSizeValue { get; private set; } = 0;
 
@@ -70,7 +75,7 @@ public class CharacterCustomization : MonoBehaviour
     {
         { ClothesPartType.Hat, -1 },
         { ClothesPartType.Accessory, -1 },
-        { ClothesPartType.TShirt, -1 },
+        { ClothesPartType.Shirt, -1 },
         { ClothesPartType.Pants, -1 },
         { ClothesPartType.Shoes, -1 },
     };
@@ -87,6 +92,7 @@ public class CharacterCustomization : MonoBehaviour
       { "Ear_Angle", 0 },
       { "Jaw_Width", 0 },
       { "Jaw_Offset", 0 },
+      { "Jaw_Shift", 0 },
       { "Cheek_Size", 0 },
       { "Chin_Offset", 0 },
       { "Eye_Width", 0 },
@@ -95,6 +101,7 @@ public class CharacterCustomization : MonoBehaviour
       { "Eye_Corner", 0 },
       { "Eye_Rotation", 0 },
       { "Eye_Offset", 0 },
+      { "Eye_OffsetH", 0 },
       { "Eye_ScaleX", 0 },
       { "Eye_ScaleY", 0 },
       { "Eye_Size", 0 },
@@ -113,71 +120,75 @@ public class CharacterCustomization : MonoBehaviour
       { "Mouth_Offset", 0 },
       { "Mouth_Width", 0 },
       { "Mouth_Size", 0 },
+      { "Mouth_Open", 0 },
+      { "Mouth_Bulging", 0 },
+      { "LipsCorners_Offset", 0 },
       { "Face_Form", 0 },
       { "Chin_Width", 0 },
       { "Chin_Form", 0 },
       { "Head_Offset", 0 }
     };
 
-    //Blinking
-    public bool BlinkingSimulate;
-    [SerializeField]
-    public float BlinkingInterval;
-    public AnimationCurve BlinkingCurve;
-    float _timer;
-    float _blinkingValue;
-    float _blinkingIntervalSave;
-    //End Blinking
+    public EmotionCurrent currentEmotion; 
 
-
-    private GameObject defaultGroup;
-    private GameObject bakeGroup;
-
-    private List<SkinnedMeshRenderer> bakeSkinnedMeshRenderers = new List<SkinnedMeshRenderer>();
+    public GameObject defaultGroup;
+    [HideInInspector]
+    public GameObject bakeGroup;
+    [HideInInspector]
+    public List<SkinnedMeshRenderer> bakeSkinnedMeshRenderers = new List<SkinnedMeshRenderer>();
+    [HideInInspector]
+    public CombinedCharacter combinedCharacter;
 
     public GameObject EmptyRig;
+
+    public GameObject[] BasicBodyPrefabs;
+    public RuntimeAnimatorController basicAnimator;
+    public Avatar basicAvatar;
 
     [HideInInspector]
     [SerializeField]
     public string StartupSerializationApplied;
 
+    
+
+    [HideInInspector]
+    public int MinLODLevels = 0;
+    [HideInInspector]
+    public int MaxLODLevels = 3;
+
+
+    [HideInInspector]
+    public int MinLODLevelsCombined = 0;
+    [HideInInspector]
+    public int MaxLODLevelsCombined = 3;
+
+    [HideInInspector]
+    public CombinedCharacter UsedCombinedCharacter;
+
     LODGroup _lodGroup;
 
     private void Awake()
-    {
-        _blinkingIntervalSave = BlinkingInterval;
-        if(BlinkingSimulate)
-            BlinkingInterval = UnityEngine.Random.Range(_blinkingIntervalSave * 0.75f, _blinkingIntervalSave * 1.25f);
-
+    {       
         _lodGroup = GetComponent<LODGroup>();
-
         RecalculateLOD();
-        defaultGroup = transform.GetChild(0).gameObject;
-
         InitColors();
-
         StartupSerializationApply();
     }
 
     private void Update()
     {
-        if (!BlinkingSimulate)
-            return;
-
-        _timer += Time.deltaTime;
-
-        if(_timer > BlinkingInterval)
+        if (currentEmotion != null)
         {
-
-            _blinkingValue = BlinkingCurve.Evaluate(_timer - BlinkingInterval);
-
-            SetFaceShape(FaceShapeType.Eye_Close, _blinkingValue * 100);
-
-            if (_timer - BlinkingInterval >= 1.0f)
-            {
-                _timer = 0;
-                BlinkingInterval = UnityEngine.Random.Range(_blinkingIntervalSave * 0.75f, _blinkingIntervalSave * 1.25f);
+            currentEmotion.timer += Time.deltaTime * currentEmotion.emotionPreset.EmotionPlayDuration;
+            for(var i = 0; i < currentEmotion.emotionPreset.faceValues.Count; i++)
+            {              
+                if(currentEmotion.emotionPreset.UseGlobalBlendCurve)
+                    SetFaceShape(currentEmotion.emotionPreset.faceValues[i].BlendType, currentEmotion.emotionPreset.faceValues[i].BlendValue * currentEmotion.emotionPreset.weightPower* currentEmotion.emotionPreset.BlendAnimationCurve.Evaluate(currentEmotion.timer));
+                else
+                    SetFaceShape(currentEmotion.emotionPreset.faceValues[i].BlendType, currentEmotion.emotionPreset.faceValues[i].BlendValue * currentEmotion.emotionPreset.weightPower * currentEmotion.emotionPreset.faceValues[i].BlendAnimationCurve.Evaluate(currentEmotion.timer));
             }
+            if (currentEmotion.timer >= 1.0f)
+                currentEmotion = null;
         }
     }
 
@@ -214,7 +225,7 @@ public class CharacterCustomization : MonoBehaviour
         }
 
         var shoes = GetClothesAnchor(ClothesPartType.Shoes);
-        for(var i = 0; i < shoes.skinnedMesh.Length; i++)
+        for(var i = 0; i < shoes.skinnedMesh.Count; i++)
         {
             var mats = shoes.skinnedMesh[i].sharedMaterials.ToList();
             for (var m = 0;m < mats.Count; m++)
@@ -226,6 +237,22 @@ public class CharacterCustomization : MonoBehaviour
                 }
             }
         }
+
+        for (var i = 0; i < bakeSkinnedMeshRenderers.Count; i++)
+        {
+            if (bakeSkinnedMeshRenderers[i] != null)
+            {
+                var mats = bakeSkinnedMeshRenderers[i].sharedMaterials.ToList();
+                for (var m = 0; m < mats.Count; m++)
+                {
+                    if (mats[m].name == string.Format("{0}(Clone)", bodyMaterial.name))
+                    {
+                        mats[m] = bodyMaterial;
+                        bakeSkinnedMeshRenderers[i].sharedMaterials = mats.ToArray();
+                    }
+                }
+            }
+        }
     }
     public void InitColors()
     {
@@ -233,10 +260,10 @@ public class CharacterCustomization : MonoBehaviour
             return;
         
         if (_bodyMaterialInstance != null)
-            DestroyImmediate(_bodyMaterialInstance);
+            Destroy(_bodyMaterialInstance);
 
         _bodyMaterialInstance = Instantiate(bodyMaterial);
-        SetBodyColor(BodyColorPart.Skin, (bodyColors[BodyColorPart.Skin] != Color.clear)? bodyColors[BodyColorPart.Skin] : _bodyMaterialInstance.GetColor("_SkinColor"));
+        SetBodyColor(BodyColorPart.Skin, _bodyMaterialInstance.GetColor("_SkinColor"));
         SetBodyColor(BodyColorPart.Eye, _bodyMaterialInstance.GetColor("_EyeColor"));
         SetBodyColor(BodyColorPart.Hair, _bodyMaterialInstance.GetColor("_HairColor"));
         SetBodyColor(BodyColorPart.Underpants, _bodyMaterialInstance.GetColor("_UnderpantsColor"));
@@ -261,14 +288,21 @@ public class CharacterCustomization : MonoBehaviour
     /// <param name="weight">Weight (-100 to 100)</param>
     public void SetFaceShape(FaceShapeType faceShapeType, float weight)
     {
-        var headPart = GetCharacterPart("Head");
-
-        headPart.skinnedMesh.ToList().ForEach( (smr) =>
-        {
-           var index = smr.sharedMesh.GetBlendShapeIndex(faceShapeType.ToString());
-           if(index!=-1)
-            smr.SetBlendShapeWeight(index, weight);
-        });
+       characterParts.ForEach((cp) =>
+       {
+           if (cp.name == "Head" || cp.name == "Beard")
+           {
+               cp.skinnedMesh.ToList().ForEach((smr) =>
+               {
+                   if (smr != null && smr.sharedMesh != null)
+                   {
+                       var index = smr.sharedMesh.GetBlendShapeIndex(faceShapeType.ToString());
+                       if (index != -1)
+                           smr.SetBlendShapeWeight(index, weight);
+                   }
+               });
+           }
+       });
 
        clothesAnchors.ForEach((ca) =>
        {
@@ -276,9 +310,12 @@ public class CharacterCustomization : MonoBehaviour
            {
               ca.skinnedMesh.ToList().ForEach((smr) =>
               {
-                  var index = smr.sharedMesh.GetBlendShapeIndex(faceShapeType.ToString());
-                  if (index != -1)
-                      smr.SetBlendShapeWeight(index, weight);
+                  if (smr != null && smr.sharedMesh != null)
+                  {
+                      var index = smr.sharedMesh.GetBlendShapeIndex(faceShapeType.ToString());
+                      if (index != -1)
+                          smr.SetBlendShapeWeight(index, weight);
+                  }
               });
            }
        });
@@ -287,13 +324,15 @@ public class CharacterCustomization : MonoBehaviour
         {
             foreach (var bsmr in bakeSkinnedMeshRenderers)
             {
-                var index = bsmr.sharedMesh.GetBlendShapeIndex(faceShapeType.ToString());
-                if (index != -1)
-                    bsmr.SetBlendShapeWeight(index, weight);
+                if (bsmr != null && bsmr.sharedMesh != null)
+                {
+                    var index = bsmr.sharedMesh.GetBlendShapeIndex(faceShapeType.ToString());
+                    if (index != -1)
+                        bsmr.SetBlendShapeWeight(index, weight);
+                }
             }
         }
         
-
         bodyShapeWeight[faceShapeType.ToString()] = weight;
     }
     /// <summary>
@@ -303,18 +342,36 @@ public class CharacterCustomization : MonoBehaviour
     public void SetFaceShapeByArray(Dictionary<FaceShapeType, float> faceShapeTypeArray)
     {
         var headPart = GetCharacterPart("Head");
+        var beardPart = GetCharacterPart("Beard");
 
-        var shirt = GetClothesAnchor(ClothesPartType.TShirt);
+        var shirt = GetClothesAnchor(ClothesPartType.Shirt);
         foreach(var fst in faceShapeTypeArray)
         {
             headPart.skinnedMesh.ToList().ForEach((smr) =>
             {
-                int index = smr.sharedMesh.GetBlendShapeIndex(fst.Key.ToString());
-                if(index != -1)
+                if (smr != null && smr.sharedMesh != null)
                 {
-                    smr.SetBlendShapeWeight(index, fst.Value);
+                    int index = smr.sharedMesh.GetBlendShapeIndex(fst.Key.ToString());
+                    if (index != -1)
+                    {
+                        smr.SetBlendShapeWeight(index, fst.Value);
+                    }
                 }
             });
+            if (beardPart != null)
+            {
+                beardPart.skinnedMesh.ToList().ForEach((smr) =>
+                {
+                    if (smr != null && smr.sharedMesh != null)
+                    {
+                        int index = smr.sharedMesh.GetBlendShapeIndex(fst.Key.ToString());
+                        if (index != -1)
+                        {
+                            smr.SetBlendShapeWeight(index, fst.Value);
+                        }
+                    }
+                });
+            }
 
             clothesAnchors.ForEach((ca) =>
             {
@@ -322,10 +379,13 @@ public class CharacterCustomization : MonoBehaviour
                 {
                     ca.skinnedMesh.ToList().ForEach((smr) =>
                     {
-                        int index = smr.sharedMesh.GetBlendShapeIndex(fst.Key.ToString());
-                        if (index != -1)
+                        if (smr != null && smr.sharedMesh != null)
                         {
-                            smr.SetBlendShapeWeight(index, fst.Value);
+                            int index = smr.sharedMesh.GetBlendShapeIndex(fst.Key.ToString());
+                            if (index != -1)
+                            {
+                                smr.SetBlendShapeWeight(index, fst.Value);
+                            }
                         }
                     });
                 }
@@ -340,7 +400,7 @@ public class CharacterCustomization : MonoBehaviour
         {
             shirt.skinnedMesh.ToList().ForEach((smr) =>
             {
-                if (smr.sharedMesh != null && clothesActiveIndexes[ClothesPartType.TShirt] != -1)
+                if (smr != null && smr.sharedMesh != null && clothesActiveIndexes[ClothesPartType.Shirt] != -1)
                 {
                     var index = smr.sharedMesh.GetBlendShapeIndex("Neck_Width");
                     if(index != -1)
@@ -353,9 +413,12 @@ public class CharacterCustomization : MonoBehaviour
         {
             foreach(var bsmr in bakeSkinnedMeshRenderers)
             {
-                var index = bsmr.sharedMesh.GetBlendShapeIndex(fst.Key.ToString());
-                if(index != -1)
-                    bsmr.SetBlendShapeWeight(index, fst.Value);
+                if (bsmr != null && bsmr.sharedMesh != null)
+                {                  
+                    var index = bsmr.sharedMesh.GetBlendShapeIndex(fst.Key.ToString());
+                    if (index != -1)
+                        bsmr.SetBlendShapeWeight(index, fst.Value);
+                }
             }
         }
 
@@ -371,16 +434,19 @@ public class CharacterCustomization : MonoBehaviour
         {
             foreach(var smr in bakeSkinnedMeshRenderers)
             {
-                var index = smr.sharedMesh.GetBlendShapeIndex("Head_Offset");
-                if(index != -1)
-                smr.SetBlendShapeWeight(index, offset);
+                if (smr != null && smr.sharedMesh != null)
+                {
+                    var index = smr.sharedMesh.GetBlendShapeIndex("Head_Offset");
+                    if (index != -1)
+                        smr.SetBlendShapeWeight(index, offset);
+                }
             }
         }
         foreach (var part in characterParts)
         {
             part.skinnedMesh.ToList().ForEach((smr) =>
             {
-                if(smr.sharedMesh != null)
+                if(smr != null && smr.sharedMesh != null)
                 {
                     var index = smr.sharedMesh.GetBlendShapeIndex("Head_Offset");
                     if (index != -1)
@@ -393,7 +459,7 @@ public class CharacterCustomization : MonoBehaviour
         {
             ca.skinnedMesh.ToList().ForEach((smr) =>
             {
-                if (smr.sharedMesh != null)
+                if (smr != null && smr.sharedMesh != null)
                 {
                     var index = smr.sharedMesh.GetBlendShapeIndex("Head_Offset");
                     if (index != -1)
@@ -422,7 +488,7 @@ public class CharacterCustomization : MonoBehaviour
                     continue;
                 foreach (var skinnedMesh in part.skinnedMesh)
                 {
-                    if (skinnedMesh.sharedMesh != null)
+                    if (skinnedMesh != null && skinnedMesh.sharedMesh != null)
                     {
                         for (var i = 0; i < skinnedMesh.sharedMesh.blendShapeCount; i++)
                         {
@@ -441,7 +507,7 @@ public class CharacterCustomization : MonoBehaviour
 
                 foreach (var skinnedMesh in clothPart.skinnedMesh)
                 {
-                    if (skinnedMesh.sharedMesh != null)
+                    if (skinnedMesh != null && skinnedMesh.sharedMesh != null)
                     {
                         for (var i = 0; i < skinnedMesh.sharedMesh.blendShapeCount; i++)
                         {
@@ -478,6 +544,8 @@ public class CharacterCustomization : MonoBehaviour
     /// <param name="lodLevel">LOD level (0-3). Value < 0 return to standard LOD processing.</param>
     public void ForceLOD(int lodLevel)
     {
+        if (lodLevel > MaxLODLevels - MinLODLevels)
+            return;
         if(lodLevel != 0)
         {
             _lodGroup.ForceLOD(lodLevel);
@@ -505,12 +573,11 @@ public class CharacterCustomization : MonoBehaviour
         if (newPreset != null)
         {          
             yOffset = newPreset.yOffset;
-            for (var i = 0; i < ca.skinnedMesh.Length; i++)
+            for (var i = 0; i < (MaxLODLevels - MinLODLevels) + 1; i++)
             {
-                
+                var element_index = i + MinLODLevels;
 
-                ca.skinnedMesh[i].sharedMesh = newPreset.mesh[i];
-
+                ca.skinnedMesh[i].sharedMesh = newPreset.mesh[element_index];
                 if(newPreset.mats != null && newPreset.mats.Length > 0)
                 {
                     var mats = newPreset.mats.ToList();
@@ -540,12 +607,17 @@ public class CharacterCustomization : MonoBehaviour
                 Debug.LogError(string.Format("Element <{0}> with index {1} not found. Please check Character Presets arrays.", type.ToString(), index));
                 return;
             }
-            
-            if(ca != null && ca.skinnedMesh != null)
+
+            if (ca != null && ca.skinnedMesh != null)
+            {
                 foreach (var sm in ca.skinnedMesh)
-                    sm.sharedMesh = null;
+                {
+                    if (sm != null)
+                        sm.sharedMesh = null;
+                }
+            }
         }
-        if (transforms[0].localPosition.y != yOffset && type == ClothesPartType.Shoes)
+        if (transforms[0] != null && transforms[0].localPosition.y != yOffset && type == ClothesPartType.Shoes)
         {
             foreach (var tr in transforms)
                 tr.localPosition = new Vector3(tr.localPosition.x, yOffset, tr.localPosition.z);
@@ -562,7 +634,8 @@ public class CharacterCustomization : MonoBehaviour
         heightValue = height;
         foreach(var tr in originHips)
         {
-            tr.localScale = new Vector3(1+height/2, 1+height, 1+height);
+            if(tr != null)
+                tr.localScale = new Vector3(1+height/1.5f, 1+height, 1+height);
         }
     }
     /// <summary>
@@ -574,7 +647,8 @@ public class CharacterCustomization : MonoBehaviour
         headSizeValue = size;
         headHips.ForEach((hh) =>
         {
-            hh.localScale = Vector3.one + Vector3.one*size;
+            if(hh != null)
+                hh.localScale = Vector3.one + Vector3.one*size;
         });
     }
     /// <summary>
@@ -591,9 +665,22 @@ public class CharacterCustomization : MonoBehaviour
                 Debug.LogError(string.Format("Hair with index {0} not found", index));
                 return;
             }
-            for (var i = 0; i < hairPresets[index].mesh.Length; i++)
+            for (var i = 0; i < (MaxLODLevels - MinLODLevels)+1; i++)
             {
-                hair.skinnedMesh[i].sharedMesh = hairPresets[index].mesh[i];
+                var hair_index = i + MinLODLevels;
+                if (hair.skinnedMesh.Count > 0 && hair.skinnedMesh[i] != null)
+                {
+                    hair.skinnedMesh[i].sharedMesh = hairPresets[index].mesh[hair_index];
+
+                    for (var blendIndex = 0; blendIndex < hair.skinnedMesh[i].sharedMesh.blendShapeCount; blendIndex++)
+                    {
+                        var blendName = hair.skinnedMesh[i].sharedMesh.GetBlendShapeName(blendIndex);
+                        float weight;
+
+                        if (bodyShapeWeight.TryGetValue(blendName, out weight))
+                            hair.skinnedMesh[i].SetBlendShapeWeight(blendIndex, weight);
+                    }
+                }
             }
         }
         else
@@ -604,6 +691,47 @@ public class CharacterCustomization : MonoBehaviour
             }
         }
         hairActiveIndex = index;
+    }
+    /// <summary>
+    /// Set beard by index
+    /// </summary>
+    /// <param name="index">Index</param>
+    public void SetBeardByIndex(int index)
+    {
+        CharacterPart beard = GetCharacterPart("Beard");
+
+        if (beard == null || beard.skinnedMesh.Count <= 0)
+            return;
+        if (index != -1)
+        {
+            if (beardPresets.ElementAtOrDefault(index) == null)
+            {
+                Debug.LogError(string.Format("Beard with index {0} not found", index));
+                return;
+            }
+            for (var i = 0; i < (MaxLODLevels - MinLODLevels) + 1; i++)
+            {
+                var beard_index = i + MinLODLevels;
+                
+                beard.skinnedMesh[i].sharedMesh = beardPresets[index].mesh[beard_index];
+
+                for (var blendIndex = 0; blendIndex < beard.skinnedMesh[i].sharedMesh.blendShapeCount; blendIndex++)
+                {
+                    var blendName = beard.skinnedMesh[i].sharedMesh.GetBlendShapeName(blendIndex);
+                  
+                    if (bodyShapeWeight.TryGetValue(blendName, out float weight))
+                        beard.skinnedMesh[i].SetBlendShapeWeight(blendIndex, weight);
+                }
+            }
+        }
+        else
+        {
+            foreach (var beardsm in beard.skinnedMesh)
+            {
+                beardsm.sharedMesh = null;
+            }
+        }
+        beardActiveIndex = index;
     }
     /// <summary>
     /// Get clothes anchor by type
@@ -663,13 +791,13 @@ public class CharacterCustomization : MonoBehaviour
             bool ph_in_shirt = false, ph_in_pants = false, ph_in_shoes = false;
 
             #region Code to exclude the UnHide parts of the character if are hidden in other presets
-            int shirt_i = clothesActiveIndexes[ClothesPartType.TShirt];
+            int shirt_i = clothesActiveIndexes[ClothesPartType.Shirt];
             int pants_i = clothesActiveIndexes[ClothesPartType.Pants];
             int shoes_i = clothesActiveIndexes[ClothesPartType.Shoes];
 
-            if (shirt_i != -1 && hidePartsForElement != ClothesPartType.TShirt)
+            if (shirt_i != -1 && hidePartsForElement != ClothesPartType.Shirt)
             {
-                foreach (var shirtPart in getPreset(ClothesPartType.TShirt, shirt_i).hideParts)
+                foreach (var shirtPart in getPreset(ClothesPartType.Shirt, shirt_i).hideParts)
                 {
                     if (shirtPart == p)
                     {
@@ -723,26 +851,46 @@ public class CharacterCustomization : MonoBehaviour
         if(!_bodyMaterialInstance)
             InitColors();
 
-        foreach (var part in characterParts)
+        switch (bodyColorPart)
         {
+            case BodyColorPart.Skin:
+                _bodyMaterialInstance.SetColor("_SkinColor", color);
+                break;
+            case BodyColorPart.Eye:
+                _bodyMaterialInstance.SetColor("_EyeColor", color);
+                break;
+            case BodyColorPart.Hair:
+                _bodyMaterialInstance.SetColor("_HairColor", color);
+                break;
+            case BodyColorPart.Underpants:
+                _bodyMaterialInstance.SetColor("_UnderpantsColor", color);
+                break;
+        }
+
+        foreach (var part in characterParts)
+        {          
             foreach (var sm in part.skinnedMesh)
             {
-                switch (bodyColorPart)
-                {
-                    case BodyColorPart.Skin:
-                        _bodyMaterialInstance.SetColor("_SkinColor", color);
-                        break;
-                    case BodyColorPart.Eye:
-                        _bodyMaterialInstance.SetColor("_EyeColor", color);
-                        break;
-                    case BodyColorPart.Hair:
-                        _bodyMaterialInstance.SetColor("_HairColor", color);
-                        break;
-                    case BodyColorPart.Underpants:
-                        _bodyMaterialInstance.SetColor("_UnderpantsColor", color);
-                        break;
-                }
+                if (sm == null)
+                    continue;
+
                 sm.sharedMaterial = _bodyMaterialInstance;
+            }
+        }
+
+        foreach(var bakedMesh in bakeSkinnedMeshRenderers)
+        {
+            if (bakedMesh == null)
+                continue;
+
+            var mats = bakedMesh.sharedMaterials.ToList();
+            for (var m = 0; m < mats.Count; m++)
+            {
+                if (mats[m].name == bodyMaterial.name)
+                {
+                    mats[m] = _bodyMaterialInstance;
+                    bakedMesh.sharedMaterials = mats.ToArray();
+                }
             }
         }
         bodyColors[bodyColorPart] = color;
@@ -789,6 +937,7 @@ public class CharacterCustomization : MonoBehaviour
         ccs.Ear_Angle =         bodyShapeWeight["Ear_Angle"];
         ccs.Jaw_Width =         bodyShapeWeight["Jaw_Width"];
         ccs.Jaw_Offset =        bodyShapeWeight["Jaw_Offset"];
+        ccs.Jaw_Shift =         bodyShapeWeight["Jaw_Shift"];
         ccs.Cheek_Size =        bodyShapeWeight["Cheek_Size"];
         ccs.Chin_Offset =       bodyShapeWeight["Chin_Offset"];
         ccs.Eye_Width =         bodyShapeWeight["Eye_Width"];
@@ -815,17 +964,21 @@ public class CharacterCustomization : MonoBehaviour
         ccs.Mouth_Offset =      bodyShapeWeight["Mouth_Offset"];
         ccs.Mouth_Width =       bodyShapeWeight["Mouth_Width"];
         ccs.Mouth_Size =        bodyShapeWeight["Mouth_Size"];
+        ccs.Mouth_Open =        bodyShapeWeight["Mouth_Open"];
+        ccs.Mouth_Bulging =     bodyShapeWeight["Mouth_Bulging"];
+        ccs.LipsCorners_Offset= bodyShapeWeight["LipsCorners_Offset"];
         ccs.Face_Form =         bodyShapeWeight["Face_Form"];
         ccs.Chin_Width =        bodyShapeWeight["Chin_Width"];
         ccs.Chin_Form =         bodyShapeWeight["Chin_Form"];
         ccs.Head_Offset =       bodyShapeWeight["Head_Offset"];
 
         ccs.Hair = hairActiveIndex;
+        ccs.Beard = beardActiveIndex;
         ccs.Height = heightValue;
         ccs.HeadSize = headSizeValue;    
 
         ccs.Hat = clothesActiveIndexes[ClothesPartType.Hat];
-        ccs.TShirt = clothesActiveIndexes[ClothesPartType.TShirt];
+        ccs.TShirt = clothesActiveIndexes[ClothesPartType.Shirt];
         ccs.Pants = clothesActiveIndexes[ClothesPartType.Pants];
         ccs.Shoes = clothesActiveIndexes[ClothesPartType.Shoes];
         ccs.Accessory = clothesActiveIndexes[ClothesPartType.Accessory];
@@ -907,12 +1060,16 @@ public class CharacterCustomization : MonoBehaviour
     /// Combine all character parts to single mesh (include all LODs)
     /// </summary>
     /// <param name="includeBlendShapes">Include blend shapes in combine mesh</param>
-    public void BakeCharacter(bool includeBlendShapes = true)
+    public void BakeCharacter(bool includeBlendShapes = true, bool saveMeshes = false)
     {
+       
         if (bakeGroup == null)
         {
-            bakeGroup = Instantiate(new GameObject(), transform);
-            bakeGroup.name = "LOD_Bake";
+            bakeGroup = new GameObject();
+            bakeGroup.transform.SetParent(transform);
+            bakeGroup.transform.localPosition = Vector3.zero;
+            bakeGroup.transform.localRotation = Quaternion.identity;
+            bakeGroup.name = "LOD_Bake";           
         }
         else
         {
@@ -921,8 +1078,9 @@ public class CharacterCustomization : MonoBehaviour
                 Destroy(bakeGroup.transform.GetChild(i).gameObject);
             }
         }
+        
         bakeGroup.SetActive(true);
-        for (int lod_index = 0; lod_index < _lodGroup.lodCount; lod_index++)
+        for (int lod_index = MinLODLevelsCombined; lod_index <= MaxLODLevelsCombined; lod_index++)
         {
             Matrix4x4[] bindPoses = characterParts[0].skinnedMesh[lod_index].sharedMesh.bindposes;
             Dictionary<Material, List<CombineInstance>> combineInstanceArrays = new Dictionary<Material, List<CombineInstance>>();
@@ -1141,12 +1299,74 @@ public class CharacterCustomization : MonoBehaviour
             skinnedMeshRenderer.updateWhenOffscreen = true;
 
             bakeSkinnedMeshRenderers.Add(skinnedMeshRenderer);
-
+            
             SetHeight(heightValue);
             RecalculateBodyShapes();
 
             animators.Add(animator);
         }
+#if UNITY_EDITOR
+        if (saveMeshes && !Application.isPlaying)
+        {
+            var savemat = Instantiate(_bodyMaterialInstance);
+            ResetBodyColors();
+            var cc = ScriptableObject.CreateInstance<CombinedCharacter>();
+
+            if (!AssetDatabase.IsValidFolder("Assets/AdvancedPeoplePack2/CombinedCharacters"))
+                AssetDatabase.CreateFolder("Assets/AdvancedPeoplePack2", "CombinedCharacters");
+
+            AssetDatabase.CreateAsset(cc, string.Format("Assets/AdvancedPeoplePack2/CombinedCharacters/cc_{0}.asset", gameObject.name));
+
+            if (!AssetDatabase.IsValidFolder("Assets/AdvancedPeoplePack2/CombinedCharacters/Materials"))
+                AssetDatabase.CreateFolder("Assets/AdvancedPeoplePack2/CombinedCharacters", "Materials");
+
+            if (!AssetDatabase.IsValidFolder("Assets/AdvancedPeoplePack2/CombinedCharacters/Meshes"))
+                AssetDatabase.CreateFolder("Assets/AdvancedPeoplePack2/CombinedCharacters", "Meshes");
+
+            if (!AssetDatabase.IsValidFolder("Assets/AdvancedPeoplePack2/CombinedCharacters/Prefabs"))
+                AssetDatabase.CreateFolder("Assets/AdvancedPeoplePack2/CombinedCharacters", "Prefabs");
+            
+
+            AssetDatabase.CreateAsset(savemat, string.Format("Assets/AdvancedPeoplePack2/CombinedCharacters/Materials/cc_{0}_mat.mat", gameObject.name));
+
+            cc.empty_rig = EmptyRig;
+            cc.materials.AddRange(bakeSkinnedMeshRenderers[0].sharedMaterials);
+
+            for(var i = 0;i< cc.materials.Count; i++)
+            {
+                if(cc.materials[i].name == "Body" || cc.materials[i].name == "BodyFemale")
+                {
+                    cc.materials[i] = savemat;
+                }
+            }
+            cc.bodyMat = savemat;
+            cc.animator = basicAnimator;
+            cc.avatar = basicAvatar;
+            if(originHips.Count > 0)
+                cc.hipsScale = originHips[0].localScale;
+            if(headHips.Count > 0)
+                cc.headScale = headHips[0].localScale;
+
+            for (var i = 0; i < bakeSkinnedMeshRenderers.Count; i++)
+            {
+                AssetDatabase.CreateAsset(bakeSkinnedMeshRenderers[i].sharedMesh, string.Format("Assets/AdvancedPeoplePack2/CombinedCharacters/Meshes/m_{0}_lod{1}.asset", gameObject.name, i));
+
+                var mesh = AssetDatabase.LoadAssetAtPath(string.Format("Assets/AdvancedPeoplePack2/CombinedCharacters/Meshes/m_{0}_lod{1}.asset", gameObject.name, i), typeof(Mesh)) as Mesh;
+
+                cc.combinedMeshes.Add(mesh);
+
+                bakeSkinnedMeshRenderers[i].sharedMesh = mesh;
+            }
+
+            foreach(var bsw in bodyShapeWeight)
+            {
+                cc.blendshapes.Add(bsw.Key, bsw.Value);
+            }
+
+            EditorUtility.SetDirty(cc);
+            combinedCharacter = cc;
+        }
+#endif
         defaultGroup.SetActive(false);
 
         RecalculateLOD();
@@ -1155,58 +1375,190 @@ public class CharacterCustomization : MonoBehaviour
     /// Clear all combine meshes, and enable customizable mode
     /// </summary>
     public void ClearBake()
-    {
-        defaultGroup.SetActive(true);
-        for (var i = 0; i < bakeGroup.transform.childCount; i++)
+    {      
+        if (bakeGroup != null)
         {
-            Destroy(bakeGroup.transform.GetChild(i).gameObject);
-        }
-        bakeSkinnedMeshRenderers.Clear();
+            if ((Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.OSXEditor) && !Application.isPlaying)
+            {
+#if UNITY_EDITOR
+                var path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(gameObject);
+                GameObject contentsRoot = PrefabUtility.LoadPrefabContents(path);
+                DestroyImmediate(contentsRoot.transform.GetChild(1).gameObject);
+                PrefabUtility.SaveAsPrefabAsset(contentsRoot, path);
+                PrefabUtility.UnloadPrefabContents(contentsRoot);
+#endif
+            }
+            else
+            {
+                for (var i = 0; i < bakeGroup.transform.childCount; i++)
+                {
+                    Destroy(bakeGroup.transform.GetChild(i).gameObject);
+                }
+                bakeGroup.SetActive(false);
+            }
 
-        bakeGroup.SetActive(false);
+        }
+        
+        if (bakeSkinnedMeshRenderers.Count != 0)
+        {
+            bakeSkinnedMeshRenderers.Clear();
+            var index = (MaxLODLevels - MinLODLevels) + 1;
+            var count = (MaxLODLevelsCombined - MinLODLevelsCombined) + 1;
+
+            animators.RemoveRange(index, count);
+            headHips.RemoveRange(index, count);
+            originHips.RemoveRange(index, count);
+        }
+
         RecalculateBodyShapes();
         RecalculateLOD();
-        animators.RemoveRange(_lodGroup.lodCount, _lodGroup.lodCount);
-        headHips.RemoveRange(_lodGroup.lodCount , _lodGroup.lodCount);
-        originHips.RemoveRange(_lodGroup.lodCount, _lodGroup.lodCount);
-
+        combinedCharacter = null;
+        defaultGroup.SetActive(true);
         Resources.UnloadUnusedAssets();
+    }
+
+    public void DeleteCombinedMeshFromProject()
+    {
+        if (combinedCharacter != null)
+        {
+#if UNITY_EDITOR
+            combinedCharacter.ClearData();
+            AssetDatabase.DeleteAsset(string.Format("Assets/AdvancedPeoplePack2/CombinedCharacters/cc_{0}.asset", gameObject.name));
+#endif
+            combinedCharacter = null;
+        }
     }
     /// <summary>
     /// Recalculate LODs
     /// </summary>
     public void RecalculateLOD()
     {
-        LOD[] lods = new LOD[4];
-        float[] perc = new float[4] { 0.33f, 0.2f, 0.1f,0.05f };
+        if(!_lodGroup)
+            _lodGroup = GetComponent<LODGroup>();
 
-        for (int i = 0; i < 4; i++) {
-            var renderer = new List<SkinnedMeshRenderer>();
-            if (bakeGroup == null || !bakeGroup.activeSelf)
+        LOD[] lods;
+        float[][] lods_p = new float[][] { 
+            new float[] {0.5f, 0.2f, 0.05f, 0f },
+            new float[] {0.4f, 0.1f, 0f, 0f },
+            new float[] {0.3f,   0f,   0f, 0f },
+            new float[] {0f,   0f,   0f, 0f }
+        };
+
+        if (bakeGroup == null || !bakeGroup.activeSelf)
+        {
+            lods = new LOD[(MaxLODLevels - MinLODLevels) + 1];
+            for (int i = 0; i < (MaxLODLevels - MinLODLevels) + 1; i++)
             {
+                var renderer = new List<SkinnedMeshRenderer>();
                 foreach (var cp in characterParts)
                 {
                     renderer.Add(cp.skinnedMesh[i]);
                 }
-                foreach(var ca in clothesAnchors)
+                foreach (var ca in clothesAnchors)
                 {
                     renderer.Add(ca.skinnedMesh[i]);
                 }
+
+                lods[i] = new LOD(lods_p[3 - (MaxLODLevels - MinLODLevels)][i], renderer.ToArray());
             }
-            else
-            {
-                renderer.Add(bakeSkinnedMeshRenderers[i]);
-            }
-            
-            lods[i] = new LOD(perc[i], renderer.ToArray());
         }
+        else
+        {
+            lods = new LOD[(MaxLODLevelsCombined - MinLODLevelsCombined) + 1];
+            for (int i = 0; i < (MaxLODLevelsCombined - MinLODLevelsCombined) + 1; i++)
+            {               
+                var renderer = new List<SkinnedMeshRenderer>();
+                renderer.Add(bakeSkinnedMeshRenderers[i]);
+                lods[i] = new LOD(lods_p[3 - (MaxLODLevelsCombined - MinLODLevelsCombined)][i], renderer.ToArray());
+            }
+        }
+
+
 
         _lodGroup.SetLODs(lods);
         _lodGroup.RecalculateBounds();
     }
+    /// <summary>
+    /// Change the number of LODs
+    /// </summary>
+    /// <param name="minLod">Lower LOD</param>
+    /// <param name="maxLod">Higher LOD</param>
+    public void SetLODRange(int minLod, int maxLod)
+    {
+        if (combinedCharacter != null || bakeSkinnedMeshRenderers.Count > 0)
+            ClearBake();
+
+        MinLODLevels = minLod;
+        MaxLODLevels = maxLod;
+
+        foreach (var cp in characterParts)
+            cp.skinnedMesh.Clear();
+
+        foreach (var ca in clothesAnchors)
+            ca.skinnedMesh.Clear();
+
+        transforms.Clear();
+        originHips.Clear();
+        headHips.Clear();
+        animators.Clear();
+
+        for(var i = minLod; i <= maxLod; i++)
+        {
+            var obj = Instantiate(BasicBodyPrefabs[i], defaultGroup.transform);
+            transforms.Add(obj.transform);
+            obj.name = string.Format("body_lod{0}", i);
+
+            var obj_animator = obj.GetComponent<Animator>();
+
+            if (obj_animator == null)
+                obj_animator = obj.AddComponent<Animator>();
+
+            obj_animator.runtimeAnimatorController = basicAnimator;
+            obj_animator.avatar = basicAvatar;
+            obj_animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+            obj_animator.applyRootMotion = true;
+
+            animators.Add(obj_animator);
+
+            
+
+            headHips.Add(obj.GetComponentsInChildren<Transform>().First(f => f.name == "Head"));
+
+            for (var b = 0; b < obj.transform.childCount; b++)
+            {
+                if(obj.transform.GetChild(b).name.ToLower() == "hips")
+                {
+                    originHips.Add(obj.transform.GetChild(b));
+                    continue;
+                }
+
+                var find = characterParts.Find(f => obj.transform.GetChild(b).name.Contains(f.name.ToLower()));
+               
+                var smr = obj.transform.GetChild(b).GetComponent<SkinnedMeshRenderer>();
+                if (find != null)
+                {                    
+                    find.skinnedMesh.Add(smr);
+
+                    if (new string[] { "Beard", "Hair" }.Any(find.name.Contains) )
+                        smr.updateWhenOffscreen = true;
+                }
+                else
+                {
+                    var findAnchors = clothesAnchors.Find(f => obj.transform.GetChild(b).name.Contains(f.partType.ToString().ToLower()));
+                    findAnchors.skinnedMesh.Add(smr);
+                    smr.updateWhenOffscreen = true;
+                }
+            }
+        }
+        RecalculateLOD();
+    }
+    /// <summary>
+    ///  Get combined state
+    /// </summary>
+    /// <returns></returns>
     public bool IsBaked()
     {
-        return bakeGroup != null && bakeGroup.activeSelf;
+        return bakeGroup != null && bakeGroup.activeSelf && bakeSkinnedMeshRenderers.Count > 0;
     }
     /// <summary>
     /// Creates a new character use combined meshes.
@@ -1240,7 +1592,7 @@ public class CharacterCustomization : MonoBehaviour
             case ClothesPartType.Hat:
                 return hatsPresets;
 
-            case ClothesPartType.TShirt:
+            case ClothesPartType.Shirt:
                 return shirtsPresets;
 
             case ClothesPartType.Pants:
@@ -1271,7 +1623,7 @@ public class CharacterCustomization : MonoBehaviour
             case ClothesPartType.Hat:
                 return (hatsPresets.Count - 1 >= index) ? hatsPresets[index] : null;
 
-            case ClothesPartType.TShirt:
+            case ClothesPartType.Shirt:
                 return (shirtsPresets.Count - 1 >= index) ? shirtsPresets[index] : null;
 
             case ClothesPartType.Pants:
@@ -1286,13 +1638,76 @@ public class CharacterCustomization : MonoBehaviour
                 return null;
         }
     }
-    #endregion
+    /// <summary>
+    /// Play emotion
+    /// </summary>
+    /// <param name="emotionName">Emotion name</param>
+    /// <param name="duration">Emotion duration</param>
+    /// <param name="weightPower">Emotion power</param>
+    public void PlayEmotion(string emotionName, float duration = 1f, float weightPower = 1f)
+    {
+        if (currentEmotion != null)
+            StopEmotion();
 
-    #region Basic classes and enum
+        var emotion = new EmotionCurrent();
+        foreach(var ep in emotionPresets)
+        {
+            if(ep.name == emotionName)
+            {
+                emotion.emotionPreset = ep;
+                break;
+            }
+        }
+        foreach(var fv in emotion.emotionPreset.faceValues)
+        {
+            float weight;
+            bodyShapeWeight.TryGetValue(fv.BlendType.ToString(), out weight);
+            emotion.blendShapesTemp.Add(new FaceValue() { BlendType = fv.BlendType, BlendValue = weight });
+        }
+        emotion.emotionPreset.EmotionPlayDuration = 1.0f/duration;
+        emotion.emotionPreset.weightPower = weightPower;
+        currentEmotion = emotion;
+    }
+    /// <summary>
+    /// Stop any emotion
+    /// </summary>
+    public void StopEmotion()
+    {
+        if (currentEmotion != null)
+        {
+            for (var i = 0; i < currentEmotion.emotionPreset.faceValues.Count; i++)
+            {
+                SetFaceShape(currentEmotion.emotionPreset.faceValues[i].BlendType, currentEmotion.blendShapesTemp[i].BlendValue);
+            }
+        }
+    }
+    /// <summary>
+    /// Get active animations
+    /// </summary>
+    /// <returns></returns>
+    public List<Animator> GetAnimators()
+    {
+        List<Animator> animators = new List<Animator>();
+        int index = 0;
+        int count = (MaxLODLevels - MinLODLevels) + 1;
+        if (bakeSkinnedMeshRenderers.Count > 0)
+        {
+           index = (MaxLODLevels - MinLODLevels) + 1;
+           count = (MaxLODLevelsCombined - MinLODLevelsCombined) + 1;
+        }
+        for (var i = index; i < index + count; i++)
+        {
+            animators.Add(this.animators[i]);
+        }
+        return animators;
+    }
+#endregion
+
+#region Basic classes and enum
     public enum ClothesPartType : int
     {
         Hat,
-        TShirt,
+        Shirt,
         Pants,
         Shoes,
         Accessory
@@ -1314,6 +1729,7 @@ public class CharacterCustomization : MonoBehaviour
         Ear_Angle,
         Jaw_Width,
         Jaw_Offset,
+        Jaw_Shift,
         Cheek_Size,
         Chin_Offset,
         Eye_Width,
@@ -1322,6 +1738,7 @@ public class CharacterCustomization : MonoBehaviour
         Eye_Corner,
         Eye_Rotation,
         Eye_Offset,
+        Eye_OffsetH,
         Eye_ScaleX,
         Eye_ScaleY,
         Eye_Size,
@@ -1340,9 +1757,17 @@ public class CharacterCustomization : MonoBehaviour
         Mouth_Offset,
         Mouth_Width,
         Mouth_Size,
+        Mouth_Open,
+        Mouth_Bulging,
+        LipsCorners_Offset,
         Face_Form,
         Chin_Width,
-        Chin_Form
+        Chin_Form,
+        Smile,
+        Sadness,
+        Surprise,
+        Thoughtful,
+        Angry
     }
 
     public enum BodyColorPart : int
@@ -1350,28 +1775,31 @@ public class CharacterCustomization : MonoBehaviour
         Skin,
         Eye,
         Hair,
-        Underpants
+        Underpants,
+        OralCavity,
+        Teeth
     }
     [System.Serializable]
     public class CharacterPart
     {
         public string name;
-        public SkinnedMeshRenderer[] skinnedMesh;
+        public List<SkinnedMeshRenderer> skinnedMesh;
     }
     [System.Serializable]
     public class ClothesAnchor
     {
-        public ClothesPartType partType;
-        public SkinnedMeshRenderer[] skinnedMesh;
+        public ClothesPartType partType;       
+        public List<SkinnedMeshRenderer> skinnedMesh;
     }
+
     [System.Serializable]
-    public class HeadPreset
+    public class HairPreset
     {
         public string name;
         public Mesh[] mesh;
     }
     [System.Serializable]
-    public class HairPreset
+    public class BeardPreset
     {
         public string name;
         public Mesh[] mesh;
@@ -1385,9 +1813,38 @@ public class CharacterCustomization : MonoBehaviour
         public float yOffset = 0;
         public Material[] mats;
     }
-    #endregion
+    [System.Serializable]
+    public class EmotionPreset
+    {
+        public string name;
+        public List<FaceValue> faceValues = new List<FaceValue>();
 
-    #region Combine mesh classes
+        public bool UseGlobalBlendCurve = true;
+        public AnimationCurve BlendAnimationCurve = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.5f, 1f), new Keyframe(1f, 0f));
+        [HideInInspector]
+        public float EmotionPlayDuration = 1.0f;
+        [HideInInspector]
+        public float weightPower = 1.0f;
+    }
+    [System.Serializable]
+    public class FaceValue
+    {
+        public FaceShapeType BlendType;
+        [Range(-100f, 100f)]
+        public float BlendValue;
+        public AnimationCurve BlendAnimationCurve = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(1f, 0f));
+    }
+
+    public class EmotionCurrent
+    {
+        public EmotionPreset emotionPreset;
+        public List<FaceValue> blendShapesTemp = new List<FaceValue>();
+        public float timer = 0;
+    }
+
+#endregion
+
+#region Combine mesh classes
     public struct SkinnedMeshData
     {
         public SkinnedMeshData(Mesh mesh, Material[] materials)
@@ -1411,5 +1868,5 @@ public class CharacterCustomization : MonoBehaviour
         public List<Vector3> deltaNormals;
         public List<Vector3> deltaTangents;
     }
-    #endregion
+#endregion
 }

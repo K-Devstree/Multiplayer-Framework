@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: e708f510c77f24d1797443ed809976ef
+guid: 1b8f3f34252d9ee44823ab05504b31a8
 ModelImporter:
-  serializedVersion: 26
+  serializedVersion: 19300
   internalIDToNameTable:
   - first:
       1: 100000
@@ -361,6 +361,9 @@ ModelImporter:
       1: 100236
     second: male_shin_upper
   - first:
+      1: 100238
+    second: male_beard
+  - first:
       4: 400000
     second: Chest
   - first:
@@ -718,6 +721,9 @@ ModelImporter:
       4: 400236
     second: male_shin_upper
   - first:
+      4: 400238
+    second: male_beard
+  - first:
       21: 2100000
     second: ColorPick
   - first:
@@ -834,6 +840,9 @@ ModelImporter:
   - first:
       43: 4300070
     second: male_shin_lower
+  - first:
+      43: 4300072
+    second: male_beard
   - first:
       74: 7400000
     second: Idle
@@ -955,16 +964,24 @@ ModelImporter:
       137: 13700070
     second: male_shin_upper
   - first:
+      137: 13700072
+    second: male_beard
+  - first:
       41386430: 2186277476908879412
     second: ImportLogs
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Body
+    second: {fileID: 2100000, guid: 72b4350f26c57fe44b39907d978d92c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Palette
     second: {fileID: 2100000, guid: 3f3d17836a87ae942ac524d7020ac829, type: 2}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -1085,10 +1102,9 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips:
-  - 81e08dfeeab89440e932fd20432f6a9b
-  - 6f8793b53154e4e53841dbc43a59917c
+  - 7a1a4f4a8d8034d478139b1de62cf682
+  - 4006a92d0eb6fee4db124db38541b7fa
   importAnimation: 0
-  copyAvatar: 0
   humanDescription:
     serializedVersion: 3
     human:
@@ -1872,8 +1888,10 @@ ModelImporter:
     hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

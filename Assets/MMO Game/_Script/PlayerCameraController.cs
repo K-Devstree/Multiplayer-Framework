@@ -1,12 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public enum CameraPerspective
-{
-    ThirdPerson,
-    FirstPerson
-}
-
 public class PlayerCameraController : MonoBehaviour
 {
     [Header("Common Camera Settings")]
@@ -24,9 +18,9 @@ public class PlayerCameraController : MonoBehaviour
     public Animator CharacterAnimator;
 
     [Header("Camera Settings")]
-    public Vector3 FPP_CameraOffset = new Vector3(0f, 0.1f, 0.25f);
-    public Vector3 TPP_CameraOffset = new Vector3(0f, 1f, -1.25f);
-    public float TPP_CameraHeightOffset = 0.5f;
+    public Vector3 FPP_CameraOffset = new Vector3(0f, 2.25f, 0.5f);
+    public Vector3 TPP_CameraOffset = new Vector3(0f, 2.25f, -1.25f);
+    public float TPP_CameraHeightOffset = 2.25f;
     public Vector2 pitchMinMax = new Vector2(-40, 85);
     public float rotationSmoothTime = 10f;
     private Vector3 currentRotation;
@@ -51,7 +45,6 @@ public class PlayerCameraController : MonoBehaviour
 
 
 
-
     private void Start()
     {
         if (lockCursor && !useJoystick)
@@ -66,13 +59,17 @@ public class PlayerCameraController : MonoBehaviour
             Add_TPPCamPositionHelper();
         }
 
-        cameraModeText.text = "FPP";
+        if (cameraModeText != null)
+        {
+            cameraModeText.text = "FPP";
+        }
     }
     private void Add_FPPCamPositionHelper()
     {
         _fppCameraHelper = new GameObject().transform;
         _fppCameraHelper.name = "_fppCameraHelper";
-        _fppCameraHelper.SetParent(CharacterAnimator.GetBoneTransform(HumanBodyBones.Head));
+        //_fppCameraHelper.SetParent(CharacterAnimator.GetBoneTransform(HumanBodyBones.Head));
+        _fppCameraHelper.SetParent(CharacterControllerTransform);
         _fppCameraHelper.localPosition = Vector3.zero;
     }
     private void Add_TPPCamPositionHelper()
@@ -96,13 +93,19 @@ public class PlayerCameraController : MonoBehaviour
         {
             cameraPerspective = CameraPerspective.ThirdPerson;
             SetCameraHelperPosition_TPP();
-            cameraModeText.text = "FPP";
+            if (cameraModeText != null)
+            {
+                cameraModeText.text = "FPP";
+            }
         }
         else
         {
             cameraPerspective = CameraPerspective.FirstPerson;
             SetCameraHelperPosition_FPP();
-            cameraModeText.text = "TPP";
+            if (cameraModeText != null)
+            {
+                cameraModeText.text = "TPP";
+            }
         }
     }
     private void SetCameraHelperPosition_FPP()

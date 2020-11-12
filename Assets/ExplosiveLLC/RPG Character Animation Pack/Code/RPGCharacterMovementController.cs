@@ -87,7 +87,9 @@ namespace RPGCharacterAnims
             rpgCharacterState = RPGCharacterState.Idle;
         }
 
-        /*
+		#region Updates
+
+		/*
 		Update is normally run once on every frame update. We won't be using it in this case, since the SuperCharacterController component sends a callback Update called SuperUpdate. 
 		SuperUpdate is recieved by the SuperStateMachine, and then fires further callbacks depending on the state
 		void Update() 
@@ -95,8 +97,8 @@ namespace RPGCharacterAnims
 		}
 		*/
 
-        //Put any code in here you want to run BEFORE the state's update function. This is run regardless of what state you're in.
-        protected override void EarlyGlobalSuperUpdate()
+		//Put any code in here you want to run BEFORE the state's update function. This is run regardless of what state you're in.
+		protected override void EarlyGlobalSuperUpdate()
         {
         }
 
@@ -162,7 +164,7 @@ namespace RPGCharacterAnims
             else
             {	
 				//Rotate towards movement direction.
-                if(!rpgCharacterController.isStrafing)
+                if(!rpgCharacterController.isStrafing || rpgCharacterController.injured || isSprinting)
                 {
                     if(rpgCharacterInputController.HasMoveInput() && canMove)
                     {
@@ -177,7 +179,9 @@ namespace RPGCharacterAnims
             }
         }
 
-        private bool AcquiringGround()
+		#endregion
+
+		private bool AcquiringGround()
         {
             return superCharacterController.currentGround.IsGrounded(false, 0.01f);
         }
@@ -198,8 +202,10 @@ namespace RPGCharacterAnims
             return Mathf.Sqrt(2 * jumpHeight * gravity);
         }
 
-        //Below are the state functions. Each one is called based on the name of the state, so when currentState = Idle, we call Idle_EnterState. If currentState = Jump, we call Jump_SuperUpdate()
-        private void Idle_EnterState()
+		#region States
+
+		//Below are the state functions. Each one is called based on the name of the state, so when currentState = Idle, we call Idle_EnterState. If currentState = Jump, we call Jump_SuperUpdate()
+		private void Idle_EnterState()
         {
             superCharacterController.EnableSlopeLimit();
             superCharacterController.EnableClamping();
@@ -213,7 +219,7 @@ namespace RPGCharacterAnims
         private void Idle_SuperUpdate()
         {
             //If Jump.
-            if(rpgCharacterInputController.allowedInput && rpgCharacterInputController.inputJump)
+            if(rpgCharacterInputController.allowedInput && rpgCharacterController.Jump())
             {
                 currentState = RPGCharacterState.Jump;
                 rpgCharacterState = RPGCharacterState.Jump;
@@ -243,7 +249,7 @@ namespace RPGCharacterAnims
         private void Move_SuperUpdate()
         {
             //If Jump.
-            if(rpgCharacterInputController.allowedInput && rpgCharacterInputController.inputJump)
+            if(rpgCharacterInputController.allowedInput && rpgCharacterController.Jump())
             {
                 currentState = RPGCharacterState.Jump;
                 rpgCharacterState = RPGCharacterState.Jump;
@@ -299,39 +305,29 @@ namespace RPGCharacterAnims
             superCharacterController.DisableClamping();
             superCharacterController.DisableSlopeLimit();
             currentVelocity += superCharacterController.up * CalculateJumpSpeed(jumpHeight, gravity);
-            //Set weaponstate to Unarmed if Relaxed.
-            if(rpgCharacterController.weapon == Weapon.RELAX)
-            {
-                rpgCharacterController.weapon = Weapon.UNARMED;
-                animator.SetInteger("Weapon", 0);
-            }
             canJump = false;
             animator.SetInteger("Jumping", 1);
             animator.SetTrigger("JumpTrigger");
         }
 
-        private void Jump_SuperUpdate()
-        {
-            Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(superCharacterController.up, currentVelocity);
-            Vector3 verticalMoveDirection = currentVelocity - planarMoveDirection;
-            if(Vector3.Angle(verticalMoveDirection, superCharacterController.up) > 90 && AcquiringGround())
-            {
-                currentVelocity = planarMoveDirection;
-                currentState = RPGCharacterState.Idle;
-                rpgCharacterState = RPGCharacterState.Idle;
-                return;
-            }
-            planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, rpgCharacterInputController.moveInput * inAirSpeed, jumpAcceleration * superCharacterController.deltaTime);
-            verticalMoveDirection -= superCharacterController.up * gravity * superCharacterController.deltaTime;
-            currentVelocity = planarMoveDirection + verticalMoveDirection;
-            //Can double jump if starting to fall.
-            if(currentVelocity.y < 0)
-            {
-                DoubleJump();
-            }
-        }
+		private void Jump_SuperUpdate()
+		{
+			Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(superCharacterController.up, currentVelocity);
+			Vector3 verticalMoveDirection = currentVelocity - planarMoveDirection;
+			//Falling.
+			if(currentVelocity.y < 0)
+			{
+				currentVelocity = planarMoveDirection;
+				currentState = RPGCharacterState.Fall;
+				rpgCharacterState = RPGCharacterState.Fall;
+				return;
+			}
+			planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, rpgCharacterInputController.moveInput * inAirSpeed, jumpAcceleration * superCharacterController.deltaTime);
+			verticalMoveDirection -= superCharacterController.up * gravity * superCharacterController.deltaTime;
+			currentVelocity = planarMoveDirection + verticalMoveDirection;
+		}
 
-        private void DoubleJump_EnterState()
+		private void DoubleJump_EnterState()
         {
             currentVelocity += superCharacterController.up * CalculateJumpSpeed(doubleJumpHeight, gravity);
             canDoubleJump = false;
@@ -388,11 +384,11 @@ namespace RPGCharacterAnims
         {
             superCharacterController.DisableClamping();
             superCharacterController.DisableSlopeLimit();
-            animator.SetBool("Strafing", false);
             rpgCharacterController.isStrafing = false;
-            animator.SetBool("Aiming", false);
             rpgCharacterController.isAiming = false;
             rpgCharacterController.canAction = false;
+            animator.SetBool("Strafing", false);
+            animator.SetBool("Aiming", false);
             animator.SetTrigger("SwimTrigger");
             animator.SetBool("Swimming", true);
 			if(rpgCharacterController.rpgCharacterWeaponController != null)
@@ -433,37 +429,36 @@ namespace RPGCharacterAnims
             }
         }
 
-        public void SwimAscend()
+		private void ClimbLadder_EnterState()
+		{
+			if(capCollider != null)
+			{
+				capCollider.center = new Vector3(0, 0.75f, 0);
+			}
+		}
+
+		private void ClimbLadder_ExitState()
+		{
+			if(capCollider != null)
+			{
+				capCollider.center = new Vector3(0, 1.25f, 0);
+			}
+		}
+
+		#endregion
+
+		public void SwimAscend()
         {
             currentVelocity += superCharacterController.up * CalculateJumpSpeed(1, gravity);
+			animator.SetInteger("Action", 1);
             animator.SetTrigger("JumpTrigger");
         }
 
         public void SwimDescent()
         {
             currentVelocity -= superCharacterController.up * CalculateJumpSpeed(1, gravity);
-            animator.SetBool("Strafing", true);
-            animator.SetTrigger("JumpTrigger");
-        }
-
-        private void Roll_SuperUpdate()
-        {
-            if(rollNumber == 1)
-            {
-                currentVelocity = Vector3.MoveTowards(currentVelocity, transform.forward * rollSpeed, groundFriction * superCharacterController.deltaTime);
-            }
-            if(rollNumber == 2)
-            {
-                currentVelocity = Vector3.MoveTowards(currentVelocity, transform.right * rollSpeed, groundFriction * superCharacterController.deltaTime);
-            }
-            if(rollNumber == 3)
-            {
-                currentVelocity = Vector3.MoveTowards(currentVelocity, -transform.forward * rollSpeed, groundFriction * superCharacterController.deltaTime);
-            }
-            if(rollNumber == 4)
-            {
-                currentVelocity = Vector3.MoveTowards(currentVelocity, -transform.right * rollSpeed, groundFriction * superCharacterController.deltaTime);
-            }
+			animator.SetInteger("Action", 2);
+			animator.SetTrigger("JumpTrigger");
         }
 
         public void DirectionalRoll()
@@ -506,37 +501,14 @@ namespace RPGCharacterAnims
             rollNumber = roll;
             currentState = RPGCharacterState.Roll;
             rpgCharacterState = RPGCharacterState.Roll;
-            if(rpgCharacterController.weapon == Weapon.RELAX)
-            {
-                rpgCharacterController.weapon = Weapon.UNARMED;
-                animator.SetInteger("Weapon", 0);
-            }
             animator.SetInteger("Action", rollNumber);
             animator.SetTrigger("RollTrigger");
             isRolling = true;
-            rpgCharacterController.canAction = false;
-            yield return new WaitForSeconds(rollduration);
+			rpgCharacterController.Lock(true, true, true, 0, 0.5f);
+			yield return new WaitForSeconds(rollduration);
             isRolling = false;
-            rpgCharacterController.canAction = true;
             currentState = RPGCharacterState.Idle;
             rpgCharacterState = RPGCharacterState.Idle;
-        }
-
-        private void ClimbLadder_EnterState()
-        {
-            if(capCollider != null)
-            {
-                capCollider.center = new Vector3(0, 0.75f, 0);
-            }
-        }
-
-        private void ClimbLadder_ExitState()
-        {
-            SwitchCollisionOn();
-            if(capCollider != null)
-            {
-                capCollider.center = new Vector3(0, 1.25f, 0);
-            }
         }
 
         public void SwitchCollisionOff()

@@ -16,7 +16,6 @@ public class ColorPicker : MonoBehaviour
     public Vector2 offset;
 
     public UIControllerDEMO UIControllerDEMO;
-    public CharacterCustimization CharacterCustimizationInstance;
 
     public Canvas Canvas;
     private void Awake()
@@ -56,91 +55,27 @@ public class ColorPicker : MonoBehaviour
         _findColor = mainImage.sprite.texture.GetPixel( (int)-offset.x, 256 -(int)offset.y);
 
         if(_findColor.a == 1)
-        {
             colorPreview.color = _findColor;
-            if (CharacterCustimizationInstance)
-            {
-                if(CharacterCustimizationInstance.BodyPartColor=="skin")
-                {
-                    CursorPickSkin();
-                }
-                else if (CharacterCustimizationInstance.BodyPartColor == "Eye")
-                {
-                    CursorPickEye();
-                }
-                else if (CharacterCustimizationInstance.BodyPartColor == "hair")
-                {
-                    CursorPickHair();
-                }
-                else if (CharacterCustimizationInstance.BodyPartColor == "underwear")
-                {
-                    CursorPickUnderpants();
-                }
-            }
-        }  
     }
-
     public void CursorPickSkin()
     {
         if(_findColor.a == 1)
-        {
-            if(UIControllerDEMO)
-            {
-                UIControllerDEMO.SetNewSkinColor(_findColor);
-            }
-
-            if(CharacterCustimizationInstance)
-            {
-                CharacterCustimizationInstance.ApplySelectedSkinColor(_findColor);
-            }
-        }
+            UIControllerDEMO.SetNewSkinColor(_findColor);
     }
     public void CursorPickEye()
     {
         if (_findColor.a == 1)
-        {
-            if (UIControllerDEMO)
-            {
-                UIControllerDEMO.SetNewEyeColor(_findColor);
-            }
-
-            if (CharacterCustimizationInstance)
-            {
-                CharacterCustimizationInstance.ApplySelectedEyeColor(_findColor);
-            }
-        }
+            UIControllerDEMO.SetNewEyeColor(_findColor);
     }
     public void CursorPickHair()
     {
         if (_findColor.a == 1)
-        {
-            if (UIControllerDEMO)
-            {
-                UIControllerDEMO.SetNewHairColor(_findColor);
-            }
-
-            if (CharacterCustimizationInstance)
-            {
-                CharacterCustimizationInstance.ApplySelectedHairColor(_findColor);
-            }
-        }
-            
+            UIControllerDEMO.SetNewHairColor(_findColor);
     }
     public void CursorPickUnderpants()
     {
         if (_findColor.a == 1)
-        {
-            if (UIControllerDEMO)
-            {
-                UIControllerDEMO.SetNewUnderpantsColor(_findColor);
-            }
-
-            if (CharacterCustimizationInstance)
-            {
-                CharacterCustimizationInstance.ApplySelectedUnderwearColor(_findColor);
-            }
-        }
-            
+            UIControllerDEMO.SetNewUnderpantsColor(_findColor);
     }
     public void CursorExit()
     {

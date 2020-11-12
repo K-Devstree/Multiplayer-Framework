@@ -1,728 +1,248 @@
 fileFormatVersion: 2
-guid: df09f57ac2a4d45f6bed3a7e18ecbb14
+guid: 5b7306e93e9541841810ee2e4c548089
 ModelImporter:
-  serializedVersion: 26
-  internalIDToNameTable:
-  - first:
-      1: 100000
-    second: Chest
-  - first:
-      1: 100002
-    second: Chest 1
-  - first:
-      1: 100004
-    second: Clavicle.L
-  - first:
-      1: 100006
-    second: Clavicle.L 1
-  - first:
-      1: 100008
-    second: Clavicle.R
-  - first:
-      1: 100010
-    second: Clavicle.R 1
-  - first:
-      1: 100012
-    second: //RootNode
-  - first:
-      1: 100014
-    second: Foot.L
-  - first:
-      1: 100016
-    second: Foot.L 1
-  - first:
-      1: 100018
-    second: Foot.R
-  - first:
-      1: 100020
-    second: Foot.R 1
-  - first:
-      1: 100022
-    second: Forearm.L
-  - first:
-      1: 100024
-    second: Forearm.L 1
-  - first:
-      1: 100026
-    second: Forearm.R
-  - first:
-      1: 100028
-    second: Forearm.R 1
-  - first:
-      1: 100030
-    second: Hand.L
-  - first:
-      1: 100032
-    second: Hand.L 1
-  - first:
-      1: 100034
-    second: Hand.R
-  - first:
-      1: 100036
-    second: Hand.R 1
-  - first:
-      1: 100038
-    second: Head
-  - first:
-      1: 100040
-    second: Head 1
-  - first:
-      1: 100042
-    second: hips
-  - first:
-      1: 100044
-    second: hips.001
-  - first:
-      1: 100046
-    second: Index.1.L
-  - first:
-      1: 100048
-    second: Index.1.L 1
-  - first:
-      1: 100050
-    second: Index.1.R
-  - first:
-      1: 100052
-    second: Index.1.R 1
-  - first:
-      1: 100054
-    second: Index.2.L
-  - first:
-      1: 100056
-    second: Index.2.L 1
-  - first:
-      1: 100058
-    second: Index.2.R
-  - first:
-      1: 100060
-    second: Index.2.R 1
-  - first:
-      1: 100062
-    second: Index.3.L
-  - first:
-      1: 100064
-    second: Index.3.L 1
-  - first:
-      1: 100066
-    second: Index.3.R
-  - first:
-      1: 100068
-    second: Index.3.R 1
-  - first:
-      1: 100070
-    second: Little.1.L
-  - first:
-      1: 100072
-    second: Little.1.L 1
-  - first:
-      1: 100074
-    second: Little.1.R
-  - first:
-      1: 100076
-    second: Little.1.R 1
-  - first:
-      1: 100078
-    second: Little.2.R
-  - first:
-      1: 100080
-    second: Little.2.R 1
-  - first:
-      1: 100082
-    second: Little.3.L
-  - first:
-      1: 100084
-    second: Little.3.L 1
-  - first:
-      1: 100086
-    second: Little.3.R
-  - first:
-      1: 100088
-    second: Little.3.R 1
-  - first:
-      1: 100090
-    second: little_l_2
-  - first:
-      1: 100092
-    second: little_l_2 1
-  - first:
-      1: 100094
-    second: male_doctor_pants_1_lod2
-  - first:
-      1: 100096
-    second: male_doctor_shirt_1_lod2
-  - first:
-      1: 100098
-    second: male_doctor_shoes_1_lod2
-  - first:
-      1: 100100
-    second: Middle.1.L
-  - first:
-      1: 100102
-    second: Middle.1.L 1
-  - first:
-      1: 100104
-    second: Middle.1.R
-  - first:
-      1: 100106
-    second: Middle.1.R 1
-  - first:
-      1: 100108
-    second: Middle.2.L
-  - first:
-      1: 100110
-    second: Middle.2.L 1
-  - first:
-      1: 100112
-    second: Middle.2.R
-  - first:
-      1: 100114
-    second: Middle.2.R 1
-  - first:
-      1: 100116
-    second: Middle.3.L
-  - first:
-      1: 100118
-    second: Middle.3.L 1
-  - first:
-      1: 100120
-    second: Middle.3.R
-  - first:
-      1: 100122
-    second: Middle.3.R 1
-  - first:
-      1: 100124
-    second: Neck
-  - first:
-      1: 100126
-    second: Neck 1
-  - first:
-      1: 100128
-    second: Ring.1.L
-  - first:
-      1: 100130
-    second: Ring.1.L 1
-  - first:
-      1: 100132
-    second: Ring.1.R
-  - first:
-      1: 100134
-    second: Ring.1.R 1
-  - first:
-      1: 100136
-    second: Ring.2.L
-  - first:
-      1: 100138
-    second: Ring.2.L 1
-  - first:
-      1: 100140
-    second: Ring.2.R
-  - first:
-      1: 100142
-    second: Ring.2.R 1
-  - first:
-      1: 100144
-    second: Ring.3.L
-  - first:
-      1: 100146
-    second: Ring.3.L 1
-  - first:
-      1: 100148
-    second: Ring.3.R
-  - first:
-      1: 100150
-    second: Ring.3.R 1
-  - first:
-      1: 100152
-    second: Root
-  - first:
-      1: 100154
-    second: Root 1
-  - first:
-      1: 100156
-    second: Shin.L
-  - first:
-      1: 100158
-    second: Shin.L 1
-  - first:
-      1: 100160
-    second: Shin.R
-  - first:
-      1: 100162
-    second: Shin.R 1
-  - first:
-      1: 100164
-    second: Shoulder.L
-  - first:
-      1: 100166
-    second: Shoulder.L 1
-  - first:
-      1: 100168
-    second: Shoulder.R
-  - first:
-      1: 100170
-    second: Shoulder.R 1
-  - first:
-      1: 100172
-    second: Spine1
-  - first:
-      1: 100174
-    second: Spine1 1
-  - first:
-      1: 100176
-    second: Spine2
-  - first:
-      1: 100178
-    second: Spine2 1
-  - first:
-      1: 100180
-    second: Thigh.L
-  - first:
-      1: 100182
-    second: Thigh.L 1
-  - first:
-      1: 100184
-    second: Thigh.R
-  - first:
-      1: 100186
-    second: Thigh.R 1
-  - first:
-      1: 100188
-    second: Thumb.1.L
-  - first:
-      1: 100190
-    second: Thumb.1.L 1
-  - first:
-      1: 100192
-    second: Thumb.1.R
-  - first:
-      1: 100194
-    second: Thumb.1.R 1
-  - first:
-      1: 100196
-    second: Thumb.2.L
-  - first:
-      1: 100198
-    second: Thumb.2.L 1
-  - first:
-      1: 100200
-    second: Thumb.2.R
-  - first:
-      1: 100202
-    second: Thumb.2.R 1
-  - first:
-      1: 100204
-    second: Thumb.3.L
-  - first:
-      1: 100206
-    second: Thumb.3.L 1
-  - first:
-      1: 100208
-    second: Thumb.3.R
-  - first:
-      1: 100210
-    second: Thumb.3.R 1
-  - first:
-      1: 100212
-    second: Toe.L
-  - first:
-      1: 100214
-    second: Toe.L 1
-  - first:
-      1: 100216
-    second: Toe.R
-  - first:
-      1: 100218
-    second: Toe.R 1
-  - first:
-      1: 100220
-    second: female_doctor_pants_1_lod2
-  - first:
-      1: 100222
-    second: female_doctor_shirt_1_lod2
-  - first:
-      1: 100224
-    second: female_doctor_shoes_1_lod2
-  - first:
-      4: 400000
-    second: Chest
-  - first:
-      4: 400002
-    second: Chest 1
-  - first:
-      4: 400004
-    second: Clavicle.L
-  - first:
-      4: 400006
-    second: Clavicle.L 1
-  - first:
-      4: 400008
-    second: Clavicle.R
-  - first:
-      4: 400010
-    second: Clavicle.R 1
-  - first:
-      4: 400012
-    second: //RootNode
-  - first:
-      4: 400014
-    second: Foot.L
-  - first:
-      4: 400016
-    second: Foot.L 1
-  - first:
-      4: 400018
-    second: Foot.R
-  - first:
-      4: 400020
-    second: Foot.R 1
-  - first:
-      4: 400022
-    second: Forearm.L
-  - first:
-      4: 400024
-    second: Forearm.L 1
-  - first:
-      4: 400026
-    second: Forearm.R
-  - first:
-      4: 400028
-    second: Forearm.R 1
-  - first:
-      4: 400030
-    second: Hand.L
-  - first:
-      4: 400032
-    second: Hand.L 1
-  - first:
-      4: 400034
-    second: Hand.R
-  - first:
-      4: 400036
-    second: Hand.R 1
-  - first:
-      4: 400038
-    second: Head
-  - first:
-      4: 400040
-    second: Head 1
-  - first:
-      4: 400042
-    second: hips
-  - first:
-      4: 400044
-    second: hips.001
-  - first:
-      4: 400046
-    second: Index.1.L
-  - first:
-      4: 400048
-    second: Index.1.L 1
-  - first:
-      4: 400050
-    second: Index.1.R
-  - first:
-      4: 400052
-    second: Index.1.R 1
-  - first:
-      4: 400054
-    second: Index.2.L
-  - first:
-      4: 400056
-    second: Index.2.L 1
-  - first:
-      4: 400058
-    second: Index.2.R
-  - first:
-      4: 400060
-    second: Index.2.R 1
-  - first:
-      4: 400062
-    second: Index.3.L
-  - first:
-      4: 400064
-    second: Index.3.L 1
-  - first:
-      4: 400066
-    second: Index.3.R
-  - first:
-      4: 400068
-    second: Index.3.R 1
-  - first:
-      4: 400070
-    second: Little.1.L
-  - first:
-      4: 400072
-    second: Little.1.L 1
-  - first:
-      4: 400074
-    second: Little.1.R
-  - first:
-      4: 400076
-    second: Little.1.R 1
-  - first:
-      4: 400078
-    second: Little.2.R
-  - first:
-      4: 400080
-    second: Little.2.R 1
-  - first:
-      4: 400082
-    second: Little.3.L
-  - first:
-      4: 400084
-    second: Little.3.L 1
-  - first:
-      4: 400086
-    second: Little.3.R
-  - first:
-      4: 400088
-    second: Little.3.R 1
-  - first:
-      4: 400090
-    second: little_l_2
-  - first:
-      4: 400092
-    second: little_l_2 1
-  - first:
-      4: 400094
-    second: male_doctor_pants_1_lod2
-  - first:
-      4: 400096
-    second: male_doctor_shirt_1_lod2
-  - first:
-      4: 400098
-    second: male_doctor_shoes_1_lod2
-  - first:
-      4: 400100
-    second: Middle.1.L
-  - first:
-      4: 400102
-    second: Middle.1.L 1
-  - first:
-      4: 400104
-    second: Middle.1.R
-  - first:
-      4: 400106
-    second: Middle.1.R 1
-  - first:
-      4: 400108
-    second: Middle.2.L
-  - first:
-      4: 400110
-    second: Middle.2.L 1
-  - first:
-      4: 400112
-    second: Middle.2.R
-  - first:
-      4: 400114
-    second: Middle.2.R 1
-  - first:
-      4: 400116
-    second: Middle.3.L
-  - first:
-      4: 400118
-    second: Middle.3.L 1
-  - first:
-      4: 400120
-    second: Middle.3.R
-  - first:
-      4: 400122
-    second: Middle.3.R 1
-  - first:
-      4: 400124
-    second: Neck
-  - first:
-      4: 400126
-    second: Neck 1
-  - first:
-      4: 400128
-    second: Ring.1.L
-  - first:
-      4: 400130
-    second: Ring.1.L 1
-  - first:
-      4: 400132
-    second: Ring.1.R
-  - first:
-      4: 400134
-    second: Ring.1.R 1
-  - first:
-      4: 400136
-    second: Ring.2.L
-  - first:
-      4: 400138
-    second: Ring.2.L 1
-  - first:
-      4: 400140
-    second: Ring.2.R
-  - first:
-      4: 400142
-    second: Ring.2.R 1
-  - first:
-      4: 400144
-    second: Ring.3.L
-  - first:
-      4: 400146
-    second: Ring.3.L 1
-  - first:
-      4: 400148
-    second: Ring.3.R
-  - first:
-      4: 400150
-    second: Ring.3.R 1
-  - first:
-      4: 400152
-    second: Root
-  - first:
-      4: 400154
-    second: Root 1
-  - first:
-      4: 400156
-    second: Shin.L
-  - first:
-      4: 400158
-    second: Shin.L 1
-  - first:
-      4: 400160
-    second: Shin.R
-  - first:
-      4: 400162
-    second: Shin.R 1
-  - first:
-      4: 400164
-    second: Shoulder.L
-  - first:
-      4: 400166
-    second: Shoulder.L 1
-  - first:
-      4: 400168
-    second: Shoulder.R
-  - first:
-      4: 400170
-    second: Shoulder.R 1
-  - first:
-      4: 400172
-    second: Spine1
-  - first:
-      4: 400174
-    second: Spine1 1
-  - first:
-      4: 400176
-    second: Spine2
-  - first:
-      4: 400178
-    second: Spine2 1
-  - first:
-      4: 400180
-    second: Thigh.L
-  - first:
-      4: 400182
-    second: Thigh.L 1
-  - first:
-      4: 400184
-    second: Thigh.R
-  - first:
-      4: 400186
-    second: Thigh.R 1
-  - first:
-      4: 400188
-    second: Thumb.1.L
-  - first:
-      4: 400190
-    second: Thumb.1.L 1
-  - first:
-      4: 400192
-    second: Thumb.1.R
-  - first:
-      4: 400194
-    second: Thumb.1.R 1
-  - first:
-      4: 400196
-    second: Thumb.2.L
-  - first:
-      4: 400198
-    second: Thumb.2.L 1
-  - first:
-      4: 400200
-    second: Thumb.2.R
-  - first:
-      4: 400202
-    second: Thumb.2.R 1
-  - first:
-      4: 400204
-    second: Thumb.3.L
-  - first:
-      4: 400206
-    second: Thumb.3.L 1
-  - first:
-      4: 400208
-    second: Thumb.3.R
-  - first:
-      4: 400210
-    second: Thumb.3.R 1
-  - first:
-      4: 400212
-    second: Toe.L
-  - first:
-      4: 400214
-    second: Toe.L 1
-  - first:
-      4: 400216
-    second: Toe.R
-  - first:
-      4: 400218
-    second: Toe.R 1
-  - first:
-      4: 400220
-    second: female_doctor_pants_1_lod2
-  - first:
-      4: 400222
-    second: female_doctor_shirt_1_lod2
-  - first:
-      4: 400224
-    second: female_doctor_shoes_1_lod2
-  - first:
-      21: 2100000
-    second: Palette.001
-  - first:
-      43: 4300000
-    second: male_doctor_pants_1_lod2
-  - first:
-      43: 4300002
-    second: male_doctor_shirt_1_lod2
-  - first:
-      43: 4300004
-    second: male_doctor_shoes_1_lod2
-  - first:
-      43: 4300006
-    second: female_doctor_pants_1_lod2
-  - first:
-      43: 4300008
-    second: female_doctor_shirt_1_lod2
-  - first:
-      43: 4300010
-    second: female_doctor_shoes_1_lod2
-  - first:
-      95: 9500000
-    second: //RootNode
-  - first:
-      137: 13700000
-    second: male_doctor_pants_1_lod2
-  - first:
-      137: 13700002
-    second: male_doctor_shirt_1_lod2
-  - first:
-      137: 13700004
-    second: male_doctor_shoes_1_lod2
-  - first:
-      137: 13700006
-    second: female_doctor_pants_1_lod2
-  - first:
-      137: 13700008
-    second: female_doctor_shirt_1_lod2
-  - first:
-      137: 13700010
-    second: female_doctor_shoes_1_lod2
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Chest
+    100002: Chest 1
+    100004: Clavicle.L
+    100006: Clavicle.L 1
+    100008: Clavicle.R
+    100010: Clavicle.R 1
+    100012: //RootNode
+    100014: Foot.L
+    100016: Foot.L 1
+    100018: Foot.R
+    100020: Foot.R 1
+    100022: Forearm.L
+    100024: Forearm.L 1
+    100026: Forearm.R
+    100028: Forearm.R 1
+    100030: Hand.L
+    100032: Hand.L 1
+    100034: Hand.R
+    100036: Hand.R 1
+    100038: Head
+    100040: Head 1
+    100042: hips
+    100044: hips.001
+    100046: Index.1.L
+    100048: Index.1.L 1
+    100050: Index.1.R
+    100052: Index.1.R 1
+    100054: Index.2.L
+    100056: Index.2.L 1
+    100058: Index.2.R
+    100060: Index.2.R 1
+    100062: Index.3.L
+    100064: Index.3.L 1
+    100066: Index.3.R
+    100068: Index.3.R 1
+    100070: Little.1.L
+    100072: Little.1.L 1
+    100074: Little.1.R
+    100076: Little.1.R 1
+    100078: Little.2.R
+    100080: Little.2.R 1
+    100082: Little.3.L
+    100084: Little.3.L 1
+    100086: Little.3.R
+    100088: Little.3.R 1
+    100090: little_l_2
+    100092: little_l_2 1
+    100094: male_doctor_pants_1_lod2
+    100096: male_doctor_shirt_1_lod2
+    100098: male_doctor_shoes_1_lod2
+    100100: Middle.1.L
+    100102: Middle.1.L 1
+    100104: Middle.1.R
+    100106: Middle.1.R 1
+    100108: Middle.2.L
+    100110: Middle.2.L 1
+    100112: Middle.2.R
+    100114: Middle.2.R 1
+    100116: Middle.3.L
+    100118: Middle.3.L 1
+    100120: Middle.3.R
+    100122: Middle.3.R 1
+    100124: Neck
+    100126: Neck 1
+    100128: Ring.1.L
+    100130: Ring.1.L 1
+    100132: Ring.1.R
+    100134: Ring.1.R 1
+    100136: Ring.2.L
+    100138: Ring.2.L 1
+    100140: Ring.2.R
+    100142: Ring.2.R 1
+    100144: Ring.3.L
+    100146: Ring.3.L 1
+    100148: Ring.3.R
+    100150: Ring.3.R 1
+    100152: Root
+    100154: Root 1
+    100156: Shin.L
+    100158: Shin.L 1
+    100160: Shin.R
+    100162: Shin.R 1
+    100164: Shoulder.L
+    100166: Shoulder.L 1
+    100168: Shoulder.R
+    100170: Shoulder.R 1
+    100172: Spine1
+    100174: Spine1 1
+    100176: Spine2
+    100178: Spine2 1
+    100180: Thigh.L
+    100182: Thigh.L 1
+    100184: Thigh.R
+    100186: Thigh.R 1
+    100188: Thumb.1.L
+    100190: Thumb.1.L 1
+    100192: Thumb.1.R
+    100194: Thumb.1.R 1
+    100196: Thumb.2.L
+    100198: Thumb.2.L 1
+    100200: Thumb.2.R
+    100202: Thumb.2.R 1
+    100204: Thumb.3.L
+    100206: Thumb.3.L 1
+    100208: Thumb.3.R
+    100210: Thumb.3.R 1
+    100212: Toe.L
+    100214: Toe.L 1
+    100216: Toe.R
+    100218: Toe.R 1
+    100220: female_doctor_pants_1_lod2
+    100222: female_doctor_shirt_1_lod2
+    100224: female_doctor_shoes_1_lod2
+    400000: Chest
+    400002: Chest 1
+    400004: Clavicle.L
+    400006: Clavicle.L 1
+    400008: Clavicle.R
+    400010: Clavicle.R 1
+    400012: //RootNode
+    400014: Foot.L
+    400016: Foot.L 1
+    400018: Foot.R
+    400020: Foot.R 1
+    400022: Forearm.L
+    400024: Forearm.L 1
+    400026: Forearm.R
+    400028: Forearm.R 1
+    400030: Hand.L
+    400032: Hand.L 1
+    400034: Hand.R
+    400036: Hand.R 1
+    400038: Head
+    400040: Head 1
+    400042: hips
+    400044: hips.001
+    400046: Index.1.L
+    400048: Index.1.L 1
+    400050: Index.1.R
+    400052: Index.1.R 1
+    400054: Index.2.L
+    400056: Index.2.L 1
+    400058: Index.2.R
+    400060: Index.2.R 1
+    400062: Index.3.L
+    400064: Index.3.L 1
+    400066: Index.3.R
+    400068: Index.3.R 1
+    400070: Little.1.L
+    400072: Little.1.L 1
+    400074: Little.1.R
+    400076: Little.1.R 1
+    400078: Little.2.R
+    400080: Little.2.R 1
+    400082: Little.3.L
+    400084: Little.3.L 1
+    400086: Little.3.R
+    400088: Little.3.R 1
+    400090: little_l_2
+    400092: little_l_2 1
+    400094: male_doctor_pants_1_lod2
+    400096: male_doctor_shirt_1_lod2
+    400098: male_doctor_shoes_1_lod2
+    400100: Middle.1.L
+    400102: Middle.1.L 1
+    400104: Middle.1.R
+    400106: Middle.1.R 1
+    400108: Middle.2.L
+    400110: Middle.2.L 1
+    400112: Middle.2.R
+    400114: Middle.2.R 1
+    400116: Middle.3.L
+    400118: Middle.3.L 1
+    400120: Middle.3.R
+    400122: Middle.3.R 1
+    400124: Neck
+    400126: Neck 1
+    400128: Ring.1.L
+    400130: Ring.1.L 1
+    400132: Ring.1.R
+    400134: Ring.1.R 1
+    400136: Ring.2.L
+    400138: Ring.2.L 1
+    400140: Ring.2.R
+    400142: Ring.2.R 1
+    400144: Ring.3.L
+    400146: Ring.3.L 1
+    400148: Ring.3.R
+    400150: Ring.3.R 1
+    400152: Root
+    400154: Root 1
+    400156: Shin.L
+    400158: Shin.L 1
+    400160: Shin.R
+    400162: Shin.R 1
+    400164: Shoulder.L
+    400166: Shoulder.L 1
+    400168: Shoulder.R
+    400170: Shoulder.R 1
+    400172: Spine1
+    400174: Spine1 1
+    400176: Spine2
+    400178: Spine2 1
+    400180: Thigh.L
+    400182: Thigh.L 1
+    400184: Thigh.R
+    400186: Thigh.R 1
+    400188: Thumb.1.L
+    400190: Thumb.1.L 1
+    400192: Thumb.1.R
+    400194: Thumb.1.R 1
+    400196: Thumb.2.L
+    400198: Thumb.2.L 1
+    400200: Thumb.2.R
+    400202: Thumb.2.R 1
+    400204: Thumb.3.L
+    400206: Thumb.3.L 1
+    400208: Thumb.3.R
+    400210: Thumb.3.R 1
+    400212: Toe.L
+    400214: Toe.L 1
+    400216: Toe.R
+    400218: Toe.R 1
+    400220: female_doctor_pants_1_lod2
+    400222: female_doctor_shirt_1_lod2
+    400224: female_doctor_shoes_1_lod2
+    2100000: Palette.001
+    4300000: male_doctor_pants_1_lod2
+    4300002: male_doctor_shirt_1_lod2
+    4300004: male_doctor_shoes_1_lod2
+    4300006: female_doctor_pants_1_lod2
+    4300008: female_doctor_shirt_1_lod2
+    4300010: female_doctor_shoes_1_lod2
+    9500000: //RootNode
+    13700000: male_doctor_pants_1_lod2
+    13700002: male_doctor_shirt_1_lod2
+    13700004: male_doctor_shoes_1_lod2
+    13700006: female_doctor_pants_1_lod2
+    13700008: female_doctor_shirt_1_lod2
+    13700010: female_doctor_shoes_1_lod2
   externalObjects: {}
   materials:
     importMaterials: 0
@@ -758,7 +278,6 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
-    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -766,19 +285,18 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
+    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
-    skinWeightsMode: 0
-    maxBonesPerVertex: 4
-    minBoneWeight: 0.001
-    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -787,11 +305,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
-  referencedClips: []
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
-    serializedVersion: 3
+    serializedVersion: 2
     human: []
     skeleton: []
     armTwist: 0.5
@@ -801,7 +318,6 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

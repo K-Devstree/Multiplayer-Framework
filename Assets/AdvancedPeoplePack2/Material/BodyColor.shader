@@ -6,7 +6,10 @@
 		_EyeColor("EyeColor", Color) = (0,0,0,0)
 		_HairColor("HairColor", Color) = (0,0,0,0)
 		_UnderpantsColor("UnderPantsColor", Color) = (0,0,0,0)
+		_OralCavityColor("OralCavityColor", Color) = (0,0,0,0)
+		_TeethColor("TeethColor", Color) = (0,0,0,0)
 		_Glossiness("Smoothness", Range(0,1)) = 0.0
+		_Saturation("Saturation", Range(0,2)) = 1.0
 		[HideInInspector] _texcoord("", 2D) = "white" {}
 		[HideInInspector] __dirty("", Int) = 1
 	}
@@ -28,19 +31,33 @@
 			uniform float4 _EyeColor;
 			uniform float4 _HairColor;
 			uniform float4 _UnderpantsColor;
+			uniform float4 _OralCavityColor;
+			uniform float4 _TeethColor;
 			uniform half _Glossiness;
+			uniform half _Saturation;
 
-
-			float4 GetColor(float4 SkinColor , float4 EyeColor , float4 HairColor , float4 UnderPantsColor , float XOffset , float YOffset)
+			float4 GetColor(float4 SkinColor , float4 EyeColor , float4 HairColor , float4 UnderPantsColor, float4 OralCavityColor, float4 TeethColor, float XOffset , float YOffset)
 			{
-				if (XOffset > 0.75)
-				return SkinColor * YOffset;
+				if (XOffset > 0.75) {
+					if (YOffset < 0.05)
+						return OralCavityColor;
+					else if (YOffset < 0.1)
+						return TeethColor;
+					else
+						return SkinColor * YOffset;
+				}
 				else if (XOffset < 0.75 && XOffset > 0.5)
 				return EyeColor * YOffset;
 				else if (XOffset < 0.5 && XOffset > 0.25)
 				return HairColor * YOffset;
 				else
 				return UnderPantsColor * YOffset;
+			}
+
+			void Unity_Saturation_float(float3 In, float Saturation, out float3 Out)
+			{
+				float luma = dot(In, float3(0.2126729, 0.7151522, 0.0721750));
+				Out = luma.xxx + Saturation.xxx * (In - luma.xxx);
 			}
 
 			#pragma instancing_options assumeuniformscaling
@@ -50,13 +67,13 @@
 
 			void surf(Input i , inout SurfaceOutputStandard o)
 			{
-				float4 SkinColor = _SkinColor;
-				float4 EyeColor = _EyeColor;
-				float4 HairColor = _HairColor;
-				float4 UnderPantsColor = _UnderpantsColor;
 				float XOffset = (i.uv_texcoord).x;
 				float YOffset = (i.uv_texcoord).y;
-				float4 localGetColor = GetColor(SkinColor , EyeColor , HairColor , _UnderpantsColor, XOffset , YOffset);
+
+				float3 localGetColor = GetColor(_SkinColor, _EyeColor, _HairColor, _UnderpantsColor, _OralCavityColor, _TeethColor, XOffset , YOffset);
+
+				Unity_Saturation_float(localGetColor, _Saturation, localGetColor);
+
 				o.Albedo = localGetColor.xyz;
 				o.Smoothness = _Glossiness;
 				o.Alpha = 1;

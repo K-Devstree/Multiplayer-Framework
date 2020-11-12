@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: 85799ae6cb2d3463b9f0377704a503ae
+guid: f208e2b9a0069b44a98be3b86862128e
 ModelImporter:
-  serializedVersion: 26
+  serializedVersion: 19300
   internalIDToNameTable:
   - first:
       1: 100000
@@ -401,7 +401,7 @@ ModelImporter:
     second: male_hair_10
   externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -464,10 +464,9 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips:
-  - 81e08dfeeab89440e932fd20432f6a9b
-  - 6f8793b53154e4e53841dbc43a59917c
+  - 7a1a4f4a8d8034d478139b1de62cf682
+  - 4006a92d0eb6fee4db124db38541b7fa
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
     serializedVersion: 3
     human: []
@@ -485,8 +484,10 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

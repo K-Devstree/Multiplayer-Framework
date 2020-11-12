@@ -36,6 +36,7 @@ public class UIControllerDEMO : MonoBehaviour
     public Slider[] faceShapeSliders;
 
     public RectTransform HairPanel;
+    public RectTransform BeardPanel;
     public RectTransform ShirtPanel;
     public RectTransform PantsPanel;
     public RectTransform ShoesPanel;
@@ -49,6 +50,8 @@ public class UIControllerDEMO : MonoBehaviour
     public RectTransform EyeColorPanel;
     public RectTransform HairColorPanel;
     public RectTransform UnderpantsColorPanel;
+
+    public RectTransform EmotionsPanel;
 
     public Image SkinColorButtonColor;
     public Image EyeColorButtonColor;
@@ -110,10 +113,9 @@ public class UIControllerDEMO : MonoBehaviour
     {
         CharacterCustomization.SetBodyShape(CharacterCustomization.BodyShapeType.BreastSize, breastSlider.value, 
             new string[] { "Chest", "Stomach", "Head" }, 
-            new CharacterCustomization.ClothesPartType[] { CharacterCustomization.ClothesPartType.TShirt }
+            new CharacterCustomization.ClothesPartType[] { CharacterCustomization.ClothesPartType.Shirt }
             );
     }
-
     public void SetHeight()
     {
         CharacterCustomization.SetHeight(heightSlider.value);
@@ -135,7 +137,6 @@ public class UIControllerDEMO : MonoBehaviour
 
         CharacterCustomization.ForceLOD(lodIndex);
     }
-
     public void SetNewSkinColor(Color color)
     {
         SkinColorButtonColor.color = color;
@@ -156,7 +157,6 @@ public class UIControllerDEMO : MonoBehaviour
         UnderpantsColorButtonColor.color = color;
         CharacterCustomization.SetBodyColor(CharacterCustomization.BodyColorPart.Underpants, color);
     }
-
     public void VisibleSkinColorPanel(bool v)
     {
         HideAllPanels();
@@ -185,7 +185,6 @@ public class UIControllerDEMO : MonoBehaviour
         else
             ShirtPanel.gameObject.SetActive(true);
     }
-
     public void PantsPanel_Select(bool v)
     {
         HideAllPanels();
@@ -194,7 +193,6 @@ public class UIControllerDEMO : MonoBehaviour
         else
             PantsPanel.gameObject.SetActive(true);
     }
-
     public void ShoesPanel_Select(bool v)
     {
         HideAllPanels();
@@ -203,7 +201,6 @@ public class UIControllerDEMO : MonoBehaviour
         else
             ShoesPanel.gameObject.SetActive(true);
     }
-
     public void HairPanel_Select(bool v)
     {
         HideAllPanels();
@@ -214,7 +211,16 @@ public class UIControllerDEMO : MonoBehaviour
 
         currentPanelIndex = (v) ? 1 : 0;
     }
+    public void BeardPanel_Select(bool v)
+    {
+        HideAllPanels();
+        if (!v)
+            BeardPanel.gameObject.SetActive(false);
+        else
+            BeardPanel.gameObject.SetActive(true);
 
+        currentPanelIndex = (v) ? 1 : 0;
+    }
     public void HatPanel_Select(bool v)
     {
         HideAllPanels();
@@ -224,7 +230,15 @@ public class UIControllerDEMO : MonoBehaviour
             HatPanel.gameObject.SetActive(true);
         currentPanelIndex = (v) ? 1 : 0;
     }
-
+    public void EmotionsPanel_Select(bool v)
+    {
+        HideAllPanels();
+        if (!v)
+            EmotionsPanel.gameObject.SetActive(false);
+        else
+            EmotionsPanel.gameObject.SetActive(true);
+        currentPanelIndex = (v) ? 1 : 0;
+    }
     public void AccessoryPanel_Select(bool v)
     {
         HideAllPanels();
@@ -234,44 +248,50 @@ public class UIControllerDEMO : MonoBehaviour
             AccessoryPanel.gameObject.SetActive(true);
         currentPanelIndex = (v) ? 1 : 0;
     }
-
+    public void EmotionsChange_Event(int index)
+    {
+        var emotion = CharacterCustomization.emotionPresets[index];
+        if(emotion != null)
+        CharacterCustomization.PlayEmotion(emotion.name, 2f);
+    }
     public void HairChange_Event(int index)
     {
         CharacterCustomization.SetHairByIndex(index);
     }
-
+    public void BeardChange_Event(int index)
+    {
+        CharacterCustomization.SetBeardByIndex(index);
+    }
     public void ShirtChange_Event(int index)
     {
-        CharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.TShirt, index);
+        CharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Shirt, index);
     }
-
     public void PantsChange_Event(int index)
     {
         CharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Pants, index);
     }
-
     public void ShoesChange_Event(int index)
     {
         CharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Shoes, index);
     }
-
     public void HatChange_Event(int index)
     {
         CharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Hat, index);
     }
-
     public void AccessoryChange_Event(int index)
     {
         CharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Accessory, index);
     }
-
     public void HideAllPanels()
     {
         SkinColorPanel.gameObject.SetActive(false);
         EyeColorPanel.gameObject.SetActive(false);
         HairColorPanel.gameObject.SetActive(false);
         UnderpantsColorPanel.gameObject.SetActive(false);
-
+        if(EmotionsPanel != null)
+            EmotionsPanel.gameObject.SetActive(false);
+        if (BeardPanel != null)
+            BeardPanel.gameObject.SetActive(false);
         HairPanel.gameObject.SetActive(false);
         ShirtPanel.gameObject.SetActive(false);
         PantsPanel.gameObject.SetActive(false);
@@ -281,8 +301,6 @@ public class UIControllerDEMO : MonoBehaviour
 
         currentPanelIndex = 0;
     }
-
-
     public void BakeCharacter()
     {
         if (CharacterCustomization.IsBaked())
@@ -296,21 +314,17 @@ public class UIControllerDEMO : MonoBehaviour
             bake_text.text = "CLEAR";
         }
     }
-
     bool walk_active = false;
     public void PlayAnim()
     {
         walk_active = !walk_active;
 
-        foreach(Animator a in CharacterCustomization.animators)
+        foreach(Animator a in CharacterCustomization.GetAnimators())
             a.SetBool("walk", walk_active);
 
         playbutton_text.text = (walk_active) ? "STOP" : "PLAY";
     }
-
-
     #endregion
-
 
     bool canvasVisible = true;
     private void Update()
