@@ -1,2 +1,10 @@
 ﻿info@wyrr.me
 Wyrr1234
+
+1. scene optimisation - done
+2. character persist
+3. minimap - done
+4. footwear correction
+
+1. IK fix
+2. Animations

@@ -24,7 +24,10 @@ public class PlayerMovementController : MonoBehaviour
     private float vInput;
 
     [Header("Animator and Parameters")]
-    public Animator CharacterAnimator;
+    public GameObject CharacterAnimatorGO;
+    private Animator CharacterAnimator;
+    public Avatar MaleAvatar;
+    public Avatar FemaleAvatar;
     private float HorzAnimation;
     private float VertAnimation;
     private bool JumpAnimation;
@@ -43,6 +46,8 @@ public class PlayerMovementController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         _audioSource = gameObject.AddComponent<AudioSource>();
+        CharacterAnimator = CharacterAnimatorGO.GetComponent<Animator>();
+        //CharacterAnimator.avatar = CharacterAvatar;
     }
 
     void Update()
