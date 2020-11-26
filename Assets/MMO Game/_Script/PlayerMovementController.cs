@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
 {
+    [Header("Character Customization")]
+    public CharacterCustomization MaleCharacterCustomization;
+    public CharacterCustomization FemaleCharacterCustomization;
+
     [Header("Player")]
     public string horizontalAxis = "Horizontal";
     public string verticalAxis = "Vertical";
@@ -47,7 +51,23 @@ public class PlayerMovementController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         _audioSource = gameObject.AddComponent<AudioSource>();
         CharacterAnimator = CharacterAnimatorGO.GetComponent<Animator>();
-        //CharacterAnimator.avatar = CharacterAvatar;
+
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            CharacterAnimator.avatar = MaleAvatar;
+            MaleCharacterCustomization.gameObject.SetActive(true);
+            FemaleCharacterCustomization.gameObject.SetActive(false);
+            MaleCharacterCustomization.StartupSerializationApplied = Constants.MaleSetting;
+            MaleCharacterCustomization.StartupSerializationApply();
+        }
+        else
+        {
+            CharacterAnimator.avatar = FemaleAvatar;
+            MaleCharacterCustomization.gameObject.SetActive(false);
+            FemaleCharacterCustomization.gameObject.SetActive(true);
+            FemaleCharacterCustomization.StartupSerializationApplied = Constants.FemaleSetting;
+            FemaleCharacterCustomization.StartupSerializationApply();
+        }
     }
 
     void Update()

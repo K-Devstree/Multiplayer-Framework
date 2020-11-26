@@ -30,13 +30,10 @@ namespace RPGCharacterAnims
 
 		public void WeaponSwitch()
 		{
-            if (rpgCharacterController != null)
-            {
-                if (rpgCharacterController.rpgCharacterWeaponController != null)
-                {
-                    rpgCharacterController.rpgCharacterWeaponController.WeaponSwitch();
-                }
-            }
+			if(rpgCharacterController.rpgCharacterWeaponController != null)
+			{
+				rpgCharacterController.rpgCharacterWeaponController.WeaponSwitch();
+			}
 		}
 	}
 }

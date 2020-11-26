@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Constants
 {
-    
+    public static int SelectedCharacterModel;
+    public static string MaleSetting;
+    public static string FemaleSetting;
 }
 
 public enum CameraPerspective

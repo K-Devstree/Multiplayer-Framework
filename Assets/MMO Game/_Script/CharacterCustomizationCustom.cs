@@ -1,15 +1,16 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CharacterCustomizationCustom : MonoBehaviour
 {
+    [Header("##### Character Customization #####")]
     public CharacterBaseClass CharacterBaseClassInstance;
-    [Header("######## SCREENS ##########")]
-    public GameObject[] MaleItemsScreen;
-    public int SelectedCharacterModel;
+    public CharacterCustomization MaleCharacterCustomization;
+    public CharacterCustomization FemaleCharacterCustomization;
 
-    [Header("######## ZOOM ##########")]
+    [Header("##### ZOOM #####")]
     public bool CanZoom = false;
     public GameObject Camera;
     public GameObject CameraZoomInPosition;
@@ -20,6 +21,36 @@ public class CharacterCustomizationCustom : MonoBehaviour
     void Start()
     {
         ShowSelectedModel(0);
+    }
+
+    public void ShowSelectedModel(int ModelIndex)
+    {
+        Constants.SelectedCharacterModel = ModelIndex;
+
+        for (int i = 0; i < 2; i++)
+        {
+            CharacterBaseClassInstance.CharacterMainInstance[i].MainOptionScreen.SetActive(false);
+
+            for (int j = 0; j < CharacterBaseClassInstance.CharacterMainInstance[i].SubOptionScreen.Length; j++)
+            {
+                CharacterBaseClassInstance.CharacterMainInstance[i].SubOptionScreen[j].SetActive(false);
+            }
+        }
+
+        CanZoom = false;
+        CharacterBaseClassInstance.CharacterMainInstance[Constants.SelectedCharacterModel].MainOptionScreen.SetActive(true);
+
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            MaleCharacterCustomization.gameObject.SetActive(true);
+            FemaleCharacterCustomization.gameObject.SetActive(false);
+        }
+        else
+        {
+            MaleCharacterCustomization.gameObject.SetActive(false);
+            FemaleCharacterCustomization.gameObject.SetActive(true);
+        }
+
         ApplySelectedHair(-1);
         ApplySelectedHat(-1);
         ApplySelectedAccessory(-1);
@@ -31,26 +62,13 @@ public class CharacterCustomizationCustom : MonoBehaviour
         ApplySelectedHairColor(Color.black);
         ApplySelectedUnderwearColor(Color.white);
         ApplySelectedHeadSize(0);
+        ApplySelectedHeadOffset(0);
         ApplySelectedHeight(0);
-        ApplySelectedBodyShape("Muscles");
-    }
-
-    public void ShowSelectedModel(int ModelIndex)
-    {
-        SelectedCharacterModel = ModelIndex;
-        for (int i = 0; i < 2; i++)
-        {
-            CharacterBaseClassInstance.CharacterMainInstance[i].Characters.SetActive(false);
-            CharacterBaseClassInstance.CharacterMainInstance[i].MainOptionScreen.SetActive(false);
-
-            for (int j = 0; j < CharacterBaseClassInstance.CharacterMainInstance[i].SubOptionScreen.Length; j++)
-            {
-                CharacterBaseClassInstance.CharacterMainInstance[i].SubOptionScreen[j].SetActive(false);
-            }
-        }
-        CanZoom = false;
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].Characters.SetActive(true);
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].MainOptionScreen.SetActive(true);
+        ApplySelectedBodyFat(0);
+        ApplySelectedBodyMuscles(0);
+        ApplySelectedBodyThin(0);
+        ApplySelectedBodySlimness(0);
+        ApplySelectedBodyBreast(0);
     }
 
     public void Open_SelectedOptionScreen(int ScreenIndex)
@@ -64,244 +82,256 @@ public class CharacterCustomizationCustom : MonoBehaviour
             CanZoom = false;
         }
 
-        for (int i = 0; i < CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].SubOptionScreen.Length; i++)
+        for (int i = 0; i < CharacterBaseClassInstance.CharacterMainInstance[Constants.SelectedCharacterModel].SubOptionScreen.Length; i++)
         {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].SubOptionScreen[i].SetActive(false);
+            CharacterBaseClassInstance.CharacterMainInstance[Constants.SelectedCharacterModel].SubOptionScreen[i].SetActive(false);
         }
 
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].SubOptionScreen[ScreenIndex].SetActive(true);
+        CharacterBaseClassInstance.CharacterMainInstance[Constants.SelectedCharacterModel].SubOptionScreen[ScreenIndex].SetActive(true);
 
         if (ScreenIndex == 0)
         {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].MainOptionScreen.SetActive(false);
+            CharacterBaseClassInstance.CharacterMainInstance[Constants.SelectedCharacterModel].MainOptionScreen.SetActive(false);
         }
     }
 
     public void Close_FaceOptionScreen()
     {
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].SubOptionScreen[0].SetActive(false);
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].MainOptionScreen.SetActive(true);
+        CharacterBaseClassInstance.CharacterMainInstance[Constants.SelectedCharacterModel].SubOptionScreen[0].SetActive(false);
+        CharacterBaseClassInstance.CharacterMainInstance[Constants.SelectedCharacterModel].MainOptionScreen.SetActive(true);
         CanZoom = false;
     }
 
-    public void ApplySelectedHair(int HairIndex)
+    public void ApplySelectedHair(int index)
     {
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].SelectedHairIndex = HairIndex;
-        if (HairIndex == -1)
+        if (Constants.SelectedCharacterModel == 0)
         {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[0].sharedMesh = null;
+            MaleCharacterCustomization.SetHairByIndex(index);
         }
         else
         {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[0].sharedMesh =
-                 CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].HairMesh[HairIndex];
-            SynchHeadOffset(0);
+            FemaleCharacterCustomization.SetHairByIndex(index);
         }
     }
 
-    public void ApplySelectedHat(int HatIndex)
+    public void ApplySelectedHat(int index)
     {
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].SelectedHatIndex = HatIndex;
-        if (HatIndex == -1)
+        if (Constants.SelectedCharacterModel == 0)
         {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[1].sharedMesh = null;
+            MaleCharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Hat, index);
         }
         else
         {
-            ApplySelectedHair(-1);
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[1].sharedMesh =
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].HatMesh[HatIndex];
-            SynchHeadOffset(1);
+            FemaleCharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Hat, index);
         }
     }
 
-    public void ApplySelectedAccessory(int AccessoryIndex)
+    public void ApplySelectedAccessory(int index)
     {
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].SelectedAccessoryIndex = AccessoryIndex;
-        if (AccessoryIndex == -1)
+        if (Constants.SelectedCharacterModel == 0)
         {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[2].sharedMesh = null;
+            MaleCharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Accessory, index);
         }
         else
         {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[2].sharedMesh =
-                    CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AccessoryMesh[AccessoryIndex];
-            SynchHeadOffset(2);
+            FemaleCharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Accessory, index);
         }
     }
 
-    void SynchHeadOffset(int OutFitIndex)
+    public void ApplySelectedShirts(int index)
     {
-        if (SelectedCharacterModel == 0)
+        if (Constants.SelectedCharacterModel == 0)
         {
-            var HeadOffset_index = CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[OutFitIndex]
-                            .sharedMesh.GetBlendShapeIndex("Head_Offset");
-            if (HeadOffset_index != -1)
-            {
-                CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[OutFitIndex].SetBlendShapeWeight
-                    (HeadOffset_index, CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].HeadOffsetValue);
-            }
-        }
-    }
-
-    public void ApplySelectedShirts(int ShirtIndex)
-    {
-        if (ShirtIndex == -1)
-        {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[3].sharedMesh = null;
+            MaleCharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Shirt, index);
         }
         else
         {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[3].sharedMesh =
-                    CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].ShirtMesh[ShirtIndex];
-            SynchOutfitWithBodyShape(3);
+            FemaleCharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Shirt, index);
         }
     }
 
-    public void ApplySelectedPants(int PantIndex)
+    public void ApplySelectedPants(int index)
     {
-        if (PantIndex == -1)
+        if (Constants.SelectedCharacterModel == 0)
         {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[4].sharedMesh = null;
+            MaleCharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Pants, index);
         }
         else
         {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[4].sharedMesh =
-                    CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].PantMesh[PantIndex];
-            SynchOutfitWithBodyShape(4);
+            FemaleCharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Pants, index);
         }
     }
 
-    public void ApplySelectedShoes(int ShoesIndex)
+    public void ApplySelectedShoes(int index)
     {
-        if (ShoesIndex == -1)
+        if (Constants.SelectedCharacterModel == 0)
         {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[5].sharedMesh = null;
+            MaleCharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Shoes, index);
         }
         else
         {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[5].sharedMesh =
-                    CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].ShoesMesh[ShoesIndex];
-            SynchOutfitWithBodyShape(5);
-        }
-    }
-
-    void SynchOutfitWithBodyShape(int OutFitIndex)
-    {
-        if (SelectedCharacterModel == 0)
-        {
-            var Fat_index = CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[OutFitIndex]
-                            .sharedMesh.GetBlendShapeIndex("Fat");
-            if (Fat_index != -1)
-            {
-                CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[OutFitIndex].SetBlendShapeWeight
-                    (Fat_index, CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].FatValue);
-            }
-
-            var Muscles_index = CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[OutFitIndex]
-                           .sharedMesh.GetBlendShapeIndex("Muscles");
-            if (Muscles_index != -1)
-            {
-                CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[OutFitIndex].SetBlendShapeWeight
-                    (Muscles_index, CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].MusclesValue);
-            }
-
-            var Thin_index = CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[OutFitIndex]
-                           .sharedMesh.GetBlendShapeIndex("Thin");
-            if (Thin_index != -1)
-            {
-                CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[OutFitIndex].SetBlendShapeWeight
-                    (Thin_index, CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].ThinValue);
-            }
+            FemaleCharacterCustomization.SetElementByIndex(CharacterCustomization.ClothesPartType.Shoes, index);
         }
     }
 
     public void ApplySelectedSkinColor(Color color)
     {
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].BodyMaterial.SetColor("_SkinColor", color);
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            MaleCharacterCustomization.SetBodyColor(CharacterCustomization.BodyColorPart.Skin, color);
+        }
+        else
+        {
+            FemaleCharacterCustomization.SetBodyColor(CharacterCustomization.BodyColorPart.Skin, color);
+        }
     }
 
     public void ApplySelectedEyeColor(Color color)
     {
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].BodyMaterial.SetColor("_EyeColor", color);
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            MaleCharacterCustomization.SetBodyColor(CharacterCustomization.BodyColorPart.Eye, color);
+        }
+        else
+        {
+            FemaleCharacterCustomization.SetBodyColor(CharacterCustomization.BodyColorPart.Eye, color);
+        }
     }
 
     public void ApplySelectedHairColor(Color color)
     {
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].BodyMaterial.SetColor("_HairColor", color);
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            MaleCharacterCustomization.SetBodyColor(CharacterCustomization.BodyColorPart.Hair, color);
+        }
+        else
+        {
+            FemaleCharacterCustomization.SetBodyColor(CharacterCustomization.BodyColorPart.Hair, color);
+        }
     }
 
     public void ApplySelectedUnderwearColor(Color color)
     {
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].BodyMaterial.SetColor("_UnderpantsColor", color);
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            MaleCharacterCustomization.SetBodyColor(CharacterCustomization.BodyColorPart.Underpants, color);
+        }
+        else
+        {
+            FemaleCharacterCustomization.SetBodyColor(CharacterCustomization.BodyColorPart.Underpants, color);
+        }
     }
 
-    public void ApplySelectedHeadSize(float sizevalue)
+    public void ApplySelectedHeadSize(float sizeValue)
     {
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].HeadSizeValue = sizevalue;
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].HeadHip.localScale = Vector3.one + Vector3.one * sizevalue;
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            MaleCharacterCustomization.SetHeadSize(sizeValue);
+        }
+        else
+        {
+            FemaleCharacterCustomization.SetHeadSize(sizeValue);
+        }
+    }
+
+    public void ApplySelectedHeadOffset(float offsetValue)
+    {
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            MaleCharacterCustomization.SetHeadOffset(offsetValue);
+        }
+        else
+        {
+            FemaleCharacterCustomization.SetHeadOffset(offsetValue);
+        }
     }
 
     public void ApplySelectedHeight(float heightValue)
     {
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].HeightValue = heightValue;
-        Vector3 ScaleValue = new Vector3(1 + heightValue / 2, 1 + heightValue, 1 + heightValue);
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].BodyHip.localScale = ScaleValue;
-    }
-
-    public void ApplySelectedBodyShape(string TypeName)
-    {
-        float TypeSliderValue = 0;
-        if (TypeName == "Fat")
+        if (Constants.SelectedCharacterModel == 0)
         {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].FatValue =
-                CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].FatSlider.value;
-            TypeSliderValue = CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].FatSlider.value;
+            MaleCharacterCustomization.SetHeight(heightValue);
         }
-        else if (TypeName == "Muscles" || TypeName == "BreastSize")
+        else
         {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].MusclesValue =
-                CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].MusclesSlider.value;
-            TypeSliderValue = CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].MusclesSlider.value;
-        }
-        else if (TypeName == "Thin" || TypeName == "Slimness")
-        {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].ThinValue =
-                 CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].ThinSlider.value;
-            TypeSliderValue = CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].ThinSlider.value;
-        }
-        else if (TypeName == "Head_Offset")
-        {
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].HeadOffsetValue =
-                 CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].HeadOffsetSlider.value;
-            TypeSliderValue = CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].HeadOffsetSlider.value;
-        }
-
-        for (int j = 0; j < CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer.Length; j++)
-        {
-            if (CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[j].sharedMesh != null)
-            {
-                for (var k = 0; k < CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[j].sharedMesh.blendShapeCount; k++)
-                {
-                    if (TypeName == CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[j].sharedMesh.GetBlendShapeName(k))
-                    {
-                        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[j].SetBlendShapeWeight(
-                            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[j].sharedMesh.GetBlendShapeIndex(TypeName), TypeSliderValue);
-                    }
-                }
-            }
+            FemaleCharacterCustomization.SetHeight(heightValue);
         }
     }
 
-    public void SetFaceShape(int FaceShapeIndex)
+    public void ApplySelectedBodyFat(float fatValue)
     {
-        float FaceTypeSliderValue =
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].FaceDataInstance[FaceShapeIndex].FaceShapeSliders.value;
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            MaleCharacterCustomization.SetBodyShape(CharacterCustomization.BodyShapeType.Fat, fatValue);
+        }
+        else
+        {
+            FemaleCharacterCustomization.SetBodyShape(CharacterCustomization.BodyShapeType.Fat, fatValue);
+        }
+    }
+    public void ApplySelectedBodyMuscles(float musclesValue)
+    {
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            MaleCharacterCustomization.SetBodyShape(CharacterCustomization.BodyShapeType.Muscles, musclesValue);
+        }
+        else
+        {
+            //FemaleCharacterCustomization.SetBodyShape(CharacterCustomization.BodyShapeType.Muscles, musclesValue);
+        }
+    }
+    public void ApplySelectedBodyThin(float thinValue)
+    {
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            MaleCharacterCustomization.SetBodyShape(CharacterCustomization.BodyShapeType.Thin, thinValue);
+        }
+        else
+        {
+            //FemaleCharacterCustomization.SetBodyShape(CharacterCustomization.BodyShapeType.Thin, thinValue);
+        }
+    }
+    public void ApplySelectedBodySlimness(float slimValue)
+    {
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            //MaleCharacterCustomization.SetBodyShape(CharacterCustomization.BodyShapeType.Slimness, slimValue);
+        }
+        else
+        {
+            FemaleCharacterCustomization.SetBodyShape(CharacterCustomization.BodyShapeType.Slimness, slimValue);
+        }
+    }
+    public void ApplySelectedBodyBreast(float breastValue)
+    {
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            //MaleCharacterCustomization.SetBodyShape(CharacterCustomization.BodyShapeType.BreastSize, breastValue,
+            //    new string[] { "Chest", "Stomach", "Head" },
+            //    new CharacterCustomization.ClothesPartType[] { CharacterCustomization.ClothesPartType.Shirt }
+            //    );
+        }
+        else
+        {
+            FemaleCharacterCustomization.SetBodyShape(CharacterCustomization.BodyShapeType.BreastSize, breastValue,
+                new string[] { "Chest", "Stomach", "Head" },
+                new CharacterCustomization.ClothesPartType[] { CharacterCustomization.ClothesPartType.Shirt }
+                );
+        }
+    }
 
-        int Blendshape_index =
-            CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].FaceDataInstance[FaceShapeIndex].FaceBlendShapeIndex;
+    public void SetFaceShape(int index)
+    {
+        float sliderValue = CharacterBaseClassInstance.CharacterMainInstance[Constants.SelectedCharacterModel].FaceShapeSliders[index].value;
 
-        CharacterBaseClassInstance.CharacterMainInstance[SelectedCharacterModel].AllSkinnedMeshRenderer[10].SetBlendShapeWeight(Blendshape_index, FaceTypeSliderValue);
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            MaleCharacterCustomization.SetFaceShape((CharacterCustomization.FaceShapeType)(index), sliderValue);
+        }
+        else
+        {
+            FemaleCharacterCustomization.SetFaceShape((CharacterCustomization.FaceShapeType)(index), sliderValue);
+        }
     }
 
     private void Update()
@@ -315,6 +345,19 @@ public class CharacterCustomizationCustom : MonoBehaviour
             Camera.transform.position = Vector3.Lerp(Camera.transform.position, CameraOutPosition.transform.position, 0.1f);
         }
     }
+
+    public void PlayGame()
+    {
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            Constants.MaleSetting = MaleCharacterCustomization.GetSetup().SerializeToJson();
+        }
+        else
+        {
+            Constants.FemaleSetting = FemaleCharacterCustomization.GetSetup().SerializeToJson();
+        }
+        SceneManager.LoadScene("Game Scene Battle Royale");
+    }
 }
 
 
@@ -327,65 +370,9 @@ public class CharacterBaseClass
 [Serializable]
 public class CharacterMain
 {
-    public SkinnedMeshRenderer[] AllSkinnedMeshRenderer;
-    public int SelectedHairIndex;
-    public int SelectedHatIndex;
-    public int SelectedAccessoryIndex;
-    public float HeadSizeValue;
-    public float HeadOffsetValue;
-    public float HeightValue;
-    public float FatValue;
-    public float MusclesValue;
-    public float ThinValue;
-
-    //public SkinnedMeshRenderer HairRenderer;       //0
-    //public SkinnedMeshRenderer HatRenderer;        //1
-    //public SkinnedMeshRenderer AccessoryRenderer;  //2
-    //public SkinnedMeshRenderer ShirtRenderer;      //3
-    //public SkinnedMeshRenderer PantRenderer;       //4
-    //public SkinnedMeshRenderer ShoesRenderer;      //5
-    //public SkinnedMeshRenderer arms;               //6
-    //public SkinnedMeshRenderer chest;             //7
-    //public SkinnedMeshRenderer foot;          //8
-    //public SkinnedMeshRenderer hands;         //9
-    //public SkinnedMeshRenderer head;          //10
-    //public SkinnedMeshRenderer hip;           //11
-    //public SkinnedMeshRenderer legs;          //12
-    //public SkinnedMeshRenderer shin_lower;    //13
-    //public SkinnedMeshRenderer shin_upper;    //14
-    //public SkinnedMeshRenderer shoulders;     //15
-    //public SkinnedMeshRenderer stomack;       //16
-
-
     public string CharacterName;
-    public GameObject Characters;
+    public GameObject CharacterGameObject;
     public GameObject MainOptionScreen;
     public GameObject[] SubOptionScreen;
-
-    public Mesh[] HairMesh;
-    public Mesh[] HatMesh;
-    public Mesh[] AccessoryMesh;
-    public Mesh[] ShirtMesh;
-    public Mesh[] PantMesh;
-    public Mesh[] ShoesMesh;
-    public Material BodyMaterial;
-
-
-    public Transform HeadHip;
-    //public Slider HeadSizeSlider;   //hips in rig structure
-    public Slider HeadOffsetSlider;
-    public Transform BodyHip;
-    //public Slider HeightSlider;
-    public Slider FatSlider;
-    public Slider MusclesSlider;
-    public Slider ThinSlider;
-    public FaceData[] FaceDataInstance;
-}
-
-[Serializable]
-public class FaceData
-{
-    public string FaceShapeName;
-    public int FaceBlendShapeIndex;
-    public Slider FaceShapeSliders;
+    public Slider[] FaceShapeSliders;
 }

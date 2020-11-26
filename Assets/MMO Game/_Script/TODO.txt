@@ -2,9 +2,9 @@
 Wyrr1234
 
 1. scene optimisation - done
-2. character persist
+2. character persist - done
 3. minimap - done
-4. footwear correction
+4. footwear correction - done
 
 1. IK fix
 2. Animations
