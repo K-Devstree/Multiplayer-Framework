@@ -90,7 +90,8 @@ namespace RPGCharacterAnims
             //Debug.Log("Switch Weapon: " + weaponNumber);
             if(instantWeaponSwitch)
             {
-                StartCoroutine(_InstantWeaponSwitch(weaponNumber));
+				StartCoroutine(_HideAllWeapons(false, false));
+				StartCoroutine(_InstantWeaponSwitch(weaponNumber));
                 yield break;
             }
             //If is Unarmed/Relax.
@@ -588,11 +589,12 @@ namespace RPGCharacterAnims
 			{
 				animator.SetInteger("Weapon", weaponNumber);
 				rightWeapon = 0;
-				leftWeapon = 0;
-				animator.SetInteger("LeftWeapon", 0);
+				leftWeapon = weaponNumber;
+				animator.SetInteger("LeftWeapon", weaponNumber);
 				animator.SetInteger("RightWeapon", 0);
 				StartCoroutine(_HideAllWeapons(false, false));
 				StartCoroutine(_WeaponVisibility(weaponNumber, true, false));
+				animator.SetInteger("WeaponSwitch", 0);
 			}
 			//Switching to Unarmed or Relax.
 			else

@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 113275548}
   - component: {fileID: 113275547}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Cube2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -501,9 +501,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1336504444}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce67779a7d7718843b3aac198cbe2463, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a5a6afaf80069348aa068ae586fb3ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawMeshTreeOnStart: 0
 --- !u!64 &1336504446
 MeshCollider:
   m_ObjectHideFlags: 0

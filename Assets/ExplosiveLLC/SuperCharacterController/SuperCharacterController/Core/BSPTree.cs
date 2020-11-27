@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
@@ -8,8 +7,8 @@ using System.Collections.Generic;
 /// point
 /// </summary>
 [RequireComponent(typeof(MeshCollider))]
-public class BSPTree : MonoBehaviour {
-
+public class BSPTree : MonoBehaviour
+{
     [SerializeField]
     bool drawMeshTreeOnStart;
 
@@ -176,12 +175,18 @@ public class BSPTree : MonoBehaviour {
 
         Vector3 partitionNormal;
 
-        if (extentsMagnitude.x >= extentsMagnitude.y && extentsMagnitude.x >= extentsMagnitude.z)
-            partitionNormal = Vector3.right;
-        else if (extentsMagnitude.y >= extentsMagnitude.x && extentsMagnitude.y >= extentsMagnitude.z)
-            partitionNormal = Vector3.up;
-        else
-            partitionNormal = Vector3.forward;
+		if(extentsMagnitude.x >= extentsMagnitude.y && extentsMagnitude.x >= extentsMagnitude.z)
+		{
+			partitionNormal = Vector3.right;
+		}
+		else if(extentsMagnitude.y >= extentsMagnitude.x && extentsMagnitude.y >= extentsMagnitude.z)
+		{
+			partitionNormal = Vector3.up;
+		}
+		else
+		{
+			partitionNormal = Vector3.forward;
+		}
 
         List<int> positiveTriangles;
         List<int> negativeTriangles;

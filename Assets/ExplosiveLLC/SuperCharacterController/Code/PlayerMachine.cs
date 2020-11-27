@@ -1,13 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-/*
- * Example implementation of the SuperStateMachine and SuperCharacterController
- */
+//Example implementation of the SuperStateMachine and SuperCharacterController
 [RequireComponent(typeof(SuperCharacterController))]
 [RequireComponent(typeof(PlayerInputController))]
-public class PlayerMachine : SuperStateMachine {
-
+public class PlayerMachine : SuperStateMachine
+{
     public Transform AnimatedMesh;
 
     public float WalkSpeed = 4.0f;
@@ -28,9 +25,8 @@ public class PlayerMachine : SuperStateMachine {
 
     private PlayerInputController input;
 
-	void Start () {
-	    // Put any code here you want to run ONCE, when the object is initialized
-
+	void Start()
+	{
         input = gameObject.GetComponent<PlayerInputController>();
 
         // Grab the controller object from our object
@@ -86,15 +82,14 @@ public class PlayerMachine : SuperStateMachine {
     private Vector3 LocalMovement()
     {
         Vector3 right = Vector3.Cross(controller.up, lookDirection);
-
         Vector3 local = Vector3.zero;
 
-        if (input.Current.MoveInput.x != 0)
+        if(input.Current.MoveInput.x != 0)
         {
             local += right * input.Current.MoveInput.x;
         }
 
-        if (input.Current.MoveInput.z != 0)
+        if(input.Current.MoveInput.z != 0)
         {
             local += lookDirection * input.Current.MoveInput.z;
         }
@@ -124,23 +119,22 @@ public class PlayerMachine : SuperStateMachine {
         controller.EnableClamping();
     }
 
+    // Run every frame we are in the idle state
     void Idle_SuperUpdate()
     {
-        // Run every frame we are in the idle state
-
-        if (input.Current.JumpInput)
+        if(input.Current.JumpInput)
         {
             currentState = PlayerStates.Jump;
             return;
         }
 
-        if (!MaintainingGround())
+        if(!MaintainingGround())
         {
             currentState = PlayerStates.Fall;
             return;
         }
 
-        if (input.Current.MoveInput != Vector3.zero)
+        if(input.Current.MoveInput != Vector3.zero)
         {
             currentState = PlayerStates.Walk;
             return;
@@ -150,26 +144,26 @@ public class PlayerMachine : SuperStateMachine {
         moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, 10.0f * controller.deltaTime);
     }
 
+    // Run once when we exit the idle state
     void Idle_ExitState()
     {
-        // Run once when we exit the idle state
     }
 
     void Walk_SuperUpdate()
     {
-        if (input.Current.JumpInput)
+        if(input.Current.JumpInput)
         {
             currentState = PlayerStates.Jump;
             return;
         }
 
-        if (!MaintainingGround())
+        if(!MaintainingGround())
         {
             currentState = PlayerStates.Fall;
             return;
         }
 
-        if (input.Current.MoveInput != Vector3.zero)
+        if(input.Current.MoveInput != Vector3.zero)
         {
             moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * WalkSpeed, WalkAcceleration * controller.deltaTime);
         }
@@ -193,7 +187,7 @@ public class PlayerMachine : SuperStateMachine {
         Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
         Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
 
-        if (Vector3.Angle(verticalMoveDirection, controller.up) > 90 && AcquiringGround())
+        if(Vector3.Angle(verticalMoveDirection, controller.up) > 90 && AcquiringGround())
         {
             moveDirection = planarMoveDirection;
             currentState = PlayerStates.Idle;
@@ -210,13 +204,11 @@ public class PlayerMachine : SuperStateMachine {
     {
         controller.DisableClamping();
         controller.DisableSlopeLimit();
-
-        // moveDirection = trueVelocity;
     }
 
     void Fall_SuperUpdate()
     {
-        if (AcquiringGround())
+        if(AcquiringGround())
         {
             moveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
             currentState = PlayerStates.Idle;

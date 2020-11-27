@@ -325,12 +325,29 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 155713397}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &155713402 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 9500000, guid: 1b8f3f34252d9ee44823ab05504b31a8,
+--- !u!1 &155713402 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100056, guid: 1b8f3f34252d9ee44823ab05504b31a8,
     type: 3}
   m_PrefabInstance: {fileID: 155713397}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &155713403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155713402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23f93422e3e033e4aa4d80c9c8d0d939, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHandObj: {fileID: 155713399}
+  attachLeft: {fileID: 0}
+  canBeUsed: 0
+  leftHandPositionWeight: 0
+  leftHandRotationWeight: 0
 --- !u!1001 &295695224
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2771,7 +2788,8 @@ PrefabInstance:
       propertyPath: m_TargetObject
       value: 
       objectReference: {fileID: 1689768675}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1885862582, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
 --- !u!1 &1927989063
 GameObject:
@@ -2788,7 +2806,6 @@ GameObject:
   - component: {fileID: 1927989073}
   - component: {fileID: 1927989072}
   - component: {fileID: 1927989071}
-  - component: {fileID: 1927989069}
   - component: {fileID: 1927989068}
   - component: {fileID: 1927989067}
   m_Layer: 0
@@ -2856,24 +2873,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &1927989069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1927989063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23f93422e3e033e4aa4d80c9c8d0d939, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 155713402}
-  leftHandObj: {fileID: 155713399}
-  attachLeft: {fileID: 0}
-  canBeUsed: 0
-  leftHandPositionWeight: 0
-  leftHandRotationWeight: 0
 --- !u!114 &1927989071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2923,30 +2922,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f8445ce871a9b46b22d4812ecda9b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 0}
   rpgCharacterState: 0
+  navMeshAgent: {fileID: 0}
   useMeshNav: 0
   isKnockback: 0
   knockbackMultiplier: 1
-  canJump: 0
-  canDoubleJump: 0
   gravity: 25
   jumpAcceleration: 5
   jumpHeight: 3
   doubleJumpHeight: 4
-  currentVelocity: {x: 0, y: 0, z: 0}
-  isMoving: 0
-  canMove: 1
-  crouch: 0
-  isSprinting: 0
+  canJump: 0
+  canDoubleJump: 0
   movementAcceleration: 90
   walkSpeed: 4
   runSpeed: 7
   sprintSpeed: 12
   groundFriction: 50
-  isRolling: 0
+  currentVelocity: {x: 0, y: 0, z: 0}
+  isMoving: 0
+  canMove: 1
+  crouch: 0
+  isSprinting: 0
   rollSpeed: 8
   rollduration: 0.35
+  isRolling: 0
   inAirSpeed: 6
   swimSpeed: 4
   waterFriction: 3
@@ -2962,6 +2961,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b02b01da8792e143b1a29f8aa2b8168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputAiming: {x: 0, y: 0}
+  inputMovement: {x: 0, y: 0}
   inputJump: 0
   inputLightHit: 0
   inputDeath: 0
@@ -2973,17 +2974,11 @@ MonoBehaviour:
   inputSwitchLeftRight: 0
   inputBlock: 0
   inputTarget: 0
-  inputAimVertical: 0
-  inputAimHorizontal: 0
-  inputHorizontal: 0
-  inputVertical: 0
-  inputAiming: 0
   inputRoll: 0
   inputShield: 0
   inputRelax: 0
   allowedInput: 0
   moveInput: {x: 0, y: 0, z: 0}
-  aimInput: {x: 0, y: 0}
 --- !u!114 &1927989074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3003,6 +2998,7 @@ MonoBehaviour:
   ikHands: {fileID: 0}
   weapon: 8
   target: {fileID: 1689768675}
+  headLook: 1
   isDead: 0
   canBlock: 1
   isBlocking: 0
@@ -3014,15 +3010,15 @@ MonoBehaviour:
   ladder: {fileID: 0}
   cliff: {fileID: 0}
   isCasting: 0
-  isAiming: 0
-  isStrafing: 0
+  isFacing: 0
+  isTargeting: 0
   injured: 0
   hipShooting: 1
   specialAttack: 0
   aimHorizontal: 0
   aimVertical: 0
   bowPull: 0
-  headLook: 1
+  isAiming: 0
   numberOfConversationClips: 8
   animationSpeed: 1
 --- !u!114 &1927989075

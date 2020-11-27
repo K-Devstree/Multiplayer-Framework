@@ -1,14 +1,12 @@
-﻿// With a little help from UnityGems
-using UnityEngine;
+﻿using UnityEngine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
 /// State machine model that recieves SuperUpdate messages from the SuperCharacterController
 /// </summary>
-public class SuperStateMachine : MonoBehaviour {
-
+public class SuperStateMachine : MonoBehaviour
+{
     protected float timeEnteredState;
 
     public class State
@@ -30,7 +28,7 @@ public class SuperStateMachine : MonoBehaviour {
         }
         set
         {
-            if (state.currentState == value)
+            if(state.currentState == value)
                 return;
 
             ChangingState();
@@ -54,7 +52,7 @@ public class SuperStateMachine : MonoBehaviour {
     /// </summary>
     void ConfigureCurrentState()
     {
-        if (state.exitState != null)
+        if(state.exitState != null)
         {
             state.exitState();
         }
@@ -64,7 +62,7 @@ public class SuperStateMachine : MonoBehaviour {
         state.enterState = ConfigureDelegate<Action>("EnterState", DoNothing);
         state.exitState = ConfigureDelegate<Action>("ExitState", DoNothing);
 
-        if (state.enterState != null)
+        if(state.enterState != null)
         {
             state.enterState();
         }
@@ -83,17 +81,17 @@ public class SuperStateMachine : MonoBehaviour {
     {
 
         Dictionary<string, Delegate> lookup;
-        if (!_cache.TryGetValue(state.currentState, out lookup))
+        if(!_cache.TryGetValue(state.currentState, out lookup))
         {
             _cache[state.currentState] = lookup = new Dictionary<string, Delegate>();
         }
         Delegate returnValue;
-        if (!lookup.TryGetValue(methodRoot, out returnValue))
+        if(!lookup.TryGetValue(methodRoot, out returnValue))
         {
             var mtd = GetType().GetMethod(state.currentState.ToString() + "_" + methodRoot, System.Reflection.BindingFlags.Instance
                 | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.InvokeMethod);
 
-            if (mtd != null)
+            if(mtd != null)
             {
                 returnValue = Delegate.CreateDelegate(typeof(T), this, mtd);
             }

@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public static class SuperMath {
-
+public static class SuperMath
+{
     public static Vector3 ClampAngleOnPlane(Vector3 origin, Vector3 direction, float angle, Vector3 planeNormal)
     {
         float a = Vector3.Angle(origin, direction);
 
-        if (a < angle)
-            return direction;
+		if(a < angle)
+		{
+			return direction;
+		}
 
         Vector3 r = Vector3.Cross(planeNormal, origin);
 
@@ -27,9 +28,9 @@ public static class SuperMath {
     /// <param name="t">Signifies where along the approximated curve the value should fall</param>
     public static float BoundedInterpolation(float[] bounds, float[] values, float t)
     {
-        for (int i = 0; i < bounds.Length; i++)
+        for(int i = 0; i < bounds.Length; i++)
         {
-            if (t < bounds[i])
+            if(t < bounds[i])
             {
                 return values[i];
             }
@@ -54,10 +55,14 @@ public static class SuperMath {
 
     public static float ClampAngle(float angle)
     {
-        if (angle < -360F)
-            angle += 360F;
-        if (angle > 360F)
-            angle -= 360F;
+		if(angle < -360F)
+		{
+			angle += 360F;
+		}
+		if(angle > 360F)
+		{
+			angle -= 360F;
+		}
         return angle;
     }
 

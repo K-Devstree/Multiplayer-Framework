@@ -1,16 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System;
 
 public class Math3d : MonoBehaviour
 {
-
     private static Transform tempChild = null;
     private static Transform tempParent = null;
 
     public static void Init()
     {
-
         tempChild = (new GameObject("Math3d_TempChild")).transform;
         tempParent = (new GameObject("Math3d_TempParent")).transform;
 
@@ -24,11 +21,9 @@ public class Math3d : MonoBehaviour
         tempChild.parent = tempParent;
     }
 
-
     //increase or decrease the length of vector by size
     public static Vector3 AddVectorLength(Vector3 vector, float size)
     {
-
         //get the vector length
         float magnitude = Vector3.Magnitude(vector);
 
@@ -45,7 +40,6 @@ public class Math3d : MonoBehaviour
     //create a vector of direction "vector" with length "size"
     public static Vector3 SetVectorLength(Vector3 vector, float size)
     {
-
         //normalize the vector
         Vector3 vectorNormalized = Vector3.Normalize(vector);
 
@@ -57,7 +51,6 @@ public class Math3d : MonoBehaviour
     //caclulate the rotational difference from A to B
     public static Quaternion SubtractRotation(Quaternion B, Quaternion A)
     {
-
         Quaternion C = Quaternion.Inverse(A) * B;
         return C;
     }
@@ -67,7 +60,6 @@ public class Math3d : MonoBehaviour
     //the function outputs true, otherwise false.
     public static bool PlanePlaneIntersection(out Vector3 linePoint, out Vector3 lineVec, Vector3 plane1Normal, Vector3 plane1Position, Vector3 plane2Normal, Vector3 plane2Position)
     {
-
         linePoint = Vector3.zero;
         lineVec = Vector3.zero;
 
@@ -85,16 +77,14 @@ public class Math3d : MonoBehaviour
         float denominator = Vector3.Dot(plane1Normal, ldir);
 
         //Prevent divide by zero and rounding errors by requiring about 5 degrees angle between the planes.
-        if (Mathf.Abs(denominator) > 0.006f)
+        if(Mathf.Abs(denominator) > 0.006f)
         {
-
             Vector3 plane1ToPlane2 = plane1Position - plane2Position;
             float t = Vector3.Dot(plane1Normal, plane1ToPlane2) / denominator;
             linePoint = plane2Position + t * ldir;
 
             return true;
         }
-
         //output not valid
         else
         {
@@ -106,7 +96,6 @@ public class Math3d : MonoBehaviour
     //If the line and plane are not parallel, the function outputs true, otherwise false.
     public static bool LinePlaneIntersection(out Vector3 intersection, Vector3 linePoint, Vector3 lineVec, Vector3 planeNormal, Vector3 planePoint)
     {
-
         float length;
         float dotNumerator;
         float dotDenominator;
@@ -118,7 +107,7 @@ public class Math3d : MonoBehaviour
         dotDenominator = Vector3.Dot(lineVec, planeNormal);
 
         //line and plane are not parallel
-        if (dotDenominator != 0.0f)
+        if(dotDenominator != 0.0f)
         {
             length = dotNumerator / dotDenominator;
 
@@ -130,7 +119,6 @@ public class Math3d : MonoBehaviour
 
             return true;
         }
-
         //output not valid
         else
         {
@@ -143,7 +131,6 @@ public class Math3d : MonoBehaviour
     //same plane, use ClosestPointsOnTwoLines() instead.
     public static bool LineLineIntersection(out Vector3 intersection, Vector3 linePoint1, Vector3 lineVec1, Vector3 linePoint2, Vector3 lineVec2)
     {
-
         intersection = Vector3.zero;
 
         Vector3 lineVec3 = linePoint2 - linePoint1;
@@ -153,7 +140,7 @@ public class Math3d : MonoBehaviour
         float planarFactor = Vector3.Dot(lineVec3, crossVec1and2);
 
         //Lines are not coplanar. Take into account rounding errors.
-        if ((planarFactor >= 0.00001f) || (planarFactor <= -0.00001f))
+        if((planarFactor >= 0.00001f) || (planarFactor <= -0.00001f))
         {
 
             return false;
@@ -162,13 +149,12 @@ public class Math3d : MonoBehaviour
         //Note: sqrMagnitude does x*x+y*y+z*z on the input vector.
         float s = Vector3.Dot(crossVec3and2, crossVec1and2) / crossVec1and2.sqrMagnitude;
 
-        if ((s >= 0.0f) && (s <= 1.0f))
+        if((s >= 0.0f) && (s <= 1.0f))
         {
 
             intersection = linePoint1 + (lineVec1 * s);
             return true;
         }
-
         else
         {
             return false;
@@ -180,7 +166,6 @@ public class Math3d : MonoBehaviour
     //outputs true, otherwise false.
     public static bool ClosestPointsOnTwoLines(out Vector3 closestPointLine1, out Vector3 closestPointLine2, Vector3 linePoint1, Vector3 lineVec1, Vector3 linePoint2, Vector3 lineVec2)
     {
-
         closestPointLine1 = Vector3.zero;
         closestPointLine2 = Vector3.zero;
 
@@ -191,9 +176,8 @@ public class Math3d : MonoBehaviour
         float d = a * e - b * b;
 
         //lines are not parallel
-        if (d != 0.0f)
+        if(d != 0.0f)
         {
-
             Vector3 r = linePoint1 - linePoint2;
             float c = Vector3.Dot(lineVec1, r);
             float f = Vector3.Dot(lineVec2, r);
@@ -206,7 +190,6 @@ public class Math3d : MonoBehaviour
 
             return true;
         }
-
         else
         {
             return false;
@@ -217,7 +200,6 @@ public class Math3d : MonoBehaviour
     //The line is regarded infinite. If the line is finite, use ProjectPointOnLineSegment() instead.
     public static Vector3 ProjectPointOnLine(Vector3 linePoint, Vector3 lineVec, Vector3 point)
     {
-
         //get vector from point on line to point in space
         Vector3 linePointToPoint = point - linePoint;
 
@@ -232,7 +214,6 @@ public class Math3d : MonoBehaviour
     //If the line is infinite instead of a segment, use ProjectPointOnLine() instead.
     public static Vector3 ProjectPointOnLineSegment(Vector3 linePoint1, Vector3 linePoint2, Vector3 point)
     {
-
         Vector3 vector = linePoint2 - linePoint1;
 
         Vector3 projectedPoint = ProjectPointOnLine(linePoint1, vector.normalized, point);
@@ -240,19 +221,19 @@ public class Math3d : MonoBehaviour
         int side = PointOnWhichSideOfLineSegment(linePoint1, linePoint2, projectedPoint);
 
         //The projected point is on the line segment
-        if (side == 0)
+        if(side == 0)
         {
 
             return projectedPoint;
         }
 
-        if (side == 1)
+        if(side == 1)
         {
 
             return linePoint1;
         }
 
-        if (side == 2)
+        if(side == 2)
         {
 
             return linePoint2;
@@ -265,7 +246,6 @@ public class Math3d : MonoBehaviour
     //This function returns a point which is a projection from a point to a plane.
     public static Vector3 ProjectPointOnPlane(Vector3 planeNormal, Vector3 planePoint, Vector3 point)
     {
-
         float distance;
         Vector3 translationVector;
 
@@ -285,7 +265,6 @@ public class Math3d : MonoBehaviour
     //Projects a vector onto a plane. The output is not normalized.
     public static Vector3 ProjectVectorOnPlane(Vector3 planeNormal, Vector3 vector)
     {
-
         return vector - (Vector3.Dot(vector, planeNormal) * planeNormal);
     }
 
@@ -293,7 +272,6 @@ public class Math3d : MonoBehaviour
     //as to which side of the plane normal the point is.
     public static float SignedDistancePlanePoint(Vector3 planeNormal, Vector3 planePoint, Vector3 point)
     {
-
         return Vector3.Dot(planeNormal, (point - planePoint));
     }
 
@@ -304,7 +282,6 @@ public class Math3d : MonoBehaviour
     //then 90 degrees.
     public static float SignedDotProduct(Vector3 vectorA, Vector3 vectorB, Vector3 normal)
     {
-
         Vector3 perpVector;
         float dot;
 
@@ -336,7 +313,6 @@ public class Math3d : MonoBehaviour
     //Output is in radians.
     public static float AngleVectorPlane(Vector3 vector, Vector3 normal)
     {
-
         float dot;
         float angle;
 
@@ -346,13 +322,13 @@ public class Math3d : MonoBehaviour
         //this is in radians
         angle = (float)Math.Acos(dot);
 
-        return 1.570796326794897f - angle; //90 degrees - angle
+		//90 degrees - angle
+		return 1.570796326794897f - angle; 
     }
 
     //Calculate the dot product as an angle
     public static float DotProductAngle(Vector3 vec1, Vector3 vec2)
     {
-
         double dot;
         double angle;
 
@@ -360,11 +336,11 @@ public class Math3d : MonoBehaviour
         dot = Vector3.Dot(vec1, vec2);
 
         //Clamp to prevent NaN error. Shouldn't need this in the first place, but there could be a rounding error issue.
-        if (dot < -1.0f)
+        if(dot < -1.0f)
         {
             dot = -1.0f;
         }
-        if (dot > 1.0f)
+        if(dot > 1.0f)
         {
             dot = 1.0f;
         }
@@ -380,7 +356,6 @@ public class Math3d : MonoBehaviour
     //The plane point is the middle of the triangle defined by the 3 points.
     public static void PlaneFrom3Points(out Vector3 planeNormal, out Vector3 planePoint, Vector3 pointA, Vector3 pointB, Vector3 pointC)
     {
-
         planeNormal = Vector3.zero;
         planePoint = Vector3.zero;
 
@@ -410,35 +385,30 @@ public class Math3d : MonoBehaviour
     //Returns the forward vector of a quaternion
     public static Vector3 GetForwardVector(Quaternion q)
     {
-
         return q * Vector3.forward;
     }
 
     //Returns the up vector of a quaternion
     public static Vector3 GetUpVector(Quaternion q)
     {
-
         return q * Vector3.up;
     }
 
     //Returns the right vector of a quaternion
     public static Vector3 GetRightVector(Quaternion q)
     {
-
         return q * Vector3.right;
     }
 
     //Gets a quaternion from a matrix
     public static Quaternion QuaternionFromMatrix(Matrix4x4 m)
     {
-
         return Quaternion.LookRotation(m.GetColumn(2), m.GetColumn(1));
     }
 
     //Gets a position from a matrix
     public static Vector3 PositionFromMatrix(Matrix4x4 m)
     {
-
         Vector4 vector4Position = m.GetColumn(3);
         return new Vector3(vector4Position.x, vector4Position.y, vector4Position.z);
     }
@@ -451,7 +421,6 @@ public class Math3d : MonoBehaviour
     //Set customForward and customUp to the vectors you wish to use instead of the default forward and up vectors.
     public static void LookRotationExtended(ref GameObject gameObjectInOut, Vector3 alignWithVector, Vector3 alignWithNormal, Vector3 customForward, Vector3 customUp)
     {
-
         //Set the rotation of the destination
         Quaternion rotationA = Quaternion.LookRotation(alignWithVector, alignWithNormal);
 
@@ -472,7 +441,6 @@ public class Math3d : MonoBehaviour
     //All transforms are in world space.
     public static void TransformWithParent(out Quaternion childRotation, out Vector3 childPosition, Quaternion parentRotation, Vector3 parentPosition, Quaternion startParentRotation, Vector3 startParentPosition, Quaternion startChildRotation, Vector3 startChildPosition)
     {
-
         childRotation = Quaternion.identity;
         childPosition = Vector3.zero;
 
@@ -505,7 +473,6 @@ public class Math3d : MonoBehaviour
     //trianglePosition can be set at any position, it does not have to be at a vertex or in the middle of the triangle.
     public static void PreciseAlign(ref GameObject gameObjectInOut, Vector3 alignWithVector, Vector3 alignWithNormal, Vector3 alignWithPosition, Vector3 triangleForward, Vector3 triangleNormal, Vector3 trianglePosition)
     {
-
         //Set the rotation.
         LookRotationExtended(ref gameObjectInOut, alignWithVector, alignWithNormal, triangleForward, triangleNormal);
 
@@ -523,7 +490,6 @@ public class Math3d : MonoBehaviour
     //Convert a position, direction, and normal vector to a transform
     void VectorsToTransform(ref GameObject gameObjectInOut, Vector3 positionVector, Vector3 directionVector, Vector3 normalVector)
     {
-
         gameObjectInOut.transform.position = positionVector;
         gameObjectInOut.transform.rotation = Quaternion.LookRotation(directionVector, normalVector);
     }
@@ -536,36 +502,29 @@ public class Math3d : MonoBehaviour
     //Returns 2 if point is outside of the line segment and located on the side of linePoint2.
     public static int PointOnWhichSideOfLineSegment(Vector3 linePoint1, Vector3 linePoint2, Vector3 point)
     {
-
         Vector3 lineVec = linePoint2 - linePoint1;
         Vector3 pointVec = point - linePoint1;
 
         float dot = Vector3.Dot(pointVec, lineVec);
 
         //point is on side of linePoint2, compared to linePoint1
-        if (dot > 0)
+        if(dot > 0)
         {
-
             //point is on the line segment
-            if (pointVec.magnitude <= lineVec.magnitude)
+            if(pointVec.magnitude <= lineVec.magnitude)
             {
-
                 return 0;
             }
-
             //point is not on the line segment and it is on the side of linePoint2
             else
             {
-
                 return 2;
             }
         }
-
         //Point is not on side of linePoint2, compared to linePoint1.
         //Point is not on the line segment and it is on the side of linePoint1.
         else
         {
-
             return 1;
         }
     }
@@ -576,20 +535,16 @@ public class Math3d : MonoBehaviour
     //Do not call this function from OnGUI() as the mouse position will be wrong.
     public static float MouseDistanceToLine(Vector3 linePoint1, Vector3 linePoint2)
     {
-
         Camera currentCamera;
         Vector3 mousePosition;
 
 #if UNITY_EDITOR
         if (Camera.current != null)
         {
-
             currentCamera = Camera.current;
         }
-
         else
         {
-
             currentCamera = Camera.main;
         }
 
@@ -612,27 +567,22 @@ public class Math3d : MonoBehaviour
         return vector.magnitude;
     }
 
-
     //Returns the pixel distance from the mouse pointer to a camera facing circle.
     //Alternative for HandleUtility.DistanceToCircle(). Works both in Editor mode and Play mode.
     //Do not call this function from OnGUI() as the mouse position will be wrong.
     //If you want the distance to a point instead of a circle, set the radius to 0.
     public static float MouseDistanceToCircle(Vector3 point, float radius)
     {
-
         Camera currentCamera;
         Vector3 mousePosition;
 
 #if UNITY_EDITOR
-        if (Camera.current != null)
+        if(Camera.current != null)
         {
-
             currentCamera = Camera.current;
         }
-
         else
         {
-
             currentCamera = Camera.main;
         }
 
@@ -660,43 +610,35 @@ public class Math3d : MonoBehaviour
     //not on the plane, use ProjectPointOnPlane() on linePoint1 and linePoint2 first.
     public static bool IsLineInRectangle(Vector3 linePoint1, Vector3 linePoint2, Vector3 rectA, Vector3 rectB, Vector3 rectC, Vector3 rectD)
     {
-
         bool pointAInside = false;
         bool pointBInside = false;
 
         pointAInside = IsPointInRectangle(linePoint1, rectA, rectC, rectB, rectD);
 
-        if (!pointAInside)
+        if(!pointAInside)
         {
-
             pointBInside = IsPointInRectangle(linePoint2, rectA, rectC, rectB, rectD);
         }
 
         //none of the points are inside, so check if a line is crossing
-        if (!pointAInside && !pointBInside)
+        if(!pointAInside && !pointBInside)
         {
-
             bool lineACrossing = AreLineSegmentsCrossing(linePoint1, linePoint2, rectA, rectB);
             bool lineBCrossing = AreLineSegmentsCrossing(linePoint1, linePoint2, rectB, rectC);
             bool lineCCrossing = AreLineSegmentsCrossing(linePoint1, linePoint2, rectC, rectD);
             bool lineDCrossing = AreLineSegmentsCrossing(linePoint1, linePoint2, rectD, rectA);
 
-            if (lineACrossing || lineBCrossing || lineCCrossing || lineDCrossing)
+            if(lineACrossing || lineBCrossing || lineCCrossing || lineDCrossing)
             {
-
                 return true;
             }
-
             else
             {
-
                 return false;
             }
         }
-
         else
         {
-
             return true;
         }
     }
@@ -705,7 +647,6 @@ public class Math3d : MonoBehaviour
     //plane as the rectangle. If the point is not on the plane, use ProjectPointOnPlane() first.
     public static bool IsPointInRectangle(Vector3 point, Vector3 rectA, Vector3 rectC, Vector3 rectB, Vector3 rectD)
     {
-
         Vector3 vector;
         Vector3 linePoint;
 
@@ -729,15 +670,12 @@ public class Math3d : MonoBehaviour
         vector = linePoint - point;
         float xDistance = vector.magnitude;
 
-        if ((xDistance <= width) && (yDistance <= height))
+        if((xDistance <= width) && (yDistance <= height))
         {
-
             return true;
         }
-
         else
         {
-
             return false;
         }
     }
@@ -746,7 +684,6 @@ public class Math3d : MonoBehaviour
     //pointB1 and pointB2. The two lines are assumed to be in the same plane.
     public static bool AreLineSegmentsCrossing(Vector3 pointA1, Vector3 pointA2, Vector3 pointB1, Vector3 pointB2)
     {
-
         Vector3 closestPointA;
         Vector3 closestPointB;
         int sideA;
@@ -758,29 +695,23 @@ public class Math3d : MonoBehaviour
         bool valid = ClosestPointsOnTwoLines(out closestPointA, out closestPointB, pointA1, lineVecA.normalized, pointB1, lineVecB.normalized);
 
         //lines are not parallel
-        if (valid)
+        if(valid)
         {
-
             sideA = PointOnWhichSideOfLineSegment(pointA1, pointA2, closestPointA);
             sideB = PointOnWhichSideOfLineSegment(pointB1, pointB2, closestPointB);
 
-            if ((sideA == 0) && (sideB == 0))
+            if((sideA == 0) && (sideB == 0))
             {
-
                 return true;
             }
-
             else
             {
-
                 return false;
             }
         }
-
         //lines are parallel
         else
         {
-
             return false;
         }
     }

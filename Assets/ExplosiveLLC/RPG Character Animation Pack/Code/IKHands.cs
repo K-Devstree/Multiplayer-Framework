@@ -17,17 +17,20 @@ namespace RPGCharacterAnims
         private void Awake()
         {
             animator = GetComponent<Animator>();
-            rpgCharacterWeaponController = GetComponent<RPGCharacterWeaponController>();
+            rpgCharacterWeaponController = GetComponentInParent<RPGCharacterWeaponController>();
         }
 
         private void OnAnimatorIK(int layerIndex)
         {
             if(leftHandObj != null)
             {
-                animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, leftHandPositionWeight);
-                animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, leftHandRotationWeight);
-                animator.SetIKPosition(AvatarIKGoal.LeftHand, attachLeft.position);
-                animator.SetIKRotation(AvatarIKGoal.LeftHand, attachLeft.rotation);
+				if(attachLeft != null)
+				{
+					animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, leftHandPositionWeight);
+					animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, leftHandRotationWeight);
+					animator.SetIKPosition(AvatarIKGoal.LeftHand, attachLeft.position);
+					animator.SetIKRotation(AvatarIKGoal.LeftHand, attachLeft.rotation);
+				}
             }
         }
 

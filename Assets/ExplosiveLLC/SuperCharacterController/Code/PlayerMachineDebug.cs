@@ -9,7 +9,7 @@ public class PlayerMachineDebug : MonoBehaviour
 
     void Awake()
     {
-        if (playerMachine == null)
+        if(playerMachine == null)
         {
             playerMachine = GetComponent<PlayerMachine>();
         }

@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
 
 	void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.F))
+		if (Input.GetKeyDown(KeyCode.F))
 		{
 			if(following)
 			{
@@ -31,12 +31,12 @@ public class CameraController : MonoBehaviour
 			{
 				following = true;
 			}
-		} 
-		if(Input.GetKey(KeyCode.Q))
+		}
+		if (Input.GetKey(KeyCode.Q))
 		{
 			rotate = -1;
-		} 
-		else if(Input.GetKey(KeyCode.E))
+		}
+		else if (Input.GetKey(KeyCode.E))
 		{
 			rotate = 1;
 		} 

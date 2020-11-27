@@ -1,13 +1,7 @@
-﻿// With a little help from UnityGems
-
-using UnityEngine;
+﻿using UnityEngine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
-/// <summary>
-/// God damn this thing is useful srsly live. laugh. love. it.
-/// </summary>
 public class SimpleStateMachine : MonoBehaviour
 {
     public bool DebugGui;
@@ -51,8 +45,10 @@ public class SimpleStateMachine : MonoBehaviour
         }
         set
         {
-            if (state.currentState == value)
-                return;
+			if(state.currentState == value)
+			{
+				return;
+			}
 
             ChangingState();
             state.currentState = value;
@@ -96,7 +92,7 @@ public class SimpleStateMachine : MonoBehaviour
     {
 
         Dictionary<string, Delegate> lookup;
-        if (!_cache.TryGetValue(state.currentState, out lookup))
+        if(!_cache.TryGetValue(state.currentState, out lookup))
         {
             _cache[state.currentState] = lookup = new Dictionary<string, Delegate>();
         }
@@ -106,7 +102,7 @@ public class SimpleStateMachine : MonoBehaviour
             var mtd = GetType().GetMethod(state.currentState.ToString() + "_" + methodRoot, System.Reflection.BindingFlags.Instance
                 | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.InvokeMethod);
 
-            if (mtd != null)
+            if(mtd != null)
             {
                 returnValue = Delegate.CreateDelegate(typeof(T), this, mtd);
             }

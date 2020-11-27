@@ -1,30 +1,29 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public static class SuperCollider {
-
+public static class SuperCollider
+{
     public static bool ClosestPointOnSurface(Collider collider, Vector3 to, float radius, out Vector3 closestPointOnSurface)
     {
-        if (collider is BoxCollider)
+        if(collider is BoxCollider)
         {
             closestPointOnSurface = SuperCollider.ClosestPointOnSurface((BoxCollider)collider, to);
             return true;
         }
-        else if (collider is SphereCollider)
+        else if(collider is SphereCollider)
         {
             closestPointOnSurface = SuperCollider.ClosestPointOnSurface((SphereCollider)collider, to);
             return true;
         }
-        else if (collider is CapsuleCollider)
+        else if(collider is CapsuleCollider)
         {
             closestPointOnSurface = SuperCollider.ClosestPointOnSurface((CapsuleCollider)collider, to);
             return true;
         }
-        else if (collider is MeshCollider)
+        else if(collider is MeshCollider)
         {
             BSPTree bspTree = collider.GetComponent<BSPTree>();
 
-            if (bspTree != null)
+            if(bspTree != null)
             {
                 closestPointOnSurface = bspTree.ClosestPointOn(to, radius);
                 return true;
@@ -32,7 +31,7 @@ public static class SuperCollider {
 
             BSPTree bsp = collider.GetComponent<BSPTree>();
 
-            if (bsp != null)
+            if(bsp != null)
             {
                 closestPointOnSurface = bsp.ClosestPointOn(to, radius);
                 return true;
@@ -40,13 +39,13 @@ public static class SuperCollider {
 
             BruteForceMesh bfm = collider.GetComponent<BruteForceMesh>();
 
-            if (bfm != null)
+            if(bfm != null)
             {
                 closestPointOnSurface = bfm.ClosestPointOn(to);
                 return true;
             }
         }
-        else if (collider is TerrainCollider)
+        else if(collider is TerrainCollider)
         {
             closestPointOnSurface = SuperCollider.ClosestPointOnSurface((TerrainCollider)collider, to, radius, false);
             return true;
@@ -97,15 +96,15 @@ public static class SuperCollider {
         var dz = Mathf.Min(Mathf.Abs(halfSize.z - localNorm.z), Mathf.Abs(-halfSize.z - localNorm.z));
 
         // Select a face to project on
-        if (dx < dy && dx < dz)
+        if(dx < dy && dx < dz)
         {
             localNorm.x = Mathf.Sign(localNorm.x) * halfSize.x;
         }
-        else if (dy < dx && dy < dz)
+        else if(dy < dx && dy < dz)
         {
             localNorm.y = Mathf.Sign(localNorm.y) * halfSize.y;
         }
-        else if (dz < dx && dz < dy)
+        else if(dz < dx && dz < dy)
         {
             localNorm.z = Mathf.Sign(localNorm.z) * halfSize.z;
         }
@@ -133,12 +132,21 @@ public static class SuperCollider {
         Vector3 p = Vector3.zero; // Contact point
         Vector3 pt = Vector3.zero; // The point we need to use to get a direction vector with the controller to calculate contact point
 
-        if (local.y < lineLength * 0.5f && local.y > -lineLength * 0.5f) // Controller is contacting with cylinder, not spheres
-            pt = dir * local.y + collider.center;
-        else if (local.y > lineLength * 0.5f) // Controller is contacting with the upper sphere 
-            pt = upperSphere;
-        else if (local.y < -lineLength * 0.5f) // Controller is contacting with lower sphere
-            pt = lowerSphere;
+		// Controller is contacting with cylinder, not spheres
+		if(local.y < lineLength * 0.5f && local.y > -lineLength * 0.5f)
+		{
+			pt = dir * local.y + collider.center;
+		}
+		// Controller is contacting with the upper sphere 
+		else if(local.y > lineLength * 0.5f)
+		{
+			pt = upperSphere;
+		}
+		// Controller is contacting with lower sphere
+		else if(local.y < -lineLength * 0.5f)
+		{
+			pt = lowerSphere;
+		}
 
         //Calculate contact point in local coordinates and return it in world coordinates
         p = local - pt;
@@ -194,24 +202,24 @@ public static class SuperCollider {
         int numberOfZPixels = overlappedTilesZRight + overlappedTilesZLeft + 1;
 
         // Account for if we are off the terrain
-        if (startPositionX < 0)
+        if(startPositionX < 0)
         {
             numberOfXPixels -= Mathf.Abs(startPositionX);
             startPositionX = 0;
         }
 
-        if (startPositionZ < 0)
+        if(startPositionZ < 0)
         {
             numberOfZPixels -= Mathf.Abs(startPositionZ);
             startPositionZ = 0;
         }
 
-        if (startPositionX + numberOfXPixels + 1 > terrainData.heightmapResolution)
+        if(startPositionX + numberOfXPixels + 1 > terrainData.heightmapResolution)
         {
             numberOfXPixels = terrainData.heightmapResolution - startPositionX - 1;
         }
 
-        if (startPositionZ + numberOfZPixels + 1 > terrainData.heightmapResolution)
+        if(startPositionZ + numberOfZPixels + 1 > terrainData.heightmapResolution)
         {
             numberOfZPixels = terrainData.heightmapResolution - startPositionZ - 1;
         }
@@ -220,9 +228,9 @@ public static class SuperCollider {
         var heights = terrainData.GetHeights(startPositionX, startPositionZ, numberOfXPixels + 1, numberOfZPixels + 1);
 
         // Pre-scale the heights data to be world-scale instead of 0...1
-        for (int i = 0; i < numberOfXPixels + 1; i++)
+        for(int i = 0; i < numberOfXPixels + 1; i++)
         {
-            for (int j = 0; j < numberOfZPixels + 1; j++)
+            for(int j = 0; j < numberOfZPixels + 1; j++)
             {
                 heights[j, i] *= terrainData.size.y;
             }
@@ -233,9 +241,9 @@ public static class SuperCollider {
 
         Vector3 shortestPoint = Vector3.zero;
 
-        for (int x = 0; x < numberOfXPixels; x++)
+        for(int x = 0; x < numberOfXPixels; x++)
         {
-            for (int z = 0; z < numberOfZPixels; z++)
+            for(int z = 0; z < numberOfZPixels; z++)
             {
                 // Build the set of points that creates the two triangles that form this tile
                 Vector3 a = new Vector3((startPositionX + x) * pixelSizeX, heights[z, x], (startPositionZ + z) * pixelSizeZ);
@@ -249,7 +257,7 @@ public static class SuperCollider {
 
                 float distance = (local - nearest).sqrMagnitude;
 
-                if (distance <= shortestDistance)
+                if(distance <= shortestDistance)
                 {
                     shortestDistance = distance;
                     shortestPoint = nearest;
@@ -259,13 +267,13 @@ public static class SuperCollider {
 
                 distance = (local - nearest).sqrMagnitude;
 
-                if (distance <= shortestDistance)
+                if(distance <= shortestDistance)
                 {
                     shortestDistance = distance;
                     shortestPoint = nearest;
                 }
 
-                if (debug)
+                if(debug)
                 {
                     DebugDraw.DrawTriangle(a, d, c, Color.cyan);
                     DebugDraw.DrawTriangle(a, b, d, Color.red);
@@ -275,5 +283,4 @@ public static class SuperCollider {
 
         return collider.transform.TransformPoint(shortestPoint);
     }
-
 }

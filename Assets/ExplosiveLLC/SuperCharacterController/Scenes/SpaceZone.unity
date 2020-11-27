@@ -198,8 +198,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1188889178}
   - component: {fileID: 1188889177}
-  - component: {fileID: 1188889176}
-  - component: {fileID: 1188889175}
   - component: {fileID: 1188889174}
   - component: {fileID: 1188889179}
   m_Layer: 0
@@ -211,22 +209,6 @@ GameObject:
   m_IsActive: 1
 --- !u!81 &1188889174
 AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1188889173}
-  m_Enabled: 1
---- !u!124 &1188889175
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1188889173}
-  m_Enabled: 1
---- !u!92 &1188889176
-Behaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}

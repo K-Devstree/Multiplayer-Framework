@@ -23,13 +23,22 @@ namespace RPGCharacterAnims
         private bool sprintToggle;
         private bool useNavAgent;
 		private bool isTalking;
+		private bool isAiming;
 
-        private void Awake()
+        private void Start()
         {
-            rpgCharacterController = GetComponent<RPGCharacterController>();
+			//Get other RPG Character components.
+			rpgCharacterController = GetComponent<RPGCharacterController>();
             rpgCharacterMovementController = GetComponent<RPGCharacterMovementController>();
             rpgCharacterWeaponController = GetComponent<RPGCharacterWeaponController>();
-        }
+
+			//Check if Animator exists, otherwise pause script.
+			if(rpgCharacterController.animator == null)
+			{
+				Destroy(this);
+				return;
+			}
+		}
 
         private void OnGUI()
         {
@@ -276,6 +285,7 @@ namespace RPGCharacterAnims
 						rpgCharacterMovementController.useMeshNav = true;
 						rpgCharacterMovementController.navMeshAgent.enabled = true;
 						rpgCharacterController.rpgCharacterInputController.allowedInput = false;
+						GUI.Label(new Rect(500, 45, 220, 50), "Click to move Character.");
 					}
 					else
 					{
@@ -622,6 +632,19 @@ namespace RPGCharacterAnims
 				instantToggle = false;
 				rpgCharacterWeaponController.instantWeaponSwitch = false;
 			}
+
+			//Instant weapon toggle.
+			isAiming = GUI.Toggle(new Rect(1025, 335, 100, 30), isAiming, "Aiming");
+			if(isAiming)
+			{
+				rpgCharacterController.isAiming = true;
+				rpgCharacterController.animator.SetBool("Aiming", true);
+			}
+			else
+			{
+				rpgCharacterController.isAiming = false;
+				rpgCharacterController.animator.SetBool("Aiming", false);
+			}
 		}
 
 		private void IdleActions()
@@ -722,7 +745,6 @@ namespace RPGCharacterAnims
 
 		private void Swimming()
 		{
-			//Swimming.
 			if(rpgCharacterMovementController.rpgCharacterState == RPGCharacterState.Swim)
 			{
 				if(GUI.Button(new Rect(25, 175, 100, 30), "Swim Up"))
@@ -738,15 +760,15 @@ namespace RPGCharacterAnims
 
 		private void Turning()
 		{
-			if(rpgCharacterController.weapon != Weapon.RELAX && rpgCharacterController.weapon != Weapon.ARMED && rpgCharacterController.weapon != Weapon.ARMEDSHIELD)
+			if(rpgCharacterController.weapon != Weapon.RELAX)
 			{
 				if(GUI.Button(new Rect(340, 15, 100, 30), "Turn Left"))
 				{
-					StartCoroutine(rpgCharacterController._Turning(1));
+					rpgCharacterController.Turning(1);
 				}
 				if(GUI.Button(new Rect(340, 45, 100, 30), "Turn Right"))
 				{
-					StartCoroutine(rpgCharacterController._Turning(2));
+					rpgCharacterController.Turning(2);
 				}
 			}
 		}
@@ -764,7 +786,6 @@ namespace RPGCharacterAnims
 
 		private void EndSpecial()
 		{
-			//Special Attack End.
 			if(rpgCharacterController.weapon != Weapon.RELAX && !rpgCharacterController.canAction)
 			{
 				if(rpgCharacterController.weapon == Weapon.TWOHANDSWORD || rpgCharacterController.weapon == Weapon.TWOHANDAXE || rpgCharacterController.weapon == Weapon.TWOHANDSPEAR || rpgCharacterController.weapon == Weapon.STAFF)
@@ -777,9 +798,9 @@ namespace RPGCharacterAnims
 			}
 		}
 
+		//Death / Pickup / Activate / Boost.
 		private void Misc()
 		{
-			//Death / Pickup / Activate / Boost.
 			if(GUI.Button(new Rect(30, 270, 100, 30), "Death"))
 			{
 				rpgCharacterController.Death();
@@ -802,11 +823,11 @@ namespace RPGCharacterAnims
 				}
 				else
 				{
-					if(GUI.Button(new Rect(130, 165, 100, 30), "Pickup"))
+					if(GUI.Button(new Rect(130, 175, 100, 30), "Pickup"))
 					{
 						rpgCharacterController.Pickup();
 					}
-					if(GUI.Button(new Rect(235, 165, 100, 30), "Activate"))
+					if(GUI.Button(new Rect(235, 175, 100, 30), "Activate"))
 					{
 						rpgCharacterController.Activate();
 					}
