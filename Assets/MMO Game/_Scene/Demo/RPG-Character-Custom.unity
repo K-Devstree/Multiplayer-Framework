@@ -297,7 +297,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9500000, guid: 1b8f3f34252d9ee44823ab05504b31a8, type: 3}
       propertyPath: m_UpdateMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b8f3f34252d9ee44823ab05504b31a8, type: 3}
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftHandObj: {fileID: 155713399}
   attachLeft: {fileID: 0}
-  canBeUsed: 0
+  canBeUsed: 1
   leftHandPositionWeight: 0
   leftHandRotationWeight: 0
 --- !u!1001 &295695224
