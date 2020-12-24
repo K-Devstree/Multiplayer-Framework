@@ -75,7 +75,7 @@ public class ColorPickerCustom : MonoBehaviour
     public void CursorPickUnderpants()
     {
         if (_findColor.a == 1)
-            CharacterCustomizationCustom.ApplySelectedUnderwearColor(_findColor);
+            CharacterCustomizationCustom.ApplySelectedUnderpantsColor(_findColor);
     }
     public void CursorExit()
     {

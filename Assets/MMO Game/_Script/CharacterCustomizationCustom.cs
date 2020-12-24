@@ -52,6 +52,7 @@ public class CharacterCustomizationCustom : MonoBehaviour
         }
 
         ApplySelectedHair(-1);
+        ApplySelectedBeard(-1);
         ApplySelectedHat(-1);
         ApplySelectedAccessory(-1);
         ApplySelectedShirts(-1);
@@ -60,7 +61,7 @@ public class CharacterCustomizationCustom : MonoBehaviour
         ApplySelectedSkinColor(new Color(0.9f, 0.65f, 0.5f));
         ApplySelectedEyeColor(Color.black);
         ApplySelectedHairColor(Color.black);
-        ApplySelectedUnderwearColor(Color.white);
+        ApplySelectedUnderpantsColor(Color.white);
         ApplySelectedHeadSize(0);
         ApplySelectedHeadOffset(0);
         ApplySelectedHeight(0);
@@ -73,7 +74,7 @@ public class CharacterCustomizationCustom : MonoBehaviour
 
     public void Open_SelectedOptionScreen(int ScreenIndex)
     {
-        if (ScreenIndex == 0 || ScreenIndex == 1 || ScreenIndex == 2 || ScreenIndex == 3 || ScreenIndex == 8 || ScreenIndex == 9)
+        if (ScreenIndex == 0 || ScreenIndex == 1 || ScreenIndex == 2 || ScreenIndex == 3 || ScreenIndex == 8 || ScreenIndex == 9 || ScreenIndex == 11)
         {
             CanZoom = true;
         }
@@ -111,6 +112,14 @@ public class CharacterCustomizationCustom : MonoBehaviour
         else
         {
             FemaleCharacterCustomization.SetHairByIndex(index);
+        }
+    }
+
+    public void ApplySelectedBeard(int index)
+    {
+        if (Constants.SelectedCharacterModel == 0)
+        {
+            MaleCharacterCustomization.SetBeardByIndex(index);
         }
     }
 
@@ -210,7 +219,7 @@ public class CharacterCustomizationCustom : MonoBehaviour
         }
     }
 
-    public void ApplySelectedUnderwearColor(Color color)
+    public void ApplySelectedUnderpantsColor(Color color)
     {
         if (Constants.SelectedCharacterModel == 0)
         {
